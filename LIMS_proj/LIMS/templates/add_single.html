@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load render_table from django_tables2 %}
+
+{% block head_title %}| New Sample{% endblock %}
+
+{% block content %}
+
+<!--buttons-->
+
+{% include button_type %}
+
+<!--form-->
+<div>
+    <form method="POST" action="">{% csrf_token %}
+        <div class="row">
+            <div class="col-xs-1 col-md-1"></div>
+            <div class="col-xs-11 col-md-3">
+                <h3>{{ title }}</h3>
+                {{ form1|crispy }}
+
+                {% if form2 == 'n/a' %}
+                {% else %}
+                    {{ form2|crispy }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-1 col-md-1"></div>
+            <div class="col-xs-11 col-md-3">
+                <input type="submit" name="add_btn" class="btn btn-primary" value="Add Sample"/>
+            </div>
+        </div>
+    </form>
+</div>
+
+<br>
+
+
+<!--table-->
+<div class="row">
+    <div class="col-sm-1">
+    </div>
+    <div class="col-sm-11">
+        {% if table == 'n/a' %}
+        {% else %}
+            {% render_table table %}
+        {% endif %}
+    </div>
+</div>
+<br>
+{% endblock %}

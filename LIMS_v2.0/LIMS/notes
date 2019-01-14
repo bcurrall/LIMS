@@ -1,0 +1,19 @@
+installed dependencies
+- python
+- django
+- registration: pip install django-registration-redux
+- crispy: pip install --upgrade django-crispy-forms
+- django_tables2: pip install django-tables2
+- django_filers: pip install django-filter
+- djangorestframework: pip install djangorestframework
+- django-multiselectfield: pip install django-multiselectfield
+- django-bootstrap3: pip install django-bootstrap3
+- django-betterforms: pip install django-betterforms
+- csv importer (Ashok): pip install csvImporter
+- excel handler (Ashok): pip install openpyxl
+- handles excel (batteries):    pip install pyexcel-xls
+                                pip install pyexcel-xlsx
+                                pip install pyexcel-ods
+- handles csv: pip install django-adaptors
+
+

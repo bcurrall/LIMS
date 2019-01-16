@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -37,6 +36,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # user added apps
+    'home.apps.HomeConfig',
+    'library.apps.LibraryConfig',
+    'project.apps.ProjectConfig',
+    'sample.apps.SampleConfig',
+    'sequence.apps.SequenceConfig',
+
+    # 3rd party apps
+    'crispy_forms'
+
+
 ]
 
 MIDDLEWARE = [
@@ -54,7 +65,7 @@ ROOT_URLCONF = 'LIMS.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")], # user defined DIR to create new template path
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,3 +129,30 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#### user defined to add folders ####
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_in_env", "static_root")
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static_in_pro", "our_static"),
+)
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_in_env", "media_root")
+
+# django-registration-redux settings
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
+REGISTRATION_AUTO_LOGIN = True # Automatically log the user in.
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/'
+
+# crispy template settings
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+# django_excel requirements
+FILE_UPLOAD_HANDLERS = ("django_excel.ExcelMemoryFileUploadHandler",
+                        "django_excel.TemporaryExcelFileUploadHandler")
+
+EXCELFILES_FOLDER = os.path.join(BASE_DIR, 'exceltemplates/')
+

@@ -17,10 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include, url
 
-from . import views
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path(r'^$', views.home, name='startup'),
-    url(r'^home/', views.home, name='home'),
+    url(r'^', include('home.urls')),
+    url(r'^home/', include('home.urls')),
 ]

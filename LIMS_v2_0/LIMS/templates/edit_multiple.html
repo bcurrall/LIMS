@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load render_table from django_tables2 %}
+
+
+{% block head_title %}| Select Sample{% endblock %}
+
+{% block content %}
+<!--buttons and title-->
+<h3> {{ title }} </h3>
+
+<!--form-->
+<div>
+    <form method="POST" action="#">{% csrf_token %}
+        {{ formset.management_form }}
+        {{ formset.non_form_errors.as_ul }}
+            <table id="formset" class="form">
+            {% for form in formset.forms %}
+              {% if forloop.first %}
+              <thead><tr>
+                {% for field in form.visible_fields %}
+                <th>{{ field.label|capfirst }}</th>
+                {% endfor %}
+              </tr></thead>
+              {% endif %}
+              <tr class="">
+              {% for field in form.visible_fields %}
+                <td>
+                {# Include the hidden fields in the form #}
+                {% if forloop.first %}
+                  {% for hidden in form.hidden_fields %}
+                  {{ hidden }}
+                  {% endfor %}
+                {% endif %}
+                  {{ field.errors.as_ul }}
+                  {{ field }}
+                </td>
+              {% endfor %}
+              </tr>
+            {% endfor %}
+            </table>
+        <input type="submit" name="confirm_btn" value="Edit"/>
+    </form>
+</div>
+
+<br>
+
+
+<!--table-->
+<div class="row">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="col-sm-12">
+            <script language="JavaScript">
+                function toggle(source) {
+                    checkboxes = document.getElementsByName('selection');
+                    for(var i in checkboxes)
+                    checkboxes[i].checked = source.checked;
+                    }
+            </script>
+            {% if table == 'n/a' %}
+            {% else %}
+                {% render_table table %}
+            {% endif %}
+        </div>
+    </form>
+</div>
+<br>
+<!--excel export-->
+{% endblock %}

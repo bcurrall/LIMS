@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Talk_Lab-LIMS {% block head_title %}{% endblock %}</title>
+
+
+    {% include 'head_css.html' %}
+
+
+  </head>
+
+
+
+
+
+<body>
+
+  <div class="container-fluid">
+    <div class="page-header">
+        <h1 align="center">Sample Protocol Tracking
+            <small>Talkowski Laboratory</small>
+        </h1>
+    </div>
+</div>
+
+  {% include 'navbar.html' %}
+
+
+  <div class ="container">
+    {% block content %}
+
+    {% endblock %}
+  </div> <!-- main content -->
+
+  {% include 'footer_js.html' %}
+
+</body>
+
+
+</html>

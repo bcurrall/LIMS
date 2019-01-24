@@ -1,0 +1,83 @@
+# LIMS_v2.0 To Do List
+
+Last Update Date: 01_15_19
+Last Update by: Benjamin B. Currall
+
+
+## List for DB - First Draft due by 3/4
+1. Workflow module (reduced to 3 tables in case LIMS breaksdown; preliminary by 2/4)
+    + Tables (preliminary by 1/21)
+        - Samples (temp version created last week)
+        - Libraries
+        - Sequencing
+    + Relationships
+        - (1:N) Samples --> Libraries
+        - (1:N) Library --> Sequencing
+    + Forms
+        - Sample (preliminary created last week; prelimary by 1/21)
+            - Entry
+                - Basic
+                - Advanced
+                    - Source
+                        - Human
+                        - Non-Human
+                    - Sample
+                        - Tissue
+                        - Cell Line
+                    - Aliquot
+                        - Tissue Sample
+                        - Cell Pellet
+                        - Solution (e.g., lysate/DNA/RNA)
+                - Check records
+                    - validate entry
+        - Archiving (preliminary by 1/28)
+            - Entry
+            - Move
+            - Discard
+        - Libraries (preliminary by 2/4)
+            - Plate
+            - Method
+            - Results
+            - Pooling
+        - Sequencing (preliminary by 2/4)
+            - submission
+            - results
+    + Reports (preliminary by 2/4)
+        - Sample location
+        - Sample sequencing
+2. Project management (preliminary by 3/4)
+    + Tables
+        - Projects
+        - Cost Estimates
+        - Expenditures
+        - Funding
+    + Relationships
+        - (1:N) Cost Estimates --> Projects
+        - (1:N) Funding --> Projects
+        - (1:N) Expenditures --> Project
+    + Forms
+    + Reports
+        - Estimates
+        - Bill
+        - Quarterly Cost
+3. Integration (Preliminary by 3/4)
+    + Tables
+        - LibrariesInProject
+    + Relationships
+        - (1:N) Libraries + Projects --> LibrariesInProject
+    + Forms
+        - Add "samples" to project
+    + Reports
+        - Project Status
+        - Flow Counts
+        - Project Cost versus expenditures
+4. Accounts
+
+## List for Talk Lab integration
+1. Run locally (done)
+2. Run on VM (2/4)
+    + running locally on VM (LIMS_dev_env)
+        - changed to Django 2.1.5
+        - started to pip new dependecies
+3. Dockerize (3/4)
+4. Git (current personal, migrate to talk; 3/4)

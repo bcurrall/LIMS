@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% load render_table from django_tables2 %}
+
+{% block head_title %}| Browser {% endblock %}
+
+{% block content %}
+
+
+
+<!--title-->
+<div class="row">
+
+        <h1>{{ title }}</h1>
+
+    <br>
+</div>
+
+<!--buttons-->
+<div class="row">
+    <div class="col-sm-12">
+        {% include button_type %}<br>
+    </div>
+</div>
+
+
+<!--table-->
+<div class="row">
+    <div class="col-sm-12">
+        <h3>Current Records</h3>
+    </div>
+    <br>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        {% render_table table %}
+    </div>
+</div>
+<br>
+
+
+{% endblock %}

@@ -1,0 +1,25 @@
+# README on LIMS project
+__author__ = "Benjamin B. Currall"
+__license__ = "GPL"
+__version__ = "0.3.0"
+__email__ = "benjamincurrall@gmail.com"
+__maintainer__ = "Benjamin B. Currall"
+__status__ = "Production"
+
+# virtual env
+## To launch
+workon LIMS_dev_env
+
+## to deactivate
+deactivate
+
+#Versions and dependicies
+python 3.5.2
+django 2.1.5
+crispy-forms
+django-bootstrap4 ("bootstrap4")
+django-tables2
+## excel dependicies
+xlwt - for working with excel files
+django-excel
+pyexcel-xls

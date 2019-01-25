@@ -1,7 +1,9 @@
 <div class="row">
+    <form method="POST" action="">{% csrf_token %}
+        <div class="col-xs-5 btn-group" role="group" aria-label="Basic example">
+            <button type="submit" name="basic" class="btn btn-default">Basic</button>
+            <button type="submit" name="advanced" class="btn btn-default">Advanced</button>
+        </div>
+    </form>
 
-    <div class="col-xs-5 btn-group" role="group" aria-label="Basic example">
-                <a href="{% url basic_url %}" class="btn btn-default">Basic</a>
-                <a href="{% url advanced_url %}" class="btn btn-default">Advanced</a>
-    </div>
 </div>

@@ -23,3 +23,4 @@ django-tables2
 xlwt - for working with excel files
 django-excel
 pyexcel-xls
+django-filters

@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'bootstrap4',
     'django_tables2',
+    'django_filters',
+    'django_tables2_column_shifter',
 
 
 

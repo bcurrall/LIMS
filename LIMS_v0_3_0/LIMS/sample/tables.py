@@ -1,34 +1,33 @@
-# tutorial/tables.py
 import django_tables2 as tables
-from .models import Sample
+from .models import Sample, var3
+from django_tables2_column_shifter.tables import ColumnShiftTable
 
-class SampleTableBasic(tables.Table):
-
-    def __init__(self, fields):
-        self.fields = fields
-
+# setting up table views for samples
+# TODO figure out how to pass variable from views to tables to make this more DRY
+class SampleTableBasic(ColumnShiftTable):
 
     selection = tables.CheckBoxColumn(
         accessor="pk",
-        attrs={"th__input":{"onclick": "toggle(this)"}},
+        attrs={"th__input": {"onclick": "toggle(this)"}},
         orderable=False
     )
 
     class Meta:
         model = Sample
-        # add class="paleblue" to <table> tag
         attrs = {'class': 'paleblue'}
-        fields = fields
+        fields = ('sample_name',)
+        sequence = ('selection',)
 
-class SampleTableAdvanced(tables.Table):
+
+class SampleTableAdvanced(ColumnShiftTable):
+
     selection = tables.CheckBoxColumn(
         accessor="pk",
-        attrs={"th__input":{"onclick": "toggle(this)"}},
+        attrs={"th__input": {"onclick": "toggle(this)"}},
         orderable=False
     )
 
     class Meta:
         model = Sample
-        # add class="paleblue" to <table> tag
         attrs = {'class': 'paleblue'}
-        fields = ('project_name', 'sample_name', 'aliquot_id', 'sample_type', 'conc', 'vol', )
+        sequence = ('selection',)

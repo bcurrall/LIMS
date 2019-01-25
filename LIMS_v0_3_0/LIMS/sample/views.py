@@ -5,7 +5,8 @@ from django.template import loader
 from django.forms import modelformset_factory
 from .models import Sample
 from .forms import UploadFileForm, SampleForm
-from .tables import SampleTableBasic
+from .tables import SampleTableBasic, SampleTableAdvanced
+from .filters import SampleFilter
 
 # for working with excel in exports and imports
 import xlwt
@@ -17,16 +18,24 @@ from django.contrib.auth.models import User
 
 # landing page for samples and browser for sample list
 def browser(request):
-    title = 'Enter Basic Samples Information'
+    title = 'Sample Browser'
     basic_url = 'sample:browser'
     advanced_url = 'sample:browser'
-    # extras = 5
-    # pks = list()
-    # qset = Sample.objects.none()
-    # data = ()
-    # upload_form = UploadFileForm()
 
-    table = SampleTableBasic(Sample.objects.all())
+    qset = Sample.objects.all()
+    filter = SampleFilter(request.GET, queryset=qset)
+
+    table = SampleTableAdvanced(filter.qs)
+
+    if "basic" in request.POST:
+        table = SampleTableBasic(filter.qs)
+
+    if "advanced" in request.POST:
+        table = SampleTableAdvanced(filter.qs)
+
+
+
+    table.paginate(page=request.GET.get('page', 1), per_page=15)
 
     context = {
         'button_type': 'buttons_1.html',

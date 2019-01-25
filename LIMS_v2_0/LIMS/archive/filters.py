@@ -7,7 +7,7 @@ from .models import Sample, Sample2, Individual, Freezer
 class SampleFilter(filters.FilterSet):
 
     class Meta:
-        model = Sample
+        model = Sample2
         fields = ['individual', 'type']
 
 

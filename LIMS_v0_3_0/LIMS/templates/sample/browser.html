@@ -34,6 +34,13 @@
 </div>
 <div class="row">
     <div class="col-sm-12">
+        <script language="JavaScript">
+        function toggle(source) {
+            checkboxes = document.getElementsByName('selection');
+            for(var i in checkboxes)
+                checkboxes[i].checked = source.checked;
+        }
+        </script>
         {% render_table table %}
     </div>
 </div>

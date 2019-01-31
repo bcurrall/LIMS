@@ -8,5 +8,7 @@ app_name = 'sample'
 urlpatterns = [
     re_path(r'^$', views.browser, name='browser'),
     path(r'add/', views.add, name='add'),
-    url(r'^test/$', views.export_users_xls, name='test'),
+    url(r'^test/$', views.test, name='test'),
+    url(r'^delete/$', views.delete, name='delete'),
+
 ]

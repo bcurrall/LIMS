@@ -18,22 +18,14 @@ Last Update by: Benjamin B. Currall
             - Entry
                 - Basic
                 - Advanced
-                    - Source
-                        - Human
-                        - Non-Human
-                    - Sample
-                        - Tissue
-                        - Cell Line
-                    - Aliquot
-                        - Tissue Sample
-                        - Cell Pellet
-                        - Solution (e.g., lysate/DNA/RNA)
                 - Check records
                     - validate entry
-        - Archiving (preliminary by 1/28)
-            - Entry
-            - Move
-            - Discard
+            - Editing
+            - Archiving/Moving
+                - Receive
+                - Move
+                - Deactivate
+            - Delete (need to make user specific)
         - Libraries (preliminary by 2/4)
             - Plate
             - Method

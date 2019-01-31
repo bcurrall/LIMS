@@ -10,11 +10,27 @@
     <div class="col-sm-6 col-md-3">
         <h1>{{ title }}</h1>
 
-        <form method="POST" action="">{% csrf_token %}
-            {{ form|crispy }}
-
-            <!--<input class="btn btn-primary" type="submit" value="Sign Up" />-->
+        <form method="POST" action="" encrypt="multipart/form-data">{% csrf_token %}
+            {{ formset.management_form }}
+            {% for form in formset %}
+                {{ form|crispy }}
+            {% endfor %}
+            <!--{{ formset|crispy }}-->
+            <!--<input type="submit" value="Save" />-->
+            <input class="btn btn-primary" type="submit" value="Submit" />
         </form>
     </div>
 </div>
+
+<div>
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+</div>
+
+
 {% endblock %}

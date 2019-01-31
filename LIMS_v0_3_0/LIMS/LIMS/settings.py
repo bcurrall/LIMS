@@ -161,3 +161,14 @@ FILE_UPLOAD_HANDLERS = ("django_excel.ExcelMemoryFileUploadHandler",
 
 # EXCELFILES_FOLDER = os.path.join(BASE_DIR, 'exceltemplates/')
 
+# using bootstrap snippet to improve look of errors
+# from https://simpleisbetterthancomplex.com/tips/2016/09/06/django-tip-14-messages-framework.html
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}

@@ -52,12 +52,18 @@ class Sample(models.Model):
         ('matrix_box', 'matrix_box'),
         ('plate', 'plate'),
     )
+    DeactivateType = (
+        ('processing', 'processing'),
+        ('used', 'used'),
+        ('sent_out', 'sent_out'),
+        ('disposed', 'disposed'),
+    )
 
     ## fields
     # id's
-    sample_name = models.CharField(max_length=100, null=True, blank=True)
-    aliquot_id = models.CharField(max_length=100, null=True, blank=True)
     project_name = models.CharField(max_length=100, null=True, blank=True)
+    sample_name = models.CharField(max_length=100, blank=False)
+    aliquot_id = models.CharField(max_length=100, null=True, blank=True)
     sample_type = models.CharField(max_length=100, choices=SampleType, null=True, blank=True)
     source_tissue = models.CharField(max_length=100, choices=SourceTissueType, null=True, blank=True)
     conc = models.FloatField(default=0, null=True, blank=True)
@@ -75,7 +81,7 @@ class Sample(models.Model):
     study_model = models.CharField(max_length=30, null=True, blank=True)
     case_control = models.CharField(max_length=30, null=True, blank=True)
     collected_by = models.CharField(max_length=30, null=True, blank=True)
-    date_collected = models.IntegerField(null=True, blank=True)
+    date_collected = models.DateField(null=True)
     collection_batch = models.CharField(max_length=30, null=True, blank=True)
 
     # sample vitals - human
@@ -102,6 +108,7 @@ class Sample(models.Model):
     other_genetic_info = models.CharField(max_length=200, null=True, blank=True)
 
     # location
+    archived = models.NullBooleanField()
     freezer_name = models.CharField(max_length=50, null=True, blank=True)
     freezer_type = models.CharField(max_length=20, choices=FreezerType, null=True, blank=True)
     freezer_shelf = models.IntegerField(null=True, blank=True)
@@ -112,6 +119,13 @@ class Sample(models.Model):
     box_type = models.CharField(max_length=20, choices=BoxType, null=True, blank=True)
     aliquot_pos_row = models.IntegerField(null=True, blank=True)
     aliquot_pos_column = models.IntegerField(null=True, blank=True)
+
+    # sample status
+    received = models.NullBooleanField()
+    received_date = models.DateField(null=True)
+    active = models.NullBooleanField()
+    deactivated_date = models.DateField(null=True)
+    deactivated_type = models.CharField(max_length=100, choices=DeactivateType, null=True, blank=True)
 
 
     # year_of_birth = models.IntegerField(_('year'), max_length=4, choices=YEAR_CHOICES, default=datetime.datetime.now().year) #a more elegant solution

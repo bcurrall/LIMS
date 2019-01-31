@@ -17,11 +17,9 @@
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Repository<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                  <li><a href="{% url 'sample:browser' %}">Browse Samples</a></li>
                   <li><a href="{% url 'sample:add' %}">Add New Sample</a></li>
-                  <li><a href="#">Select Sample(s)</a></li>
-                  <li><a href="#">Receive/Move Sample(s)</a></li>
-                  <li><a href="#">Add/Edit Freezer(s)/Box(es)</a></li>
+                  <li><a href="{% url 'sample:browser' %}">Browse/Select Samples</a></li>
+                  <li><a href="#">Archive/Move Samples</a></li>
               </ul>
           </li> <!--sample archiving-->
           <li class="dropdown">

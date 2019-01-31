@@ -24,27 +24,50 @@
     </div>
 </div>
 
+<!--error messages-->
+<div>
+    {% for message in messages %}
+      <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+      </div>
+    {% endfor %}
+</div>
 
-<!--table-->
+<!--table title-->
 <div class="row">
     <div class="col-sm-12">
         <h3>Current Records</h3>
     </div>
     <br>
 </div>
+
+<!--table-->
 <div class="row">
-    <div class="col-sm-12">
-        <script language="JavaScript">
-        function toggle(source) {
-            checkboxes = document.getElementsByName('selection');
-            for(var i in checkboxes)
-                checkboxes[i].checked = source.checked;
-        }
-        </script>
-        {% render_table table %}
-    </div>
+    <form action="" method="post">{% csrf_token %}
+        <!--check all boxes script-->
+        <div class="col-sm-12">
+            <script language="JavaScript">
+                function toggle(source) {
+                    checkboxes = document.getElementsByName('selection');
+                    for(var i in checkboxes)
+                    checkboxes[i].checked = source.checked;
+                    }
+            </script>
+
+            {% render_table table %}
+        </div>
+        <div class="col-xs-11 col-md-11">
+            <input type="submit" name="edit_btn" formaction="#" class="btn btn-primary" value="Edit"/>
+            <input type="submit" name="archive_btn" formaction="#" class="btn btn-primary" value="Archive"/>
+            <input type="submit" name="process_btn" formaction="#" class="btn btn-primary" value="Process"/>
+            <input type="submit" name="del_btn" formaction="{% url 'sample:delete' %}" class="btn btn-primary" value="Delete"/>
+
+        </div>
+    </form>
 </div>
-<br>
 
 
 {% endblock %}

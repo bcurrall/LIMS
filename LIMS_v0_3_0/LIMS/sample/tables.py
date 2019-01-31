@@ -31,3 +31,8 @@ class SampleTableAdvanced(ColumnShiftTable):
         model = Sample
         attrs = {'class': 'paleblue'}
         sequence = ('selection',)
+
+class DelSampleTableAdvanced(ColumnShiftTable):
+    class Meta:
+        model = Sample
+        attrs = {'class': 'paleblue'}

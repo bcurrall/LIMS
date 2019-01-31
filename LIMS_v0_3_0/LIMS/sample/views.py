@@ -2,11 +2,12 @@ from django.shortcuts import render
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
-from django.forms import modelformset_factory
+from django.forms import modelformset_factory, formset_factory
 from .models import Sample
 from .forms import UploadFileForm, SampleForm
-from .tables import SampleTableBasic, SampleTableAdvanced
+from .tables import SampleTableBasic, SampleTableAdvanced, DelSampleTableAdvanced
 from .filters import SampleFilter
+from django.contrib import messages
 
 # for working with excel in exports and imports
 import xlwt
@@ -24,7 +25,6 @@ def browser(request):
 
     qset = Sample.objects.all()
     filter = SampleFilter(request.GET, queryset=qset)
-
     table = SampleTableAdvanced(filter.qs)
 
     if "basic" in request.POST:
@@ -33,15 +33,17 @@ def browser(request):
     if "advanced" in request.POST:
         table = SampleTableAdvanced(filter.qs)
 
-
-
+    #TODO add dynamic paginate in terms of number pre page
     table.paginate(page=request.GET.get('page', 1), per_page=15)
+
+    #TODO add delete, edit, archive and process buttons
 
     context = {
         'button_type': 'buttons_1.html',
         'title': title,
         "basic_url": basic_url,
         "advanced_url": advanced_url,
+        "delete_url": 'delete',
         # "formset": formset,
         "table": table,
         # "extras": extras,
@@ -50,6 +52,7 @@ def browser(request):
 
     return render(request, 'sample/browser.html', context)
 
+# Add sample view - allows users to add new samples to db
 def add(request):
     title = 'Enter Basic Samples Information'
     basic_url = 'sample:add'
@@ -72,6 +75,7 @@ def add(request):
         row_num = 0
         font_style = xlwt.XFStyle()
         font_style.font.bold = True
+        # TODO make dynamic columns
         columns = ['sample_name', 'sample_type', 'conc', 'vol']
         for col_num in range(len(columns)):
             ws.write(row_num, col_num, columns[col_num], font_style)
@@ -102,11 +106,23 @@ def add(request):
 
     if "save_btn" in request.POST:
         formset = SampleFormSet(request.POST)
-        for form in formset:
-            if form.is_valid():
-                entered_sample = form.save()
-                pk = entered_sample.pk
-                pks.append(pk)
+        if formset.is_valid():
+            record_num = int(0)
+            record_add = int(0)
+            for form in formset:
+                record_num += 1
+                if form.is_valid():
+                    if form.cleaned_data == {}:
+                        messages.warning(request, 'Record #%d did not add because required data was missing.' % record_num)
+                    else:
+                        record_add += 1
+                        form.save()
+                else:
+                    messages.warning(request, 'Form Error')
+            messages.success(request, '%d records added successfully.' % record_add)
+        else:
+            messages.warning(request, 'Formset Error')
+
         return HttpResponseRedirect('/sample')
 
     context = {
@@ -121,9 +137,6 @@ def add(request):
     }
 
     return render(request, 'sample/add.html', context)
-
-### add sample
-# add single new 01_10_19
 
 
 ### test section
@@ -169,3 +182,36 @@ def export_users_xls(request):
 
     wb.save(response)
     return response
+
+def test(request):
+    SampleFormSet = formset_factory(SampleForm, extra=2)
+
+    context = {
+        "formset": SampleFormSet(),
+    }
+    return render(request, 'test.html', context)
+
+def delete(request):
+    title = 'Are you sure you want to delete the following samples?'
+    pks = request.POST.getlist("selection")
+    sample = Sample.objects.filter(pk__in=pks)
+    table = SampleTableAdvanced(Sample.objects.filter(pk__in=pks))
+
+    if request.method == "POST":
+        if "del_confirm_btn" in request.POST:
+            num_deleted = len(pks)
+            sample.delete()
+            messages.warning(request, '%d samples deleted.' %num_deleted)
+            return HttpResponseRedirect('/sample')
+        if "no_btn" in request.POST:
+            messages.success(request, 'No records were deleted.')
+            return HttpResponseRedirect('/sample')
+
+    context = {
+        # "add_url": add_url,
+        # "select_url": select_url,
+        "title": title,
+        "table": table,
+        # "num_deleted": num_deleted,
+    }
+    return render(request, 'sample/delete.html', context)

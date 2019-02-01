@@ -73,6 +73,12 @@ class Sample(models.Model):
     alt_name1 = models.CharField(max_length=100, null=True, blank=True)
     alt_name2 = models.CharField(max_length=100, null=True, blank=True)
 
+    # sample QC
+    conc_nanodrop = models.FloatField(default=0, null=True, blank=True)
+    conc_tapestation = models.FloatField(default=0, null=True, blank=True)
+    rin_din_tapestation = models.FloatField(default=0, null=True, blank=True)
+    conc_qubit = models.FloatField(default=0, null=True, blank=True)
+
     # sample vitals - general
     species = models.CharField(max_length=100, choices=SpeciesType, null=True, blank=True)
     gender = models.CharField(max_length=10, choices=GenderType, null=True, blank=True)
@@ -105,7 +111,12 @@ class Sample(models.Model):
     # sample genotype/phenotye
     karyotype = models.CharField(max_length=100, null=True, blank=True)
     genetic_array = models.CharField(max_length=100, null=True, blank=True)
-    other_genetic_info = models.CharField(max_length=200, null=True, blank=True)
+    other_genetic_info = models.TextField(null=True, blank=True)
+    hpo = models.CharField(max_length=200, null=True, blank=True)
+    phenotype_desc = models.TextField(null=True, blank=True)
+
+    # comments
+    sample_comments = models.TextField(null=True, blank=True)
 
     # location
     archived = models.NullBooleanField()
@@ -126,6 +137,7 @@ class Sample(models.Model):
     active = models.NullBooleanField()
     deactivated_date = models.DateField(null=True)
     deactivated_type = models.CharField(max_length=100, choices=DeactivateType, null=True, blank=True)
+    status_comments = models.TextField(null=True, blank=True)
 
 
     # year_of_birth = models.IntegerField(_('year'), max_length=4, choices=YEAR_CHOICES, default=datetime.datetime.now().year) #a more elegant solution

@@ -26,4 +26,5 @@ urlpatterns = [
     path('home/', include('home.urls')),
     # /sample/
     path('sample/', include('sample.urls')),
+    path('library/', include('library.urls')),
 ]

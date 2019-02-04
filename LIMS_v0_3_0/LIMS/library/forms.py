@@ -5,7 +5,7 @@ from .models import Library
 class UploadFileForm(forms.Form):
     myfile = forms.FileField()
 
-class LibraryForm(forms.ModelForm):
+class LibraryPlateForm(forms.ModelForm):
     class Meta:
         model = Library
         exclude = [
@@ -17,4 +17,15 @@ class LibraryForm(forms.ModelForm):
             'plate_comments': forms.Textarea(attrs={'rows': 1, 'cols': 15}),
         }
 
+class LibraryValidateForm(forms.ModelForm):
+    class Meta:
+        model = Library
+        exclude = [
+            'gtc_code', 'amount_of_sample_used', 'amount_of_water_used', 'plate_comments',
+        ]
 
+class PoolForm(forms.ModelForm):
+
+    class Meta:
+        model = Library
+        fields = []

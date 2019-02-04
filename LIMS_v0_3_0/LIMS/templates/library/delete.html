@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% load render_table from django_tables2 %}
+
+{% block head_title %}| New Sample{% endblock %}
+
+{% block content %}
+
+<!--buttons-->
+<div class="row">
+    <div class="col-sm-12">
+        <h1>{{ title }}</h1>
+    </div>
+</div>
+
+
+
+<!--table-->
+<div class="row">
+    <form method="POST" action="">{% csrf_token %}
+        <!--check all boxes script-->
+        <div class="col-sm-12">
+            <script language="JavaScript">
+                function toggle(source) {
+                    checkboxes = document.getElementsByName('selection');
+                    for(var i in checkboxes)
+                    checkboxes[i].checked = source.checked;
+                    }
+            </script>
+
+            {% render_table table %} <br>
+            <!--TODO add spacing between table and buttons-->
+            <input type="submit" name="del_confirm_btn" class="btn btn-primary" value="Delete Sample(s)"/>
+            <input type="submit" name="no_btn" class="btn btn-primary" value="Don't Delete Sample(s)"/>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+

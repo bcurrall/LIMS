@@ -25,10 +25,10 @@
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sample Processing<span class="caret"></span></a>
               <ul class="dropdown-menu">
+                  <li><a href="{% url 'library:browser' %}">Library Browser</a></li>
                   <li><a href="{% url 'library:add' %}">Plate Setup</a></li>
-                  <li><a href="#">Processing</a></li>
-                  <li><a href="#">Validation</a></li>
-                  <li><a href="#">Pooling</a></li>
+                  <li><a href="{% url 'library:validate' %}">Library Validation</a></li>
+                  <li><a href="{% url 'library:pool' %}">Pooling</a></li>
                   <li><a href="#">Submission</a></li>
               </ul>
           </li> <!--sample processing-->

@@ -3,10 +3,10 @@ from django.forms import modelformset_factory, formset_factory
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 
-from .models import Library, Pool
-from .forms import UploadFileForm, LibraryPlateForm, LibraryValidateForm, PoolForm
+from .models import Library, Pool, PoolingAmount
+from .forms import UploadFileForm, LibraryPlateForm, LibraryValidateForm, PoolForm, AddressForm, PoolingAmountForm
 from .tables import LibraryTable, PoolTable
-from .filters import LibraryFilter
+from .filters import LibraryFilter, PoolFilter
 from sample.models import Sample
 
 import datetime
@@ -22,7 +22,10 @@ date_stamp = now.strftime("%d%m%Y")
 
 def test(request):
 
+    form = PoolForm
+
     context = {
+        "form": form,
     }
     return render(request, 'test.html', context)
 
@@ -123,10 +126,10 @@ def add(request):
 
     return render(request, 'library/add.html', context)
 
-def browser(request):
+def lib_browser(request):
     title = 'Library Browser'
-    basic_url = 'library:browser'
-    advanced_url = 'library:browser'
+    basic_url = 'library:lib_browser'
+    advanced_url = 'library:lib_browser'
 
     qset = Library.objects.all()
     filter = LibraryFilter(request.GET, queryset=qset)
@@ -272,88 +275,134 @@ def validate(request):
 
 def pool(request):
     title = 'Pool Libraries'
-    basic_url = 'library:pool'
-    advanced_url = 'library:pool'
     data = ()
     upload_form = UploadFileForm()
     pks = request.POST.getlist("selection")
-    extras = 0
-
-    qset = Library.objects.filter(pk__in=pks)
-    print('===============qset====================')
-    print(qset)
+    pools = []
 
 
-    if "export_btn" in request.POST:
-        # from https://simpleisbetterthancomplex.com/tutorial/2016/07/29/how-to-export-to-excel.html
-        response = HttpResponse(content_type='application/ms-excel')
-        response['Content-Disposition'] = 'attachment; filename="libraries.xls"'
-        wb = xlwt.Workbook(encoding='utf-8')
-        ws = wb.add_sheet('Library')
-        row_num = 0
-        font_style = xlwt.XFStyle()
-        font_style.font.bold = True
-        # TODO make dynamic columns
-        columns = ['gtc_code', 'library_type', 'plate_name', 'well', 'sample_name', 'library_name', 'amount_of_sample_used', 'amount_of_water_used', 'plate_comments',]
-        for col_num in range(len(columns)):
-            ws.write(row_num, col_num, columns[col_num], font_style)
-        wb.save(response)
-        return response
 
-    if "upload_btn" in request.POST:
-        upload_form = UploadFileForm(request.POST, request.FILES)
-        if upload_form.is_valid():
-            filehandle = request.FILES['myfile']
-            data = filehandle.get_records()
-            count = 0
-            for record in data:
-                count = count + 1
-                pool_name = record['pool_name']
-                # TODO figure out how to prevent saving when uploading
-                # TODO get_or_create from samples
-                pool_record = Pool.objects.get_or_create(pool_name=pool_name)
-                pool = pool_record[0]
-                record['pool'] = pool.id
-            extras = count
+    if len(pks) < 1:
+        extras = 1
+        instance = []
+        print('======================no pks====================')
+    else:
+        extras = 0
+        pool_name_sm = 'pool_' + str(date_stamp)
+        num_results = Pool.objects.filter(pool_name__contains=pool_name_sm).count()
+        pool_name = pool_name_sm + '_0' + str(num_results + 1)
+        pool = Pool.objects.create(pool_name=pool_name)
+
+        for pk in pks:
+            library = Library.objects.get(pk=pk)
+            PoolingAmount.objects.create(library_name=library, pool_name=pool)
+    form_p = PoolForm(instance=Pool.objects.get(pool_name=pool_name))
+    qset = PoolingAmount.objects.filter(pool_name=pool)
+
+    # if "export_btn" in request.POST:
+    #     # from https://simpleisbetterthancomplex.com/tutorial/2016/07/29/how-to-export-to-excel.html
+    #     response = HttpResponse(content_type='application/ms-excel')
+    #     response['Content-Disposition'] = 'attachment; filename="libraries.xls"'
+    #     wb = xlwt.Workbook(encoding='utf-8')
+    #     ws = wb.add_sheet('Library')
+    #     row_num = 0
+    #     font_style = xlwt.XFStyle()
+    #     font_style.font.bold = True
+    #     # TODO make dynamic columns
+    #     columns = ['gtc_code', 'library_type', 'plate_name', 'well', 'sample_name', 'library_name', 'amount_of_sample_used', 'amount_of_water_used', 'plate_comments',]
+    #     for col_num in range(len(columns)):
+    #         ws.write(row_num, col_num, columns[col_num], font_style)
+    #     wb.save(response)
+    #     return response
     #
-    #
-    PoolFormSet = modelformset_factory(Pool, form=PoolForm, extra=extras)
-    formset = PoolFormSet(queryset=qset, initial=data)
+    # if "upload_btn" in request.POST:
+    #     upload_form = UploadFileForm(request.POST, request.FILES)
+    #     if upload_form.is_valid():
+    #         filehandle = request.FILES['myfile']
+    #         data = filehandle.get_records()
+    #         count = 0
+    #         for record in data:
+    #             count = count + 1
+    #             pool_name = record['pool_name']
+    #             # TODO figure out how to prevent saving when uploading
+    #             # TODO get_or_create from samples
+    #             pool_record = Pool.objects.get_or_create(pool_name=pool_name)
+    #             pool = pool_record[0]
+    #             record['pool'] = pool.id
+    #         extras = count
 
+    PoolingFormSet = modelformset_factory(PoolingAmount, form=PoolingAmountForm, extra=extras)
+    formset = PoolingFormSet(queryset=qset, initial=data)
 
+    print('----------------formset--------------')
 
     table = PoolTable(Pool.objects.all())
 
-    if "save_btn" in request.POST:
-        formset = PoolFormSet(request.POST)
-        if formset.is_valid():
-            record_num = int(0)
-            record_add = int(0)
-            for form in formset:
-                record_num += 1
-                if form.is_valid():
-                    if form.cleaned_data == {}:
-                        messages.warning(request, 'Record #%d did not add because required data was missing.' % record_num)
-                    else:
-                        record_add += 1
-                        form.save()
-                else:
-                    messages.warning(request, 'Form Error')
-            messages.success(request, '%d records added successfully.' % record_add)
-        else:
-            messages.warning(request, 'Formset Error')
+    # if "save_btn" in request.POST:
+    #     formset = PoolFormSet(request.POST)
+    #     if formset.is_valid():
+    #         record_num = int(0)
+    #         record_add = int(0)
+    #         for form in formset:
+    #             record_num += 1
+    #             if form.is_valid():
+    #                 if form.cleaned_data == {}:
+    #                     messages.warning(request, 'Record #%d did not add because required data was missing.' % record_num)
+    #                 else:
+    #                     record_add += 1
+    #                     form.save()
+    #             else:
+    #                 messages.warning(request, 'Form Error')
+    #         messages.success(request, '%d records added successfully.' % record_add)
+    #     else:
+    #         messages.warning(request, 'Formset Error')
+    #
+    #     return HttpResponseRedirect('/library/browser')
 
-        return HttpResponseRedirect('/library/browser')
+    context = {
+        'button_type': 'buttons_1.html',
+        'title': title,
+        # "basic_url": basic_url,
+        # "advanced_url": advanced_url,
+        "form_p": form_p,
+        "formset": formset,
+        # "table": table,
+        # "extras": extras,
+        # "upload_form": upload_form,
+    }
+
+    return render(request, 'library/add_pool.html', context)
+
+def pool_browser(request):
+    title = 'Pool Browser'
+    basic_url = 'library:pool_browser'
+    advanced_url = 'library:pool_browser'
+
+    qset = Pool.objects.all()
+    filter = PoolFilter(request.GET, queryset=qset)
+    table = PoolTable(filter.qs)
+
+    if "basic" in request.POST:
+        table = LibraryTable(filter.qs)
+
+    if "advanced" in request.POST:
+        table = LibraryTable(filter.qs)
+
+    #TODO add dynamic paginate in terms of number pre page
+    table.paginate(page=request.GET.get('page', 1), per_page=15)
+
+    #TODO add delete, edit, archive and process buttons
 
     context = {
         'button_type': 'buttons_1.html',
         'title': title,
         "basic_url": basic_url,
         "advanced_url": advanced_url,
-        "formset": formset,
+        "delete_url": 'delete',
+        # "formset": formset,
         "table": table,
-        "extras": extras,
-        "upload_form": upload_form,
+        # "extras": extras,
+        # "upload_form": upload_form,
     }
 
-    return render(request, 'library/add.html', context)
+    return render(request, 'library/browser.html', context)

@@ -28,7 +28,7 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LIMS/archive/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1107">
+            <state relative-caret-position="5270">
               <caret line="751" column="34" lean-forward="false" selection-start-line="751" selection-start-column="28" selection-end-line="751" selection-end-column="34" />
               <folding>
                 <element signature="e#0#60#0" expanded="true" />
@@ -108,7 +108,7 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/LIMS/archive/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="410">
+            <state relative-caret-position="818">
               <caret line="102" column="22" lean-forward="false" selection-start-line="102" selection-start-column="22" selection-end-line="102" selection-end-column="22" />
               <folding />
             </state>
@@ -565,10 +565,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1088" y="-1152" width="1096" height="1906" extended-state="7" />
+    <frame x="-1088" y="-1152" width="1096" height="1906" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40075615" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40075615" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -908,7 +908,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/LIMS/archive/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1107">
+        <state relative-caret-position="5270">
           <caret line="751" column="34" lean-forward="false" selection-start-line="751" selection-start-column="28" selection-end-line="751" selection-end-column="34" />
           <folding>
             <element signature="e#0#60#0" expanded="true" />
@@ -934,7 +934,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/LIMS/archive/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
+        <state relative-caret-position="818">
           <caret line="102" column="22" lean-forward="false" selection-start-line="102" selection-start-column="22" selection-end-line="102" selection-end-column="22" />
           <folding />
         </state>

@@ -27,4 +27,5 @@ urlpatterns = [
     # /sample/
     path('sample/', include('sample.urls')),
     path('library/', include('library.urls')),
+    path('sequence/', include('sequence.urls')),
 ]

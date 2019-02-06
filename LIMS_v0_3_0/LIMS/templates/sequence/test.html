@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}| Welcome{% endblock %}
+
+{% block content %}
+
+<h1>Welcome to Talk Libraries</h1>
+
+<div>
+    <form method="POST" action="">{% csrf_token %}
+        <div class="row">
+            {% crispy form %}
+          </div>
+    </form>
+</div>
+
+{% endblock %}

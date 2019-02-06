@@ -1,3 +1,12 @@
 from django.shortcuts import render
+from .forms import WUSSubmissionForm
 
-# Create your views here.
+
+def test(request):
+
+    form = WUSSubmissionForm
+
+    context = {
+        "form": form,
+    }
+    return render(request, 'sequence/test.html', context)

@@ -25,6 +25,9 @@ class LibraryValidateForm(forms.ModelForm):
         exclude = [
             'gtc_code', 'amount_of_sample_used', 'amount_of_water_used', 'plate_comments',
         ]
+        widgets = {
+            'qc_comments': forms.Textarea(attrs={'rows': 1, 'cols': 15}),
+        }
 
 class PoolingAmountForm(forms.ModelForm):
     class Meta:

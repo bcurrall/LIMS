@@ -111,7 +111,7 @@ def add(request):
         else:
             messages.warning(request, 'Formset Error')
 
-        return HttpResponseRedirect('/library/browser')
+        return HttpResponseRedirect('/library')
 
     context = {
         'button_type': 'buttons_1.html',
@@ -193,7 +193,11 @@ def validate(request):
     data = ()
     upload_form = UploadFileForm()
     pks = request.POST.getlist("selection")
-    extras = 0
+
+    if len(pks) < 1:
+        extras = 1
+    else:
+        extras = 0
 
     qset = Library.objects.filter(pk__in=pks)
 
@@ -278,14 +282,15 @@ def pool(request):
     data = ()
     upload_form = UploadFileForm()
     pks = request.POST.getlist("selection")
-    pools = []
 
 
 
     if len(pks) < 1:
-        extras = 1
-        instance = []
-        print('======================no pks====================')
+        extras = 5
+        pool_name = []
+        form_p = PoolForm
+        qset = PoolingAmount.objects.none()
+
     else:
         extras = 0
         pool_name_sm = 'pool_' + str(date_stamp)
@@ -296,8 +301,9 @@ def pool(request):
         for pk in pks:
             library = Library.objects.get(pk=pk)
             PoolingAmount.objects.create(library_name=library, pool_name=pool)
-    form_p = PoolForm(instance=Pool.objects.get(pool_name=pool_name))
-    qset = PoolingAmount.objects.filter(pool_name=pool)
+
+        form_p = PoolForm(instance=Pool.objects.get(pool_name=pool_name))
+        qset = PoolingAmount.objects.filter(pool_name=pool)
 
     # if "export_btn" in request.POST:
     #     # from https://simpleisbetterthancomplex.com/tutorial/2016/07/29/how-to-export-to-excel.html
@@ -337,6 +343,8 @@ def pool(request):
     print('----------------formset--------------')
 
     table = PoolTable(Pool.objects.all())
+
+    # TODO add save back in and use pool name from parent form for pool_name in formset
 
     # if "save_btn" in request.POST:
     #     formset = PoolFormSet(request.POST)
@@ -382,11 +390,6 @@ def pool_browser(request):
     filter = PoolFilter(request.GET, queryset=qset)
     table = PoolTable(filter.qs)
 
-    if "basic" in request.POST:
-        table = LibraryTable(filter.qs)
-
-    if "advanced" in request.POST:
-        table = LibraryTable(filter.qs)
 
     #TODO add dynamic paginate in terms of number pre page
     table.paginate(page=request.GET.get('page', 1), per_page=15)
@@ -405,4 +408,4 @@ def pool_browser(request):
         # "upload_form": upload_form,
     }
 
-    return render(request, 'library/browser.html', context)
+    return render(request, 'library/browser_pool.html', context)

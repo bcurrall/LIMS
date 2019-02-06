@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import WUSSubmission, WUSResult
 
-# Register your models here.
+admin.site.register(WUSSubmission)
+admin.site.register(WUSResult)

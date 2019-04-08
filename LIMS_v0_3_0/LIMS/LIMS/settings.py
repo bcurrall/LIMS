@@ -24,7 +24,10 @@ SECRET_KEY = 'j1@b%=c24oni!#a83@rr83i2_)b-o^%gnbi5w)w2%6g!!9&*^y'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = \
+    ['talkowskilabvm.dipr.partners.org',
+     '127.0.0.1'
+     ]
 
 
 # Application definition

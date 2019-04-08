@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% load render_table from django_tables2 %}
+
+{% block head_title %}| New Sample{% endblock %}
+
+{% block content %}
+
+<!--buttons-->
+<div class="row">
+    <div class="col-sm-12">
+        <h1>{{ title }}</h1>
+    </div>
+</div>
+
+
+
+<!--table-->
+<div class="row">
+    <form method="post">{% csrf_token %}
+        <p>Are you sure you want to delete "{{ object }}"?</p>
+        <input type="submit" value="Confirm">
+    </form>
+</div>
+
+{% endblock %}
+

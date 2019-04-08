@@ -13,6 +13,7 @@ urlpatterns = [
     path(r'validate/', views.validate, name='validate'),
     path(r'pool/', views.pool, name='pool'),
     path(r'pool_browser/', views.pool_browser, name='pool_browser'),
+    path(r'edit/', views.edit, name='edit'),
 
     path(r'test/', views.test, name='test'),
 

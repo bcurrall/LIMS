@@ -17,11 +17,16 @@
     <br>
 </div>
 
-<!--buttons-->
-<div class="row">
-    <div class="col-sm-12">
-        {% include button_type %}<br>
-    </div>
+<!--error messages-->
+<div>
+    {% for message in messages %}
+      <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+      </div>
+    {% endfor %}
 </div>
 
 <!--error messages-->
@@ -60,11 +65,9 @@
             {% render_table table %}
         </div>
         <div class="col-xs-11 col-md-11">
-            <input type="submit" name="edit_btn" formaction="#" class="btn btn-primary" value="Edit"/>
-            <input type="submit" name="archive_btn" formaction="#" class="btn btn-primary" value="Archive"/>
-            <input type="submit" name="validate_btn" formaction="{% url 'library:validate' %}" class="btn btn-primary" value="QC"/>
-            <input type="submit" name="pool_btn" formaction="{% url 'library:pool' %}" class="btn btn-primary" value="Pool"/>
-            <input type="submit" name="del_btn" formaction="{% url 'library:delete' %}" class="btn btn-primary" value="Delete"/>
+            <input type="submit" name="edit_btn" formaction="{% url 'sequence:edit' %}" class="btn btn-primary" value="Edit"/>
+            <input type="submit" name="counts_btn" formaction="#" class="btn btn-primary" disabled value="Report Counts"/>
+            <input type="submit" name="del_btn" formaction="{% url 'sequence:delete' %}" class="btn btn-primary" value="Delete"/>
 
         </div>
     </form>

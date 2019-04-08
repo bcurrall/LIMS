@@ -5,6 +5,7 @@ django-excel==0.0.10
 django-filter==2.1.0
 django-filters==0.2.1
 django-tables2==2.0.3
+django-tables2-column-shifter==0.5.2
 lml==0.0.9
 pyexcel==0.5.10
 pyexcel-io==0.5.11

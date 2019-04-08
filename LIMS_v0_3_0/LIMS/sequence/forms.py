@@ -1,5 +1,5 @@
 from django import forms
-from .models import WUSSubmission
+from .models import WUSSubmission, WUSPool
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
 
@@ -36,4 +36,10 @@ class WUSSubmissionForm(forms.ModelForm):
 
     class Meta:
         model = WUSSubmission
+        exclude = []
+
+class WUSPoolForm(forms.ModelForm):
+
+    class Meta:
+        model = WUSPool
         exclude = []

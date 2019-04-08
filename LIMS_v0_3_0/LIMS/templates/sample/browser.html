@@ -26,14 +26,18 @@
 
 <!--error messages-->
 <div>
-    {% for message in messages %}
-      <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        {{ message }}
-      </div>
-    {% endfor %}
+    <p>Start Message</p>
+    {% if messages %}
+    <p>Message</p>
+        {% for message in messages %}
+          <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message }}
+          </div>
+        {% endfor %}
+    {% endif %}
 </div>
 
 <!--table title-->
@@ -59,13 +63,15 @@
 
             {% render_table table %}
         </div>
-        <div class="col-xs-11 col-md-11">
-            <input type="submit" name="edit_btn" formaction="#" class="btn btn-primary" value="Edit"/>
-            <input type="submit" name="archive_btn" formaction="#" class="btn btn-primary" value="Archive"/>
-            <input type="submit" name="process_btn" formaction="{% url 'library:add' %}" class="btn btn-primary" value="Process"/>
-            <input type="submit" name="del_btn" formaction="{% url 'sample:delete' %}" class="btn btn-primary" value="Delete"/>
-
+        <div class="form-group">
+            <div class="col-xs-6 col-md-6">
+                <input type="submit" name="edit_btn" formaction="{% url 'sample:edit' %}" class="btn btn-primary" value="Edit"/>
+                <input type="submit" name="archive_btn" formaction="#" class="btn btn-primary" disabled value="Store"/>
+                <input type="submit" name="process_btn" formaction="{% url 'library:add' %}" class="btn btn-primary" value="Submit for Library"/>
+                <input type="submit" name="del_btn" formaction="{% url 'sample:delete' %}" class="btn btn-primary" value="Delete"/>
+            </div>
         </div>
+
     </form>
 </div>
 

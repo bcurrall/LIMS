@@ -1,42 +1,56 @@
 # LIMS_v2.0 To Do List
 
-Last Update Date: 01_15_19
+Last Update Date: 04_18_19
 Last Update by: Benjamin B. Currall
 
 
 ## List for DB - First Draft due by 3/4
-1. Workflow module (reduced to 3 tables in case LIMS breaksdown; preliminary by 2/4)
-    + Tables (preliminary by 1/21)
-        - Samples (temp version created last week)
+1. Workflow module (reduced to 4 main apps in case LIMS breaksdown; preliminary by 2/4)
+    + Tables/Models ()
+        - Samples + Storage
         - Libraries
+            - pools
+            - pooling
         - Sequencing
+            - submission
+            - pool
+            - results
+                - lane
+                - sample
     + Relationships
+        - (1:1) Samples --> Storage (could be one app/model, but separating allows future development and is intuitively separate operation)
         - (1:N) Samples --> Libraries
-        - (1:N) Library --> Sequencing
-    + Forms
-        - Sample (preliminary created last week; prelimary by 1/21)
-            - Entry
-                - Basic
-                - Advanced
-                - Check records
-                    - validate entry
-            - Editing
-            - Archiving/Moving
-                - Receive
-                - Move
-                - Deactivate
-            - Delete (need to make user specific)
-        - Libraries (preliminary by 2/4)
+        - (1:N) Library --> PoolingAmount
+        - (1:N) Pool --> PoolingAmount
+        - (N:N) PoolingAmount --> WUSLaneResults
+        - (1:N) WUSSubmission --> WUSLaneResults
+        - (1:1) Samples --> WUSSampleResults (QC results are different after pooling lanes)
+
+    + Forms (made generic class based views 4/8, now need to inherit to specific class based views)
+        - Sample
+            - Browser/List View
+            - Create View
+                - Required
+                - Detailed
+            - Update View
+                - update record info
+                - move samples
+                - update status
+                    - receive
+                    - change volumes
+                    - discard
+            - Delete
+                - should be restricted and only apply with duplicates and/or records made in error
+        - Libraries
             - Plate
-            - Method
-            - Results
+            - QC
             - Pooling
-        - Sequencing (preliminary by 2/4)
+        - Sequencing
             - submission
             - results
-    + Reports (preliminary by 2/4)
-        - Sample location
-        - Sample sequencing
+                - by lane ()
+                - by sample ()
+    + Reports
 2. Project management (preliminary by 3/4)
     + Tables
         - Projects

@@ -7,6 +7,15 @@ from crispy_forms.layout import Layout, Submit, Row, Column
 class UploadFileForm(forms.Form):
     myfile = forms.FileField()
 
+class LibraryForm(forms.ModelForm):
+    class Meta:
+        model = Library
+        exclude = []
+        widgets = {
+            'plate_comments': forms.Textarea(attrs={'rows': 1, 'cols': 15}),
+            'qc_comments': forms.Textarea(attrs={'rows': 1, 'cols': 15}),
+        }
+
 class LibraryPlateForm(forms.ModelForm):
     class Meta:
         model = Library

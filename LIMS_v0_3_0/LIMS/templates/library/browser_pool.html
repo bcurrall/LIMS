@@ -61,8 +61,8 @@
         </div>
         <div class="col-xs-11 col-md-11">
             <input type="submit" name="edit_btn" formaction="#" class="btn btn-primary" value="Edit"/>
-            <input type="submit" name="archive_btn" formaction="#" class="btn btn-primary" value="Archive"/>
-            <input type="submit" name="wus_btn" formaction="#" class="btn btn-primary" value="Submit to WUS"/>
+            <input type="submit" name="archive_btn" formaction="#" class="btn btn-primary" disabled value="Store"/>
+            <input type="submit" name="wus_btn" formaction="{% url 'sequence:add_wus_sub' %}" class="btn btn-primary" value="Submit to WUS"/>
             <input type="submit" name="del_btn" formaction="#" class="btn btn-primary" value="Delete"/>
 
         </div>

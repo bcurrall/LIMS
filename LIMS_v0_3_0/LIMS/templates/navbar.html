@@ -4,50 +4,61 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="{% url 'home:index' %}">Talk LIMS</a>
     </div>
-      <ul class="nav navbar-nav">
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Projects<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                  <li><a href="#">Start New Project</a></li>
-                  <li><a href="#">View Project Funding</a></li>
-                  <li><a href="#">View Project Status</a></li>
-              </ul>
-          </li> <!--project status-->
+      <ul class="nav navbar-nav"><!--project status-->
+          <!--<li class="dropdown">-->
+            <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#">Projects<span class="caret"></span></a>-->
+              <!--<ul class="dropdown-menu">-->
+                  <!--<li><a href="#">Start New Project</a></li>-->
+                  <!--<li><a href="#">View Project Funding</a></li>-->
+                  <!--<li><a href="#">View Project Status</a></li>-->
+              <!--</ul>-->
+          <!--</li>-->
 
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Repository<span class="caret"></span></a>
+          <li class="dropdown"><!--sample archiving-->
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Samples<span class="caret"></span></a>
               <ul class="dropdown-menu">
+                  <li><a href="{% url 'sample:browser' %}">Browse Samples</a></li>
                   <li><a href="{% url 'sample:add' %}">Add New Sample</a></li>
-                  <li><a href="{% url 'sample:browser' %}">Browse/Select Samples</a></li>
-                  <li><a href="#">Archive/Move Samples</a></li>
+                  <li><a href="{% url 'sample:edit' %}">Edit Samples</a></li>
               </ul>
-          </li> <!--sample archiving-->
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sample Processing<span class="caret"></span></a>
+          </li>
+          <!--<li class="dropdown">&lt;!&ndash;sample storage&ndash;&gt;-->
+            <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#">Storage<span class="caret"></span></a>-->
+              <!--<ul class="dropdown-menu">-->
+                  <!--<li><a href="#">Browse Storage</a></li>-->
+                  <!--<li><a href="#">Receive/Move Samples</a></li>-->
+                  <!--<li><a href="#">Receive/Move Boxes</a></li>-->
+              <!--</ul>-->
+          <!--</li>-->
+          <li class="dropdown"><!--making libraries processing-->
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Libraries<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                  <li><a href="{% url 'library:lib_browser' %}">Library Browser</a></li>
-                  <li><a href="{% url 'library:add' %}">Plate Setup</a></li>
-                  <li><a href="{% url 'library:validate' %}">Library Validation</a></li>
-                  <li><a href="{% url 'library:pool' %}">Pooling</a></li>
-                  <li><a href="{% url 'library:pool_browser' %}">Pool Browser</a></li>
+                  <li><a href="{% url 'library:lib_browser' %}">Browse Libraries</a></li>
+                  <li><a href="{% url 'library:add' %}">Start New Library</a></li>
+                  <li><a href="{% url 'library:validate' %}">QC Library</a></li>
+                  <li><a href="{% url 'library:pool' %}">Pool Libraries</a></li>
+                  <li><a href="{% url 'library:pool_browser' %}">Browse Pools</a></li>
               </ul>
-          </li> <!--sample processing-->
+          </li>
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sequencing<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                  <li><a href="#">Counts</a></li>
-                  <li><a href="#">Pre-Alignment QC</a></li>
-                  <li><a href="#">Post-Alignment QC</a></li>
+                  <li><a href="{% url 'sequence:browser' %}">Browse Submissions</a></li>
+                  <li><a href="{% url 'sequence:add_wus_sub' %}">Start New Submission</a></li>
+                  <!--<li><a href="#">Add Lane Seq Counts</a></li>-->
+                  <!--<li><a href="#">Add Library Seq QC</a></li>-->
+                  <!--<li><a href="#">Add Sample Seq QC</a></li>-->
               </ul>
-          </li> <!--sequencing-->
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Query DB<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                  <li><a href="#">SQL</a></li>
-                  <li><a href="#">JSON</a></li>
-                  <li><a href="#">DB Structure</a></li>
-              </ul>
-          </li> <!--query db-->
+          </li>
+          <!--<li class="dropdown">&lt;!&ndash;reports&ndash;&gt;-->
+            <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#">Reports<span class="caret"></span></a>-->
+              <!--<ul class="dropdown-menu">-->
+                  <!--<li><a href="#">Sample Metrics</a></li>-->
+                  <!--<li><a href="#">Library Metrics</a></li>-->
+                  <!--<li><a href="#">Sequencing Metrics</a></li>-->
+                  <!--<li><a href="#">Export Data</a></li>-->
+              <!--</ul>-->
+          <!--</li> -->
           <li class="inactive"><a href="#">About</a></li><!--about-->
       </ul>
       <ul class="nav navbar-nav navbar-right">

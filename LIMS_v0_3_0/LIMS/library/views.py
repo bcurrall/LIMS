@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 
 from .models import Library, Pool, PoolingAmount
-from .forms import UploadFileForm, LibraryPlateForm, LibraryValidateForm, PoolForm, AddressForm, PoolingAmountForm
+from .forms import UploadFileForm, LibraryPlateForm, LibraryValidateForm, PoolForm, AddressForm, PoolingAmountForm, LibraryForm
 from .tables import LibraryTable, PoolTable
 from .filters import LibraryFilter, PoolFilter
 from sample.models import Sample
@@ -32,24 +32,24 @@ def test(request):
 # TODO move redundant view defs to common folder
 def add(request):
     title = 'Enter Plating Information for Processing Sample'
-    basic_url = 'library:add'
-    advanced_url = 'library:add'
+    subtitle = 'List of samples to submit to library making can be generated from sample browser.'
+    # basic_url = 'library:add'
+    # advanced_url = 'library:add'
     data = ()
     upload_form = UploadFileForm()
     pks = request.POST.getlist("selection")
     libraries = []
 
     if len(pks) < 1:
-        extras = 1
+        extras = 5
     else:
         extras = 0
-
-    for pk in pks:
-        print(pk)
-        sample = Sample.objects.get(pk=pk)
-        lib_name = str(sample)+'_'+str(date_stamp)
-        Library.objects.create(sample_name=sample, library_name=lib_name)
-        libraries.append(lib_name)
+        for pk in pks:
+            print(pk)
+            sample = Sample.objects.get(pk=pk)
+            lib_name = str(sample)+'_'+str(date_stamp)
+            Library.objects.create(sample_name=sample, library_name=lib_name)
+            libraries.append(lib_name)
 
     qset = Library.objects.filter(library_name__in=libraries)
 
@@ -116,8 +116,9 @@ def add(request):
     context = {
         'button_type': 'buttons_1.html',
         'title': title,
-        "basic_url": basic_url,
-        "advanced_url": advanced_url,
+        'subtitle': subtitle,
+        # "basic_url": basic_url,
+        # "advanced_url": advanced_url,
         "formset": formset,
         "table": table,
         "extras": extras,
@@ -162,7 +163,7 @@ def lib_browser(request):
 
 
 def delete(request):
-    title = 'Are you sure you want to delete the following samples?'
+    title = 'Are you sure you want to delete the following libraries?'
     pks = request.POST.getlist("selection")
     library = Library.objects.filter(pk__in=pks)
     table = LibraryTable(Library.objects.filter(pk__in=pks))
@@ -171,10 +172,10 @@ def delete(request):
         if "del_confirm_btn" in request.POST:
             num_deleted = len(pks)
             library.delete()
-            messages.warning(request, '%d library deleted.' %num_deleted)
+            messages.warning(request, '%d libraries deleted.' %num_deleted)
             return HttpResponseRedirect('/library')
         if "no_btn" in request.POST:
-            messages.success(request, 'No records were deleted.')
+            messages.success(request, 'No libraries were deleted.')
             return HttpResponseRedirect('/library')
 
     context = {
@@ -262,7 +263,7 @@ def validate(request):
         else:
             messages.warning(request, 'Formset Error')
 
-        return HttpResponseRedirect('/library/browser')
+        return HttpResponseRedirect('/library/lib_browser')
 
     context = {
         'button_type': 'buttons_1.html',
@@ -283,8 +284,6 @@ def pool(request):
     upload_form = UploadFileForm()
     pks = request.POST.getlist("selection")
 
-
-
     if len(pks) < 1:
         extras = 5
         pool_name = []
@@ -304,6 +303,9 @@ def pool(request):
 
         form_p = PoolForm(instance=Pool.objects.get(pool_name=pool_name))
         qset = PoolingAmount.objects.filter(pool_name=pool)
+
+    if "quantity" in request.POST:
+        extras = int(request.POST['quantity'])
 
     # if "export_btn" in request.POST:
     #     # from https://simpleisbetterthancomplex.com/tutorial/2016/07/29/how-to-export-to-excel.html
@@ -346,26 +348,26 @@ def pool(request):
 
     # TODO add save back in and use pool name from parent form for pool_name in formset
 
-    # if "save_btn" in request.POST:
-    #     formset = PoolFormSet(request.POST)
-    #     if formset.is_valid():
-    #         record_num = int(0)
-    #         record_add = int(0)
-    #         for form in formset:
-    #             record_num += 1
-    #             if form.is_valid():
-    #                 if form.cleaned_data == {}:
-    #                     messages.warning(request, 'Record #%d did not add because required data was missing.' % record_num)
-    #                 else:
-    #                     record_add += 1
-    #                     form.save()
-    #             else:
-    #                 messages.warning(request, 'Form Error')
-    #         messages.success(request, '%d records added successfully.' % record_add)
-    #     else:
-    #         messages.warning(request, 'Formset Error')
-    #
-    #     return HttpResponseRedirect('/library/browser')
+    if "save_btn" in request.POST:
+        formset = PoolingFormSet(request.POST)
+        if formset.is_valid():
+            record_num = int(0)
+            record_add = int(0)
+            for form in formset:
+                record_num += 1
+                if form.is_valid():
+                    if form.cleaned_data == {}:
+                        messages.warning(request, 'Record #%d did not add because required data was missing.' % record_num)
+                    else:
+                        record_add += 1
+                        form.save()
+                else:
+                    messages.warning(request, 'Form Error')
+            messages.success(request, '%d records added successfully.' % record_add)
+        else:
+            messages.warning(request, 'Formset Error')
+
+        return HttpResponseRedirect('/library/pool_browser')
 
     context = {
         'button_type': 'buttons_1.html',
@@ -409,3 +411,88 @@ def pool_browser(request):
     }
 
     return render(request, 'library/browser_pool.html', context)
+
+def edit(request):
+    title = 'Edit Library Information'
+    subtitle = 'List of libraries to edit be generated from library browser.'
+
+    extras = 0
+
+    pks = request.POST.getlist("selection")
+    qset = Library.objects.filter(pk__in=pks)
+
+    data = ()
+    upload_form = UploadFileForm()
+
+    if "export_btn" in request.POST:
+        # from https://simpleisbetterthancomplex.com/tutorial/2016/07/29/how-to-export-to-excel.html
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="samples.xls"'
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet('Sample')
+        row_num = 0
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+        # TODO make dynamic columns
+        columns = ['sample_name', 'sample_type', 'conc', 'vol']
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num], font_style)
+        wb.save(response)
+        return response
+
+    if "upload_btn" in request.POST:
+        upload_form = UploadFileForm(request.POST, request.FILES)
+        if upload_form.is_valid():
+            print("valid")
+            filehandle = request.FILES['myfile']
+            data = filehandle.get_records()
+            count = 0
+            for record in data:
+                count = count + 1
+                sample_name = record['sample_name']
+                # TODO figure out how to prevent saving when uploading
+                sample_record = Sample.objects.get_or_create(sample_name=sample_name)
+                sample = sample_record[0]
+                record['sample'] = sample.id
+            extras = count
+
+
+    LibraryFormSet = modelformset_factory(Library, form=LibraryForm, extra=extras)
+    formset = LibraryFormSet(queryset=qset, initial=data)
+
+    table = LibraryTable(Library.objects.filter(pk__in=pks))
+
+    if "save_btn" in request.POST:
+        formset = LibraryFormSet(request.POST)
+        if formset.is_valid():
+            record_num = int(0)
+            record_add = int(0)
+            for form in formset:
+                record_num += 1
+                if form.is_valid():
+                    if form.cleaned_data == {}:
+                        messages.warning(request, 'Record #%d did not add because required data was missing.' % record_num)
+                    else:
+                        record_add += 1
+                        form.save()
+                else:
+                    messages.warning(request, 'Form Error')
+            messages.success(request, '%d records added successfully.' % record_add)
+        else:
+            messages.warning(request, 'Formset Error')
+
+        return HttpResponseRedirect('/sample')
+
+    context = {
+        'button_type': 'buttons_1.html',
+        'title': title,
+        'subtitle': subtitle,
+        # "basic_url": basic_url,
+        # "advanced_url": advanced_url,
+        "formset": formset,
+        "table": table,
+        "extras": extras,
+        "upload_form": upload_form,
+    }
+
+    return render(request, 'sample/edit.html', context)

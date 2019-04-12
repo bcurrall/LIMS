@@ -12,5 +12,11 @@ class SampleForm(forms.ModelForm):
     class Meta:
         model = Sample
         fields = ['sample_name', 'sample_type', 'conc', 'vol']
+        widgets = {
+            'other_genetic_info': forms.Textarea(attrs={'rows': 1, 'cols': 15}),
+            'phenotype_desc': forms.Textarea(attrs={'rows': 1, 'cols': 15}),
+            'sample_comments': forms.Textarea(attrs={'rows': 1, 'cols': 15}),
+            'status_comments': forms.Textarea(attrs={'rows': 1, 'cols': 15}),
+        }
 
 SampleFormSet = modelformset_factory(Sample, form=SampleForm, fields=('sample_name', 'sample_type', 'conc', 'vol'), extra=1)

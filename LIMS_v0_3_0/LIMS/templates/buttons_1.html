@@ -1,9 +1,25 @@
 <div class="row">
-    <form method="POST" action="">{% csrf_token %}
-        <div class="col-xs-5 btn-group" role="group" aria-label="Basic example">
-            <button type="submit" name="basic" class="btn btn-default">Basic</button>
-            <button type="submit" name="advanced" class="btn btn-default">Advanced</button>
-        </div>
-    </form>
-
+    <div class="col-xs-10 btn-group" role="group">
+    {% for button in buttons %}
+        <a href="{% url button.url %}" class="btn btn-default">{{ button.name }}</a>
+    {% endfor %}
+    </div>
 </div>
+
+<div class="btn-toolbar">
+    <div class="btn-group" data-toggle="buttons">
+      <label class="btn btn-default"><input type="radio" name="options" id="option5">5</label>
+      <label class="btn btn-default"><input type="radio" name="options" id="option6">6</label>
+      <label class="btn btn-default"><input type="radio" name="options" id="option7">7</label>
+    </div>
+    <div class="btn-group" data-toggle="buttons">
+      <label class="btn btn-default"><input type="checkbox" name="options" id="option8">8</label>
+    </div>
+  </div>
+
+<script>
+    $( document ).ready(function() {
+    $(".btn").slice(2,3).button("toggle");
+    });
+
+</script>

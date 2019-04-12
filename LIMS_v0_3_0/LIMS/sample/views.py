@@ -7,6 +7,7 @@ from django.views.generic import View, DeleteView, CreateView, FormView
 from django.forms import modelformset_factory, formset_factory
 from django.urls import reverse_lazy, reverse
 from django.views.generic.detail import SingleObjectMixin
+from LIMS.views import GenericCreateFormSet
 from .models import Sample
 from .forms import UploadFileForm, SampleForm, SampleFormSet
 from .tables import SampleTableBasic, SampleTableAdvanced, DelSampleTableAdvanced
@@ -341,153 +342,44 @@ class DeleteTest(DeleteView):
     model = Sample
     success_url = reverse_lazy('sample:browser')
 
-class SampleCreateTest(FormView):
-    template_name = 'sample/form.html'
-    form_class = SampleForm
-    success_url = reverse_lazy('sample:create')
-
-    def get_context_data(self, **kwargs):
-        context = super(SampleCreateFormSetTest, self).get_context_data(**kwargs)
-        context['formset'] = SampleFormSet(queryset=Sample.objects.none())
-        return context
-
-
-    def get_success_message(self, cleaned_data):
-        print("================================")
-        print(cleaned_data)
-        return "Success"
-
-    # queryset = Sample.objects.all()
-
-    # def form_valid(self, form):
-    #     print(form.cleaned_data)
-    #     return super().form_valid(form)
-
-
 
 
 # TODO make update, delete, detail and list class based formset/form views
-# TODO move generic class based views to generic folder
-class CreateFormSet(CreateView):
-    # required variables
-    # TODO make required variables part of init and/or args
-    template_name = 'sample/create.html'
-    success_url = reverse_lazy('sample:browser')
-    button_type = 'buttons_1.html'
-    title = 'Enter Samples Information - Generic Form Class Test'
-    basic_url = 'sample:createformsettest'
-    advanced_url = 'sample:add'
-    model = Sample
-    form_class = SampleForm
-    field = ('sample_name', 'sample_type', 'conc', 'vol')
-
-    # class global variables
-    queryset = model.objects.none()
-    initial_data = []
-    extra = 1
-    upload_form = UploadFileForm()
-
-    def get_formset(self): #makes formset for various defs within class
-        formset = modelformset_factory(
-            self.model,
-            form=self.form_class,
-            fields=self.field,
-            extra=self.extra
-        )
-        return formset
-
-    def get_context_data(self, *args, **kwargs): #gets context for building formset
-        context = super(CreateFormSet, self).get_context_data(**kwargs)
-        formset = self.get_formset()
-        context['formset'] = formset(queryset=self.queryset, initial=self.initial_data)
-        context['title'] = self.title
-        context['button_type'] = self.button_type
-        context['basic_url'] = self.basic_url
-        print("=========context = ", context)
-        return context
-
-    def post(self, request, *args, **kwargs): #handles all posts
-
-        # updates number of records to be handled for "Update" button
-        if "quantity" in self.request.POST:
-            self.object = None
-            print("self.request.POST = ", self.request.POST['quantity'])
-            if self.request.POST['quantity'] == "":
-                extra = 1
-            else:
-                extra = int(self.request.POST['quantity'])
-            self.extra = extra
-            context = self.get_context_data()
-            return render(request, self.template_name, context=context)
-
-        # exports file based on formset through "Export" button
-        if "export_btn" in request.POST:
-            # from https://simpleisbetterthancomplex.com/tutorial/2016/07/29/how-to-export-to-excel.html
-            response = HttpResponse(content_type='application/ms-excel')
-            response['Content-Disposition'] = 'attachment; filename="samples.xls"'
-            wb = xlwt.Workbook(encoding='utf-8')
-            ws = wb.add_sheet('Sample')
-            row_num = 0
-            font_style = xlwt.XFStyle()
-            font_style.font.bold = True
-            columns = self.field
-            for col_num in range(len(columns)):
-                ws.write(row_num, col_num, columns[col_num], font_style)
-            wb.save(response)
-            return response
-
-        # uploads form and handles errors through "Choose File" and "Upload" button
-        if "upload_btn" in request.POST:
-            upload_form = UploadFileForm(request.POST, request.FILES)
-            if upload_form.is_valid():
-                filehandle = request.FILES['myfile']
-                initial_data = filehandle.get_records()
-                self.initial_data = initial_data
-                self.object = None
-                extra = 0
-                for record in initial_data:
-                    #TODO need to do form validation and/or error reporting associated with uploaded form
-                    extra = extra + 1
-                self.extra = extra
-                context = self.get_context_data()
-                return render(request, self.template_name, context=context)
-            # TODO unhandled exception form_invalid
-
-        if "save_btn" in self.request.POST:
-            formset = self.get_formset()
-            formset = formset(request.POST)
-            if formset.is_valid():
-                print("formset = ", formset)
-                record_num = int(0)
-                record_add = int(0)
-                for form in formset:
-                    record_num += 1
-                    #TODO need to make validation more DRY - move to seperate def
-                    #TODO need to prevent duplicate records and ensure unique naming system
-                    if form.is_valid():
-                        if form.cleaned_data == {}:
-                            messages.warning(request,
-                                             'Record #%d did not add because required data was missing.' % record_num)
-                        else:
-                            record_add += 1
-                            form.save()
-                    else:
-                        messages.warning(request, 'Form Error')
-                messages.success(request, '%d records added successfully.' % record_add)
-                return HttpResponseRedirect(self.success_url)
-            else:
-                messages.warning(request, 'Formset Error')
-                return self.render_to_response(self.get_context_data(formset=formset))
 
 
 # TODO make all specific inherited class based views in each project
-class SampleCreateFormSet(CreateFormSet):
+class SampleCreateFormSetBase(GenericCreateFormSet):
     template_name = 'sample/create.html'
     success_url = reverse_lazy('sample:browser')
-    button_type = 'buttons_1.html'
     title = 'Enter Samples Information - Generic Form Class Test'
-    basic_url = 'sample:createformsettest'
-    advanced_url = 'sample:add'
+    button_type = 'buttons_1.html'
+    basic_url = 'sample:create_basic'
+    advanced_url = 'sample:create_full'
+    buttons = [
+        {"name": 'Basic', "url": 'sample:create_basic'},
+        {"name": 'Human Tissue', "url": 'sample:create_human_tissue'},
+        {"name": 'Full', "url": 'sample:create_full'},
+    ]
     model = Sample
     form_class = SampleForm
-    field = ('project_name','sample_name', 'sample_type', 'conc', 'vol','conc_nanodrop')
+    # field = ('project_name','sample_name', 'sample_type')
+
+class SampleCreateFormSetBasic(SampleCreateFormSetBase):
+    field = ('project_name','sample_name', 'sample_type')
+
+class SampleCreateFormSetHumanTissue(SampleCreateFormSetBase):
+    field = ('project_name','sample_name','sample_type','source_tissue','weight',
+             'species','gender','family_id','relationship','study_model','case_control','collected_by','date_collected',
+             'collection_batch','year_of_birth','race','ethnicity','karyotype','genetic_array','other_genetic_info',
+             'hpo','phenotype_desc','sample_comments')
+
+class SampleCreateFormSetFull(SampleCreateFormSetBase):
+    field = ('project_name','sample_name','aliquot_id','sample_type','source_tissue','conc','vol','weight',
+             'cells','alt_name1','alt_name2','conc_nanodrop','conc_tapestation','rin_din_tapestation','conc_qubit',
+             'species','gender','family_id','relationship','study_model','case_control','collected_by','date_collected',
+             'collection_batch','year_of_birth','race','ethnicity','date_of_birth','strain','brood','cell_line_id',
+             'passage_number','cell_line_mutation','cell_line_type','karyotype','genetic_array','other_genetic_info',
+             'hpo','phenotype_desc','sample_comments','archived','freezer_name','freezer_type','freezer_shelf',
+             'freezer_rack','freezer_row','freezer_column','box_name','box_type','aliquot_pos_row',
+             'aliquot_pos_column','received','received_date','active','deactivated_date','deactivated_type',
+             'status_comments')

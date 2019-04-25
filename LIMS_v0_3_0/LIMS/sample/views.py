@@ -14,7 +14,14 @@ from .tables import SampleTableBasic, SampleTableAdvanced, DelSampleTableAdvance
 from .filters import SampleFilter
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-from django_tables2 import RequestConfig
+from django_tables2 import RequestConfig, SingleTableView
+from crispy_forms import helper
+from crispy_forms.helper import FormHelper
+import os
+from crispy_forms.bootstrap import PrependedAppendedText, FormActions
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Button
+from django_filters.views import FilterView
 
 # for working with excel in exports and imports
 import xlwt
@@ -349,33 +356,64 @@ class DeleteTest(DeleteView):
 
 ### Sample ListViews
 
-class SampleListView(ListView):
-    template_name = 'sample/testview.html'
+# TODO sytalize filter maybe futher to fix conflict between layout and filter parameters (e.g., exact vs. icontains)
+#  SingleTableView https://stackoverflow.com/questions/25256239/how-do-i-filter-tables-with-django-generic-views
+# OR mored directly with form.helper https://kuttler.eu/en/post/using-django-tables2-filters-crispy-forms-together/
+class FilteredSingleTableView(SingleTableView):
+    template_name = 'sample/selector.html'
+
+
+    # button_type = 'buttons_1.html'
+    # title = 'Search and Select Samples'
+    # buttons = [
+    #     {"name": 'Basic', "class": 'btn btn-success', "url": 'sample:create_basic'},
+    #     {"name": 'Extract', "class": 'btn btn-default', "url": 'sample:create_extract'},
+    #     # {"name": 'Cell Line', "class": 'btn btn-default', "url": 'sample:create_cell'},
+    #     # {"name": 'Tissue', "class": 'btn btn-default', "url": 'sample:create_tissue'},
+    #     # {"name": 'Full', "class": 'btn btn-default', "url": 'sample:create_full'},
+    # # ]
     model = Sample
-    title = "Browser"
-
-    qset = Sample.objects.all()
-    filter = SampleFilter(queryset=qset)
-    table = SampleTableAdvanced(filter.qs)
+    table_class = SampleTableAdvanced
+    filter_class = SampleFilter
 
 
+    def get_table_data(self):
+        self.filter = self.filter_class(self.request.GET, queryset=super(FilteredSingleTableView, self).get_table_data())
+        self.filter.helper = FormHelper()
+        self.filter.helper.form_id = 'id_filterForm'
+        self.filter.helper.form_class = 'form-inline'
+        self.filter.helper.label_class = 'col-xs-4'
+        self.filter.helper.field_class = 'col-xs-8'
+        self.filter.helper.form_method = 'get'
+        self.filter.helper.form_tag = True
+        self.filter.helper.add_input(Submit('submit', 'Filter'))
+        # self.filter.helper.layout = Layout(
+        #     # 'project_name',
+        #     # 'sample_name',
+        #     # 'sample_type',
+        #     FormActions(
+        #         Submit('submit_filter', 'Filter', css_class='btn-primary'),
+        #         Button('clear', 'Clear', css_class='btn-sm')
+        #     )
+        # )
+        return self.filter.qs
 
-
-    def get_context_data(self, *args, **kwargs):  # gets context for building formset
-        context = super().get_context_data(**kwargs)
-        context['title'] = self.title
-        context['table'] = self.table
-        RequestConfig(self.request, paginate={'per_page': 15}).configure(self.table)
+    def get_context_data(self, **kwargs):
+        context = super(FilteredSingleTableView, self).get_context_data(**kwargs)
+        context['filter'] = self.filter
+        # context['title'] = self.title
         # context['button_type'] = self.button_type
-        # context['basic_url'] = self.basic_url
-        # context['advanced_url'] = self.advanced_url
-        # context['buttons'] = self.buttons
+        # # context['buttons'] = self.buttons
         return context
 
-
-
-
 # TODO make all specific inherited class based views in each project
+
+class SampleBasicBrowser(SingleTableView):
+    template_name = 'sample/selector.html'
+    model = Sample
+    table_class = SampleTableBasic
+    filter_class = SampleFilter
+    button_type = 'buttons_1.html'
 
 ##### Sample CreateViews
 # CreateView base (inherits from LIMS Generic CreateView)

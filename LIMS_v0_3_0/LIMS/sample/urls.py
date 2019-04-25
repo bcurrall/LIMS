@@ -1,5 +1,8 @@
 from django.urls import path, re_path
 from django.conf.urls import include, url
+from .models import Sample
+from .tables import SampleTableAdvanced
+from .filters import SampleFilter
 
 from . import views
 
@@ -18,13 +21,18 @@ urlpatterns = [
     path(r'createtissue/', views.SampleCreateFormSetTissue.as_view(), name='create_tissue'),
     path(r'createfull/', views.SampleCreateFormSetFull.as_view(), name='create_full'),
 
+    # table views
+    url(r'browser/', views.FilteredSingleTableView.as_view(), name='browser'),
+    url(r'browserbasic/', views.SampleBasicBrowser.as_view(), name='browser_basic'),
+
+
     # others
-    path(r'browser/', views.browser, name='browser'),
+    # path(r'browser/', views.browser, name='browser'),
     path(r'delete/', views.delete, name='delete'),
     path(r'edit/', views.edit, name='edit'),
 
     # testing urls
-    url(r'^testview/$', views.SampleListView.as_view(), name='listview'),
+    url(r'^testview/$', views.FilteredSingleTableView.as_view(), name='listview'),
     url(r'^test/$', views.test, name='test'),
     path(r'testclass/', views.TestClass.as_view(), name='testclass'),
 

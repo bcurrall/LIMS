@@ -28,4 +28,8 @@ urlpatterns = [
     path('sample/', include('sample.urls')),
     path('library/', include('library.urls')),
     path('sequence/', include('sequence.urls')),
+
+    # for testing out code
+    # /sandlot/
+    path('sandlot/', include('sandlot.urls')),
 ]

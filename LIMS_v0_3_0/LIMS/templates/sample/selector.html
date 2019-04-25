@@ -13,12 +13,7 @@
     <br>
 </div>
 
-<!--buttons-->
-<div class="row">
-    <div class="col-sm-12">
-        {% include button_type %}<br>
-    </div>
-</div>
+
 
 
 
@@ -45,6 +40,14 @@
             </script>
 
             {% render_table table %}
+        </div>
+       <div class="form-group">
+            <div class="col-xs-6 col-md-6">
+                <input type="submit" name="edit_btn" formaction="{% url 'sample:edit' %}" class="btn btn-primary" value="Edit"/>
+                <input type="submit" name="archive_btn" formaction="#" class="btn btn-primary" disabled value="Store"/>
+                <input type="submit" name="process_btn" formaction="{% url 'library:add' %}" class="btn btn-primary" value="Submit for Library"/>
+                <input type="submit" name="del_btn" formaction="{% url 'sample:delete' %}" class="btn btn-primary" value="Delete"/>
+            </div>
         </div>
 
     </form>

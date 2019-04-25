@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'library.apps.LibraryConfig',
     'project.apps.ProjectConfig',
     'sample.apps.SampleConfig',
+    'sandlot.apps.SandlotConfig',
     'sequence.apps.SequenceConfig',
 
     # 3rd party apps

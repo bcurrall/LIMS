@@ -8,4 +8,8 @@ class SampleFilter(filters.FilterSet):
 
     class Meta:
         model = Sample
-        fields = ['sample_name', 'sample_type']
+        fields = {
+            'project_name': ['icontains'],
+            'sample_name': ['icontains'],
+            'sample_type': ['exact'],
+        }

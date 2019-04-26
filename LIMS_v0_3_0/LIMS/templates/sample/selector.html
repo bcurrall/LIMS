@@ -13,8 +13,24 @@
     <br>
 </div>
 
+<!--buttons-->
+<div class="row">
+    <div class="col-sm-12">
+        {% include button_type %}<br>
+    </div>
+</div>
 
-
+<!--error messages-->
+<div>
+    {% for message in messages %}
+      <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+      </div>
+    {% endfor %}
+</div>
 
 
 <div class="row">

@@ -2,16 +2,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import View, DeleteView, CreateView, FormView
-from django.forms import modelformset_factory, formset_factory
-from django.urls import reverse_lazy, reverse
-from sample.models import Sample
-from sample.forms import UploadFileForm, SampleForm, SampleFormSet
+from django.forms import modelformset_factory
 from django.contrib import messages
 
+from .forms import UploadFileForm
+
 import xlwt
-import csv
-
-
 
 class GenericCreateFormSet(CreateView):
     # class defaults

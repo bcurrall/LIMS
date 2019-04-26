@@ -1,7 +1,5 @@
 from django.db import models
 
-var3 = 3
-
 #This is a super model - its done purposely (and not very databasey) in case db falls apart and have to go back to excel files
 class Sample(models.Model):
     ## choices

@@ -9,9 +9,10 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic.detail import SingleObjectMixin
 from LIMS.views import GenericCreateFormSet
 from .models import Sample
-from .forms import UploadFileForm, SampleForm, SampleFormSet
-from .tables import SampleTableBasic, SampleTableAdvanced, DelSampleTableAdvanced
-from .filters import SampleFilter
+from .forms import UploadFileForm, SampleForm, SampleFormSet, SampleListFormHelper, SampleListFreezerFormHelper
+from .tables import SampleTableSimple, SampleTableFull, SampleTableFreezer, DelSampleTableAdvanced
+from .filters import SampleListFilter
+from .utils import PagedFilteredTableView
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django_tables2 import RequestConfig, SingleTableView
@@ -30,127 +31,6 @@ import csv
 #test imports
 from django.contrib.auth.models import User
 
-
-# TODO archive all def based views
-# landing page for samples and browser for sample list
-def browser(request):
-    title = 'Sample Browser'
-    basic_url = 'sample:browser'
-    advanced_url = 'sample:browser'
-
-    qset = Sample.objects.all()
-    filter = SampleFilter(request.GET, queryset=qset)
-    table = SampleTableAdvanced(filter.qs)
-
-    if "basic" in request.POST:
-        table = SampleTableBasic(filter.qs)
-
-    if "advanced" in request.POST:
-        table = SampleTableAdvanced(filter.qs)
-
-    #TODO add dynamic paginate in terms of number pre page
-    table.paginate(page=request.GET.get('page', 1), per_page=15)
-
-    #TODO add delete, edit, archive and process buttons
-
-    context = {
-        'button_type': 'buttons_1.html',
-        'title': title,
-        "basic_url": basic_url,
-        "advanced_url": advanced_url,
-        "delete_url": 'delete',
-        # "formset": formset,
-        "table": table,
-        # "extras": extras,
-        # "upload_form": upload_form,
-    }
-
-    return render(request, 'sample/browser.html', context)
-
-# Add sample view - allows users to add new samples to db
-def add(request):
-    title = 'Enter Basic Samples Information'
-    basic_url = 'sample:add'
-    advanced_url = 'sample:add'
-    extras = 5
-    pks = list()
-    qset = Sample.objects.none()
-    data = ()
-    upload_form = UploadFileForm()
-
-    if "quantity" in request.POST:
-        extras = int(request.POST['quantity'])
-
-    if "export_btn" in request.POST:
-        # from https://simpleisbetterthancomplex.com/tutorial/2016/07/29/how-to-export-to-excel.html
-        response = HttpResponse(content_type='application/ms-excel')
-        response['Content-Disposition'] = 'attachment; filename="samples.xls"'
-        wb = xlwt.Workbook(encoding='utf-8')
-        ws = wb.add_sheet('Sample')
-        row_num = 0
-        font_style = xlwt.XFStyle()
-        font_style.font.bold = True
-        # TODO make dynamic columns
-        columns = ['sample_name', 'sample_type', 'conc', 'vol']
-        for col_num in range(len(columns)):
-            ws.write(row_num, col_num, columns[col_num], font_style)
-        wb.save(response)
-        return response
-
-    if "upload_btn" in request.POST:
-        upload_form = UploadFileForm(request.POST, request.FILES)
-        if upload_form.is_valid():
-            print("valid")
-            filehandle = request.FILES['myfile']
-            data = filehandle.get_records()
-            for record in data:
-                count = count + 1
-                sample_name = record['sample_name']
-                # TODO figure out how to prevent saving when uploading
-                sample_record = Sample.objects.get_or_create(sample_name=sample_name)
-                sample = sample_record[0]
-                record['sample'] = sample.id
-            extras = count
-
-
-    SampleFormSet = modelformset_factory(Sample, form=SampleForm, extra=extras)
-    formset = SampleFormSet(queryset=qset, initial=data)
-
-    table = SampleTableBasic(Sample.objects.all())
-
-    if "save_btn" in request.POST:
-        formset = SampleFormSet(request.POST)
-        if formset.is_valid():
-            record_num = int(0)
-            record_add = int(0)
-            for form in formset:
-                record_num += 1
-                if form.is_valid():
-                    if form.cleaned_data == {}:
-                        messages.warning(request, 'Record #%d did not add because required data was missing.' % record_num)
-                    else:
-                        record_add += 1
-                        form.save()
-                else:
-                    messages.warning(request, 'Form Error')
-            messages.success(request, '%d records added successfully.' % record_add)
-        else:
-            messages.warning(request, 'Formset Error')
-
-        return HttpResponseRedirect('/sample')
-
-    context = {
-        'button_type': 'buttons_1.html',
-        'title': title,
-        "basic_url": basic_url,
-        "advanced_url": advanced_url,
-        "formset": formset,
-        "table": table,
-        "extras": extras,
-        "upload_form": upload_form,
-    }
-
-    return render(request, 'sample/add.html', context)
 
 
 ### test section
@@ -209,7 +89,7 @@ def delete(request):
     title = 'Are you sure you want to delete the following samples?'
     pks = request.POST.getlist("selection")
     sample = Sample.objects.filter(pk__in=pks)
-    table = SampleTableAdvanced(Sample.objects.filter(pk__in=pks))
+    table = SampleTableFull(Sample.objects.filter(pk__in=pks))
 
     if request.method == "POST":
         if "del_confirm_btn" in request.POST:
@@ -279,7 +159,7 @@ def edit(request):
     SampleFormSet = modelformset_factory(Sample, form=SampleForm, extra=extras)
     formset = SampleFormSet(queryset=qset, initial=data)
 
-    table = SampleTableAdvanced(Sample.objects.filter(pk__in=pks))
+    table = SampleTableFull(Sample.objects.filter(pk__in=pks))
 
     if "save_btn" in request.POST:
         formset = SampleFormSet(request.POST)
@@ -327,7 +207,7 @@ class TestClass(View):
     upload_form = UploadFileForm()
 
     form_class = SampleForm
-    table = SampleTableBasic(Sample.objects.all())
+    table = SampleTableSimple(Sample.objects.all())
     template_name = 'sample/test.html'
 
     context = {
@@ -354,66 +234,52 @@ class DeleteTest(DeleteView):
 
 # TODO make update, delete, detail and list class based formset/form views
 
-### Sample ListViews
-
+### Sample Browsers/FilterTables
 # TODO sytalize filter maybe futher to fix conflict between layout and filter parameters (e.g., exact vs. icontains)
 #  SingleTableView https://stackoverflow.com/questions/25256239/how-do-i-filter-tables-with-django-generic-views
-# OR mored directly with form.helper https://kuttler.eu/en/post/using-django-tables2-filters-crispy-forms-together/
-class FilteredSingleTableView(SingleTableView):
-    template_name = 'sample/selector.html'
+#  Also seer https://kuttler.eu/en/post/using-django-tables2-filters-crispy-forms-together/
 
-
-    # button_type = 'buttons_1.html'
-    # title = 'Search and Select Samples'
-    # buttons = [
-    #     {"name": 'Basic', "class": 'btn btn-success', "url": 'sample:create_basic'},
-    #     {"name": 'Extract', "class": 'btn btn-default', "url": 'sample:create_extract'},
-    #     # {"name": 'Cell Line', "class": 'btn btn-default', "url": 'sample:create_cell'},
-    #     # {"name": 'Tissue', "class": 'btn btn-default', "url": 'sample:create_tissue'},
-    #     # {"name": 'Full', "class": 'btn btn-default', "url": 'sample:create_full'},
-    # # ]
-    model = Sample
-    table_class = SampleTableAdvanced
-    filter_class = SampleFilter
-
-
-    def get_table_data(self):
-        self.filter = self.filter_class(self.request.GET, queryset=super(FilteredSingleTableView, self).get_table_data())
-        self.filter.helper = FormHelper()
-        self.filter.helper.form_id = 'id_filterForm'
-        self.filter.helper.form_class = 'form-inline'
-        self.filter.helper.label_class = 'col-xs-4'
-        self.filter.helper.field_class = 'col-xs-8'
-        self.filter.helper.form_method = 'get'
-        self.filter.helper.form_tag = True
-        self.filter.helper.add_input(Submit('submit', 'Filter'))
-        # self.filter.helper.layout = Layout(
-        #     # 'project_name',
-        #     # 'sample_name',
-        #     # 'sample_type',
-        #     FormActions(
-        #         Submit('submit_filter', 'Filter', css_class='btn-primary'),
-        #         Button('clear', 'Clear', css_class='btn-sm')
-        #     )
-        # )
-        return self.filter.qs
-
-    def get_context_data(self, **kwargs):
-        context = super(FilteredSingleTableView, self).get_context_data(**kwargs)
-        context['filter'] = self.filter
-        # context['title'] = self.title
-        # context['button_type'] = self.button_type
-        # # context['buttons'] = self.buttons
-        return context
-
-# TODO make all specific inherited class based views in each project
-
-class SampleBasicBrowser(SingleTableView):
+class SampleTableList(PagedFilteredTableView):
     template_name = 'sample/selector.html'
     model = Sample
-    table_class = SampleTableBasic
-    filter_class = SampleFilter
+    table_class = SampleTableSimple
+    filter_class = SampleListFilter
+    formhelper_class = SampleListFormHelper
+    title = 'Sample Browser'
     button_type = 'buttons_1.html'
+    buttons = [
+        {"name": 'Simple', "class": 'btn btn-success', "url": 'sample:browser'},
+        {"name": 'Freezer', "class": 'btn btn-default', "url": 'sample:browser_freezer'},
+        {"name": 'Full', "class": 'btn btn-default', "url": 'sample:browser_full'},
+    ]
+
+class SampleFreezerTableList(PagedFilteredTableView):
+    template_name = 'sample/selector.html'
+    model = Sample
+    table_class = SampleTableFreezer
+    filter_class = SampleListFilter
+    formhelper_class = SampleListFreezerFormHelper
+    title = 'Sample Browser'
+    button_type = 'buttons_1.html'
+    buttons = [
+        {"name": 'Simple', "class": 'btn btn-default', "url": 'sample:browser'},
+        {"name": 'Freezer', "class": 'btn btn-success', "url": 'sample:browser_freezer'},
+        {"name": 'Full', "class": 'btn btn-default', "url": 'sample:browser_full'},
+    ]
+
+class SampleFullTableList(PagedFilteredTableView):
+    template_name = 'sample/selector.html'
+    model = Sample
+    table_class = SampleTableFull
+    filter_class = SampleListFilter
+    formhelper_class = SampleListFormHelper
+    title = 'Sample Browser'
+    button_type = 'buttons_1.html'
+    buttons = [
+        {"name": 'Simple', "class": 'btn btn-default', "url": 'sample:browser'},
+        {"name": 'Freezer', "class": 'btn btn-default', "url": 'sample:browser_freezer'},
+        {"name": 'Full', "class": 'btn btn-success', "url": 'sample:browser_full'},
+    ]
 
 ##### Sample CreateViews
 # CreateView base (inherits from LIMS Generic CreateView)
@@ -503,3 +369,128 @@ class SampleCreateFormSetFull(SampleCreateFormSetBase):
              'freezer_rack','freezer_row','freezer_column','box_name','box_type','aliquot_pos_row',
              'aliquot_pos_column','received','received_date','active','deactivated_date','deactivated_type',
              'status_comments')
+
+
+### Old views
+
+# TODO archive all def based views
+# landing page for samples and browser for sample list
+def browser(request):
+    title = 'Sample Browser'
+    basic_url = 'sample:browser'
+    advanced_url = 'sample:browser'
+
+    qset = Sample.objects.all()
+    filter = SampleListFilter(request.GET, queryset=qset)
+    table = SampleTableFull(filter.qs)
+
+    if "basic" in request.POST:
+        table = SampleTableSimple(filter.qs)
+
+    if "advanced" in request.POST:
+        table = SampleTableFull(filter.qs)
+
+    #TODO add dynamic paginate in terms of number pre page
+    table.paginate(page=request.GET.get('page', 1), per_page=15)
+
+    #TODO add delete, edit, archive and process buttons
+
+    context = {
+        'button_type': 'buttons_1.html',
+        'title': title,
+        "basic_url": basic_url,
+        "advanced_url": advanced_url,
+        "delete_url": 'delete',
+        # "formset": formset,
+        "table": table,
+        # "extras": extras,
+        # "upload_form": upload_form,
+    }
+
+    return render(request, 'sample/browser.html', context)
+
+# Add sample view - allows users to add new samples to db
+def add(request):
+    title = 'Enter Basic Samples Information'
+    basic_url = 'sample:add'
+    advanced_url = 'sample:add'
+    extras = 5
+    pks = list()
+    qset = Sample.objects.none()
+    data = ()
+    upload_form = UploadFileForm()
+
+    if "quantity" in request.POST:
+        extras = int(request.POST['quantity'])
+
+    if "export_btn" in request.POST:
+        # from https://simpleisbetterthancomplex.com/tutorial/2016/07/29/how-to-export-to-excel.html
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="samples.xls"'
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet('Sample')
+        row_num = 0
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+        # TODO make dynamic columns
+        columns = ['sample_name', 'sample_type', 'conc', 'vol']
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num], font_style)
+        wb.save(response)
+        return response
+
+    if "upload_btn" in request.POST:
+        upload_form = UploadFileForm(request.POST, request.FILES)
+        if upload_form.is_valid():
+            print("valid")
+            filehandle = request.FILES['myfile']
+            data = filehandle.get_records()
+            for record in data:
+                count = count + 1
+                sample_name = record['sample_name']
+                # TODO figure out how to prevent saving when uploading
+                sample_record = Sample.objects.get_or_create(sample_name=sample_name)
+                sample = sample_record[0]
+                record['sample'] = sample.id
+            extras = count
+
+
+    SampleFormSet = modelformset_factory(Sample, form=SampleForm, extra=extras)
+    formset = SampleFormSet(queryset=qset, initial=data)
+
+    table = SampleTableSimple(Sample.objects.all())
+
+    if "save_btn" in request.POST:
+        formset = SampleFormSet(request.POST)
+        if formset.is_valid():
+            record_num = int(0)
+            record_add = int(0)
+            for form in formset:
+                record_num += 1
+                if form.is_valid():
+                    if form.cleaned_data == {}:
+                        messages.warning(request, 'Record #%d did not add because required data was missing.' % record_num)
+                    else:
+                        record_add += 1
+                        form.save()
+                else:
+                    messages.warning(request, 'Form Error')
+            messages.success(request, '%d records added successfully.' % record_add)
+        else:
+            messages.warning(request, 'Formset Error')
+
+        return HttpResponseRedirect('/sample')
+
+    context = {
+        'button_type': 'buttons_1.html',
+        'title': title,
+        "basic_url": basic_url,
+        "advanced_url": advanced_url,
+        "formset": formset,
+        "table": table,
+        "extras": extras,
+        "upload_form": upload_form,
+    }
+
+    return render(request, 'sample/add.html', context)
+

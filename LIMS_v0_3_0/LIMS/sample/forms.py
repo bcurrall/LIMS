@@ -4,7 +4,7 @@ from django.forms import modelformset_factory, formset_factory
 from django.urls import reverse
 from crispy_forms.bootstrap import Field, InlineRadios, TabHolder, Tab
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Div, Fieldset
+from crispy_forms.layout import Submit, Layout, Div, Fieldset, ButtonHolder, Submit
 
 from crispy_forms.bootstrap import InlineField
 
@@ -27,3 +27,29 @@ class SampleForm(forms.ModelForm):
         }
 
 SampleFormSet = modelformset_factory(Sample, form=SampleForm, fields=('sample_name', 'sample_type', 'conc', 'vol'), extra=1)
+
+class SampleListFormHelper(FormHelper):
+    model = Sample
+    form_tag = True
+    form_class = 'form-inline'
+    field_template = 'bootstrap3/layout/inline_field.html'
+    label_class = 'col-xs-1'
+    field_class = 'col-xs-4'
+    form_id = 'id_filterForm'
+    form_method = 'get'
+    layout = Layout('project_name', 'sample_name', 'sample_type', ButtonHolder(
+        Submit('submit', 'Filter', css_class='button white right')
+    ))
+
+class SampleListFreezerFormHelper(FormHelper):
+    model = Sample
+    form_tag = True
+    form_class = 'form-inline'
+    field_template = 'bootstrap4/layout/inline_field.html'
+    label_class = 'col-xs-1'
+    field_class = 'col-xs-4'
+    form_id = 'id_filterForm'
+    form_method = 'get'
+    layout = Layout('project_name', 'sample_name', 'sample_type', 'archived', 'freezer','active', ButtonHolder(
+        Submit('submit', 'Filter', css_class='button white right')
+    ))

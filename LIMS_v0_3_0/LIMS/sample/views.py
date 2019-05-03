@@ -1,18 +1,18 @@
 from django.shortcuts import render
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.views import generic
-from django.views.generic import View, DeleteView, CreateView, FormView, ListView
+from django.views.generic import View, DeleteView, CreateView, FormView, ListView, UpdateView
 from django.forms import modelformset_factory, formset_factory
 from django.urls import reverse_lazy, reverse
 from django.views.generic.detail import SingleObjectMixin
-from LIMS.views import GenericCreateFormSet
+from LIMS.views import GenericCreateFormSet, GenericUpdateFormSet
+from LIMS.utils import PagedFilteredTableView
 from .models import Sample
 from .forms import UploadFileForm, SampleForm, SampleFormSet, SampleListFormHelper, SampleListFreezerFormHelper
 from .tables import SampleTableSimple, SampleTableFull, SampleTableFreezer, DelSampleTableAdvanced
 from .filters import SampleListFilter
-from .utils import PagedFilteredTableView
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django_tables2 import RequestConfig, SingleTableView
@@ -119,6 +119,8 @@ def edit(request):
 
     pks = request.POST.getlist("selection")
     qset = Sample.objects.filter(pk__in=pks)
+    print('============pks==============')
+    print(pks)
 
     data = ()
     upload_form = UploadFileForm()
@@ -369,6 +371,38 @@ class SampleCreateFormSetFull(SampleCreateFormSetBase):
              'freezer_rack','freezer_row','freezer_column','box_name','box_type','aliquot_pos_row',
              'aliquot_pos_column','received','received_date','active','deactivated_date','deactivated_type',
              'status_comments')
+
+
+#### Sample UpdateView
+class SampleUpdateFormSetBase(GenericUpdateFormSet):
+    template_name = 'sample/create.html'
+    success_url = reverse_lazy('sample:browser')
+    button_type = 'buttons_1.html'
+    basic_url = 'sample:create_basic'
+    advanced_url = 'sample:create_full'
+    model = Sample
+    form_class = SampleForm
+    # field = ('project_name','sample_name', 'sample_type')
+
+class SampleUpdateFormSetBasic(SampleUpdateFormSetBase):
+    title = 'Enter Samples Information - Basic Information'
+    buttons = [
+        {"name": 'Basic', "class": 'btn btn-success', "url": 'sample:create_basic'},
+        {"name": 'Extract', "class": 'btn btn-default', "url": 'sample:create_extract'},
+        {"name": 'Cell Line', "class": 'btn btn-default', "url": 'sample:create_cell'},
+        {"name": 'Tissue', "class": 'btn btn-default', "url": 'sample:create_tissue'},
+        {"name": 'Full', "class": 'btn btn-default', "url": 'sample:create_full'},
+    ]
+    field = ('project_name','sample_name', 'aliquot_id', 'sample_type')
+
+class BasicUpdateView(UpdateView):
+    template_name = 'sample/test.html'
+    form_class = SampleForm
+    queryset = Sample.objects.all()
+
+    def get_object(self):
+        id_ = '1'
+        return get_object_or_404(Sample, id=[1])
 
 
 ### Old views

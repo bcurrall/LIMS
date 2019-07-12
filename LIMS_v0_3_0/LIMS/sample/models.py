@@ -59,6 +59,7 @@ class Sample(models.Model):
 
     ## fields
     # id's
+    sample_id = models.CharField(max_length=100, null=True, blank=True)
     project_name = models.CharField(max_length=100, null=True, blank=True)
     sample_name = models.CharField(max_length=100, blank=False)
     aliquot_id = models.CharField(max_length=100, null=True, blank=True)
@@ -85,7 +86,7 @@ class Sample(models.Model):
     study_model = models.CharField(max_length=30, null=True, blank=True)
     case_control = models.CharField(max_length=30, null=True, blank=True)
     collected_by = models.CharField(max_length=30, null=True, blank=True)
-    date_collected = models.DateField(null=True)
+    date_collected = models.DateField(null=True, blank=True)
     collection_batch = models.CharField(max_length=30, null=True, blank=True)
 
     # sample vitals - human
@@ -97,7 +98,7 @@ class Sample(models.Model):
     # sample vitals - non-human
     date_of_birth = models.IntegerField(null=True, blank=True)  # non-human specific
     strain = models.CharField(max_length=30, null=True, blank=True)
-    brood = models.CharField(max_length=30, null=True, blank=True)
+    litter = models.CharField(max_length=30, null=True, blank=True)
 
     # sample vitals - cell lines
     cell_line_id = models.CharField(max_length=30, null=True, blank=True)
@@ -122,8 +123,8 @@ class Sample(models.Model):
     freezer_type = models.CharField(max_length=20, choices=FreezerType, null=True, blank=True)
     freezer_shelf = models.IntegerField(null=True, blank=True)
     freezer_rack = models.IntegerField(null=True, blank=True)
-    freezer_row = models.IntegerField(null=True, blank=True)
-    freezer_column = models.IntegerField(null=True, blank=True)
+    rack_row = models.IntegerField(null=True, blank=True)
+    rack_column = models.IntegerField(null=True, blank=True)
     box_name = models.CharField(max_length=50, null=True, blank=True)
     box_type = models.CharField(max_length=20, choices=BoxType, null=True, blank=True)
     aliquot_pos_row = models.IntegerField(null=True, blank=True)

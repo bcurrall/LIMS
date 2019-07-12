@@ -20,6 +20,15 @@
     </div>
 </div>
 
+
+<div class="row">
+    <form action="" method="GET">
+      Number Per Page:
+      <input type="number" name="per_page" min="1" max="100" value="{{ extras }}">
+      <input type="submit" name="number-btn" formaction="demo">
+    </form>
+    <br>
+</div>
 <!--error messages-->
 <div>
     {% for message in messages %}
@@ -59,7 +68,7 @@
         </div>
        <div class="form-group" method="get">
             <div class="col-xs-6 col-md-6">
-                <input type="submit" name="edit_btn" formaction="{% url 'sample:edit' %}" class="btn btn-primary" value="Edit"/>
+                <input type="submit" name="edit_btn" formaction="{% url 'sample:update' %}" class="btn btn-primary" value="Edit"/>
                 <input type="submit" name="archive_btn" formaction="#" class="btn btn-primary" disabled value="Store"/>
                 <input type="submit" name="process_btn" formaction="{% url 'library:add' %}" class="btn btn-primary" value="Submit for Library"/>
                 <input type="submit" name="del_btn" formaction="{% url 'sample:delete' %}" class="btn btn-primary" value="Delete"/>
@@ -70,5 +79,9 @@
 
     </form>
 </div>
+
+<script>
+document.getElementById("demo").innerHTML =window.location.href
+</script>
 
 {% endblock %}

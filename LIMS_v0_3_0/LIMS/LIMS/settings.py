@@ -28,6 +28,7 @@ ALLOWED_HOSTS = \
     ['talkowskilabvm.dipr.partners.org',
      '127.0.0.1',
      '172.17.204.227',
+     '172.17.204.228',
      ]
 
 

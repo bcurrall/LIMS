@@ -17,7 +17,6 @@ class SampleTableSimple(ColumnShiftTable):
         attrs = {'class': 'paleblue'}
         fields = ('project_name', 'sample_name', 'sample_type')
         sequence = ('selection',)
-        per_page = 15
 
 class SampleTableFreezer(ColumnShiftTable):
 
@@ -33,7 +32,7 @@ class SampleTableFreezer(ColumnShiftTable):
         sequence = ('selection',)
         fields = ('project_name', 'sample_name', 'sample_type', 'received ', 'received_date','archived','freezer_name',
                   'freezer_type', 'freezer_shelf','freezer_rack','freezer_row','freezer_column','box_name','box_type',
-                  'aliquot_pos_row','aliquot_pos_column','aliquot_pos_column', 'active', 'eactivated_date', 'deactivated_type',
+                  'aliquot_pos_row','aliquot_pos_column','aliquot_pos_column', 'active', 'deactivated_date', 'deactivated_type',
                   'status_comments'
                   )
 

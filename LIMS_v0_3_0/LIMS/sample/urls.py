@@ -13,7 +13,6 @@ urlpatterns = [
 
     # create series
     path(r'create/', views.SampleCreateFormSetBasic.as_view(), name='create'),
-    path(r'createbasic/', views.SampleCreateFormSetBasic.as_view(), name='create_basic'),
     path(r'createextract/', views.SampleCreateFormSetExtract.as_view(), name='create_extract'),
     path(r'createcellline/', views.SampleCreateFormSetCellLine.as_view(), name='create_cell'),
     path(r'createtissue/', views.SampleCreateFormSetTissue.as_view(), name='create_tissue'),
@@ -26,7 +25,10 @@ urlpatterns = [
 
     # update series
     path(r'update/', views.SampleUpdateFormSetBasic.as_view(), name='update'),
-    path(r'basicupdate/', views.BasicUpdateView.as_view(), name='basic_update'),
+    path(r'updateextract/', views.SampleUpdateFormSetExtract.as_view(), name='update_extract'),
+    path(r'updatecellline/', views.SampleUpdateFormSetCellLine.as_view(), name='update_cell'),
+    path(r'updatetissue/', views.SampleUpdateFormSetTissue.as_view(), name='update_tissue'),
+    path(r'updatefull/', views.SampleUpdateFormSetFull.as_view(), name='update_full'),
 
 
     # others

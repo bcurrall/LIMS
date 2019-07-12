@@ -237,9 +237,10 @@ class DeleteTest(DeleteView):
 # TODO make update, delete, detail and list class based formset/form views
 
 ### Sample Browsers/FilterTables
-# TODO sytalize filter maybe futher to fix conflict between layout and filter parameters (e.g., exact vs. icontains)
+# TODO sytalize filter maybe further to fix conflict between layout and filter parameters (e.g., exact vs. icontains)
 #  SingleTableView https://stackoverflow.com/questions/25256239/how-do-i-filter-tables-with-django-generic-views
 #  Also seer https://kuttler.eu/en/post/using-django-tables2-filters-crispy-forms-together/
+# TODO integrate filter with number of samples per page
 
 class SampleTableList(PagedFilteredTableView):
     template_name = 'sample/selector.html'
@@ -283,13 +284,14 @@ class SampleFullTableList(PagedFilteredTableView):
         {"name": 'Full', "class": 'btn btn-success', "url": 'sample:browser_full'},
     ]
 
+
 ##### Sample CreateViews
 # CreateView base (inherits from LIMS Generic CreateView)
 class SampleCreateFormSetBase(GenericCreateFormSet):
     template_name = 'sample/create.html'
     success_url = reverse_lazy('sample:browser')
     button_type = 'buttons_1.html'
-    basic_url = 'sample:create_basic'
+    basic_url = 'sample:create'
     advanced_url = 'sample:create_full'
     model = Sample
     form_class = SampleForm
@@ -299,7 +301,7 @@ class SampleCreateFormSetBase(GenericCreateFormSet):
 class SampleCreateFormSetBasic(SampleCreateFormSetBase):
     title = 'Enter Samples Information - Basic Information'
     buttons = [
-        {"name": 'Basic', "class": 'btn btn-success', "url": 'sample:create_basic'},
+        {"name": 'Basic', "class": 'btn btn-success', "url": 'sample:create'},
         {"name": 'Extract', "class": 'btn btn-default', "url": 'sample:create_extract'},
         {"name": 'Cell Line', "class": 'btn btn-default', "url": 'sample:create_cell'},
         {"name": 'Tissue', "class": 'btn btn-default', "url": 'sample:create_tissue'},
@@ -310,7 +312,7 @@ class SampleCreateFormSetBasic(SampleCreateFormSetBase):
 class SampleCreateFormSetExtract(SampleCreateFormSetBase):
     title = 'Enter Samples Information - Extract'
     buttons = [
-        {"name": 'Basic', "class": 'btn btn-default', "url": 'sample:create_basic'},
+        {"name": 'Basic', "class": 'btn btn-default', "url": 'sample:create'},
         {"name": 'Extract', "class": 'btn btn-success', "url": 'sample:create_extract'},
         {"name": 'Cell Line', "class": 'btn btn-default', "url": 'sample:create_cell'},
         {"name": 'Tissue', "class": 'btn btn-default', "url": 'sample:create_tissue'},
@@ -323,7 +325,7 @@ class SampleCreateFormSetExtract(SampleCreateFormSetBase):
 class SampleCreateFormSetCellLine(SampleCreateFormSetBase):
     title = 'Enter Samples Information - Full Information'
     buttons = [
-        {"name": 'Basic', "class": 'btn btn-default', "url": 'sample:create_basic'},
+        {"name": 'Basic', "class": 'btn btn-default', "url": 'sample:create'},
         {"name": 'Extract', "class": 'btn btn-default', "url": 'sample:create_extract'},
         {"name": 'Cell Line', "class": 'btn btn-success', "url": 'sample:create_cell'},
         {"name": 'Tissue', "class": 'btn btn-default', "url": 'sample:create_tissue'},
@@ -332,17 +334,17 @@ class SampleCreateFormSetCellLine(SampleCreateFormSetBase):
     field = ('project_name','sample_name','aliquot_id','sample_type','source_tissue','conc','vol','weight',
              'cells','alt_name1','alt_name2','conc_nanodrop','conc_tapestation','rin_din_tapestation','conc_qubit',
              'species','gender','family_id','relationship','study_model','case_control','collected_by','date_collected',
-             'collection_batch','year_of_birth','race','ethnicity','date_of_birth','strain','brood','cell_line_id',
+             'collection_batch','year_of_birth','race','ethnicity','date_of_birth','strain','litter','cell_line_id',
              'passage_number','cell_line_mutation','cell_line_type','karyotype','genetic_array','other_genetic_info',
              'hpo','phenotype_desc','sample_comments','archived','freezer_name','freezer_type','freezer_shelf',
-             'freezer_rack','freezer_row','freezer_column','box_name','box_type','aliquot_pos_row',
+             'freezer_rack','rack_row','rack_column','box_name','box_type','aliquot_pos_row',
              'aliquot_pos_column','received','received_date','active','deactivated_date','deactivated_type',
              'status_comments')
 
 class SampleCreateFormSetTissue(SampleCreateFormSetBase):
     title = 'Enter Samples Information - Human Tissues'
     buttons = [
-        {"name": 'Basic', "class": 'btn btn-default', "url": 'sample:create_basic'},
+        {"name": 'Basic', "class": 'btn btn-default', "url": 'sample:create'},
         {"name": 'Extract', "class": 'btn btn-default', "url": 'sample:create_extract'},
         {"name": 'Cell Line', "class": 'btn btn-default', "url": 'sample:create_cell'},
         {"name": 'Tissue', "class": 'btn btn-success', "url": 'sample:create_tissue'},
@@ -356,7 +358,7 @@ class SampleCreateFormSetTissue(SampleCreateFormSetBase):
 class SampleCreateFormSetFull(SampleCreateFormSetBase):
     title = 'Enter Samples Information - Full Information'
     buttons = [
-        {"name": 'Basic', "class": 'btn btn-default', "url": 'sample:create_basic'},
+        {"name": 'Basic', "class": 'btn btn-default', "url": 'sample:create'},
         {"name": 'Extract', "class": 'btn btn-default', "url": 'sample:create_extract'},
         {"name": 'Cell Line', "class": 'btn btn-default', "url": 'sample:create_cell'},
         {"name": 'Tissue', "class": 'btn btn-default', "url": 'sample:create_tissue'},
@@ -365,46 +367,102 @@ class SampleCreateFormSetFull(SampleCreateFormSetBase):
     field = ('project_name','sample_name','aliquot_id','sample_type','source_tissue','conc','vol','weight',
              'cells','alt_name1','alt_name2','conc_nanodrop','conc_tapestation','rin_din_tapestation','conc_qubit',
              'species','gender','family_id','relationship','study_model','case_control','collected_by','date_collected',
-             'collection_batch','year_of_birth','race','ethnicity','date_of_birth','strain','brood','cell_line_id',
+             'collection_batch','year_of_birth','race','ethnicity','date_of_birth','strain','litter','cell_line_id',
              'passage_number','cell_line_mutation','cell_line_type','karyotype','genetic_array','other_genetic_info',
              'hpo','phenotype_desc','sample_comments','archived','freezer_name','freezer_type','freezer_shelf',
-             'freezer_rack','freezer_row','freezer_column','box_name','box_type','aliquot_pos_row',
+             'freezer_rack','rack_row','rack_column','box_name','box_type','aliquot_pos_row',
              'aliquot_pos_column','received','received_date','active','deactivated_date','deactivated_type',
              'status_comments')
 
 
-#### Sample UpdateView
+##### Sample UpdateViews
 class SampleUpdateFormSetBase(GenericUpdateFormSet):
-    template_name = 'sample/create.html'
+    template_name = 'sample/update.html'
     success_url = reverse_lazy('sample:browser')
-    button_type = 'buttons_1.html'
+    button_type = 'buttons_3.html'
     basic_url = 'sample:create_basic'
     advanced_url = 'sample:create_full'
     model = Sample
     form_class = SampleForm
     # field = ('project_name','sample_name', 'sample_type')
 
+# UpdateViews that inherits from the Base - allows options to restrict fields and stylize buttons
+
 class SampleUpdateFormSetBasic(SampleUpdateFormSetBase):
-    title = 'Enter Samples Information - Basic Information'
+    title = 'Edit Samples Information - Basic Information'
     buttons = [
-        {"name": 'Basic', "class": 'btn btn-success', "url": 'sample:create_basic'},
-        {"name": 'Extract', "class": 'btn btn-default', "url": 'sample:create_extract'},
-        {"name": 'Cell Line', "class": 'btn btn-default', "url": 'sample:create_cell'},
-        {"name": 'Tissue', "class": 'btn btn-default', "url": 'sample:create_tissue'},
-        {"name": 'Full', "class": 'btn btn-default', "url": 'sample:create_full'},
+        {"name": 'Basic', "class": 'btn btn-success', "url": 'sample:update'},
+        {"name": 'Extract', "class": 'btn btn-default', "url": 'sample:update_extract'},
+        {"name": 'Cell Line', "class": 'btn btn-default', "url": 'sample:update_cell'},
+        {"name": 'Tissue', "class": 'btn btn-default', "url": 'sample:update_tissue'},
+        {"name": 'Full', "class": 'btn btn-default', "url": 'sample:update_full'},
     ]
-    field = ('project_name','sample_name', 'aliquot_id', 'sample_type')
+    field = ('sample_id', 'project_name','sample_name', 'aliquot_id', 'sample_type')
 
-class BasicUpdateView(UpdateView):
-    template_name = 'sample/test.html'
-    form_class = SampleForm
-    queryset = Sample.objects.all()
+class SampleUpdateFormSetExtract(SampleUpdateFormSetBase):
+    title = 'Edit Samples Information - Extract Information'
+    buttons = [
+        {"name": 'Basic', "class": 'btn btn-default', "url": 'sample:update'},
+        {"name": 'Extract', "class": 'btn btn-success', "url": 'sample:update_extract'},
+        {"name": 'Cell Line', "class": 'btn btn-default', "url": 'sample:update_cell'},
+        {"name": 'Tissue', "class": 'btn btn-default', "url": 'sample:update_tissue'},
+        {"name": 'Full', "class": 'btn btn-default', "url": 'sample:update_full'},
+    ]
+    field = ('project_name','sample_name','aliquot_id','sample_type','source_tissue','conc','vol','conc_nanodrop',
+             'conc_tapestation','rin_din_tapestation','conc_qubit','species','gender','family_id','relationship','study_model',
+             'case_control', 'collected_by', 'date_collected')
 
-    def get_object(self):
-        id_ = '1'
-        return get_object_or_404(Sample, id=[1])
+class SampleUpdateFormSetCellLine(SampleUpdateFormSetBase):
+    title = 'Edit Samples Information - Cell Line Information'
+    buttons = [
+        {"name": 'Basic', "class": 'btn btn-default', "url": 'sample:update'},
+        {"name": 'Extract', "class": 'btn btn-default', "url": 'sample:update_extract'},
+        {"name": 'Cell Line', "class": 'btn btn-success', "url": 'sample:update_cell'},
+        {"name": 'Tissue', "class": 'btn btn-default', "url": 'sample:update_tissue'},
+        {"name": 'Full', "class": 'btn btn-default', "url": 'sample:update_full'},
+    ]
+    field = ('project_name','sample_name','aliquot_id','sample_type','source_tissue','conc','vol','weight',
+             'cells','alt_name1','alt_name2','conc_nanodrop','conc_tapestation','rin_din_tapestation','conc_qubit',
+             'species','gender','family_id','relationship','study_model','case_control','collected_by','date_collected',
+             'collection_batch','year_of_birth','race','ethnicity','date_of_birth','strain','litter','cell_line_id',
+             'passage_number','cell_line_mutation','cell_line_type','karyotype','genetic_array','other_genetic_info',
+             'hpo','phenotype_desc','sample_comments','archived','freezer_name','freezer_type','freezer_shelf',
+             'freezer_rack','rack_row','rack_column','box_name','box_type','aliquot_pos_row',
+             'aliquot_pos_column','received','received_date','active','deactivated_date','deactivated_type',
+             'status_comments')
 
+class SampleUpdateFormSetTissue(SampleUpdateFormSetBase):
+    title = 'Edit Samples Information - Tissue Information'
+    buttons = [
+        {"name": 'Basic', "class": 'btn btn-default', "url": 'sample:update'},
+        {"name": 'Extract', "class": 'btn btn-default', "url": 'sample:update_extract'},
+        {"name": 'Cell Line', "class": 'btn btn-default', "url": 'sample:update_cell'},
+        {"name": 'Tissue', "class": 'btn btn-success', "url": 'sample:update_tissue'},
+        {"name": 'Full', "class": 'btn btn-default', "url": 'sample:update_full'},
+    ]
+    field = ('project_name','sample_name','sample_type','source_tissue','weight',
+             'species','gender','family_id','relationship','study_model','case_control','collected_by','date_collected',
+             'collection_batch','year_of_birth','race','ethnicity','karyotype','genetic_array','other_genetic_info',
+             'hpo','phenotype_desc','sample_comments')
 
+class SampleUpdateFormSetFull(SampleUpdateFormSetBase):
+    title = 'Edit Samples Information - Full Information'
+    buttons = [
+        {"name": 'Basic', "class": 'btn btn-default', "url": 'sample:update'},
+        {"name": 'Extract', "class": 'btn btn-default', "url": 'sample:update_extract'},
+        {"name": 'Cell Line', "class": 'btn btn-default', "url": 'sample:update_cell'},
+        {"name": 'Tissue', "class": 'btn btn-default', "url": 'sample:update_tissue'},
+        {"name": 'Full', "class": 'btn btn-success', "url": 'sample:update_full'},
+    ]
+    field = ('project_name','sample_name','aliquot_id','sample_type','source_tissue','conc','vol','weight',
+             'cells','alt_name1','alt_name2','conc_nanodrop','conc_tapestation','rin_din_tapestation','conc_qubit',
+             'species','gender','family_id','relationship','study_model','case_control','collected_by','date_collected',
+             'collection_batch','year_of_birth','race','ethnicity','date_of_birth','strain','litter','cell_line_id',
+             'passage_number','cell_line_mutation','cell_line_type','karyotype','genetic_array','other_genetic_info',
+             'hpo','phenotype_desc','sample_comments','archived','freezer_name','freezer_type','freezer_shelf',
+             'freezer_rack','rack_row','rack_column','box_name','box_type','aliquot_pos_row',
+             'aliquot_pos_column','received','received_date','active','deactivated_date','deactivated_type',
+             'status_comments')
 ### Old views
 
 # TODO archive all def based views
@@ -528,3 +586,11 @@ def add(request):
 
     return render(request, 'sample/add.html', context)
 
+class BasicUpdateView(UpdateView):
+    template_name = 'sample/test.html'
+    form_class = SampleForm
+    queryset = Sample.objects.all()
+
+    def get_object(self):
+        id_ = '1'
+        return get_object_or_404(Sample, id=[1])

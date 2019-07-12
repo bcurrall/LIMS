@@ -1,0 +1,8 @@
+<div class="row">
+    <div class="col-xs-10 btn-group" role="group">
+        {% for button in buttons %}
+            <input type="submit" class="&quot {{ button.class }} ;asd" formaction="{% url button.url %}" value="{{ button.name }}">
+        {% endfor %}
+    </div>
+</div>
+

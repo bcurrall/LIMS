@@ -18,7 +18,7 @@ class SampleForm(forms.ModelForm):
 
     class Meta:
         model = Sample
-        fields = ['sample_name', 'sample_type', 'conc', 'vol']
+        fields = ['id', 'sample_name', 'sample_type', 'conc', 'vol']
         widgets = {
             'other_genetic_info': forms.Textarea(attrs={'rows': 1, 'cols': 15}),
             'phenotype_desc': forms.Textarea(attrs={'rows': 1, 'cols': 15}),

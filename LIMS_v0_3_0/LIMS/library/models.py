@@ -28,10 +28,10 @@ class Library(models.Model):
     i5_barcode = models.CharField(max_length=100, null=True, blank=True)
     library_amount = models.CharField(max_length=100, null=True, blank=True)
     tapestation_size_bp = models.IntegerField(null=True, blank=True)
-    tapestation_conc = models.FloatField(null=True, blank=True)
+    tapestation_conc_ng_uL = models.FloatField(null=True, blank=True)
     tapestation_molarity_nM = models.FloatField(null=True, blank=True)
-    qpcr_conc = models.FloatField(null=True, blank=True)
-    qubit_conc = models.FloatField(null=True, blank=True)
+    qpcr_conc_molarity_nM = models.FloatField(null=True, blank=True)
+    qubit_conc_ng_uL = models.FloatField(null=True, blank=True)
     qc_comments = models.TextField(null=True, blank=True)
 
     def __str__(self):

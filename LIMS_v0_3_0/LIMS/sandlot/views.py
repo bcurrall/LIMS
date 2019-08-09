@@ -1,4 +1,5 @@
 from sample.models import Sample
+from django.shortcuts import render
 from .models import Author
 from .tables import AuthorTable, SampleTable, SampleTableBasic
 from .filters import AuthorListFilter, SampleListFilter
@@ -11,6 +12,11 @@ class AuthorTableList(PagedFilteredTableView):
     table_class = AuthorTable
     filter_class = AuthorListFilter
     formhelper_class = AuthorListFormHelper
+
+    def post(self, request, *args, **kwargs):
+        print("==============POST=================")
+        print(request.POST)
+        return render(request, self.template_name)
 
 
 class SampleTableList(PagedFilteredTableView):

@@ -1,19 +1,15 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
-{% load bootstrap4 %}
 {% load render_table from django_tables2 %}
 
-{% block head_title %}| Browser {% endblock %}
+{% block head_title %}| Welcome{% endblock %}
 
 {% block content %}
 
 
-
 <!--title-->
 <div class="row">
-
         <h1>{{ title }}</h1>
-
     <br>
 </div>
 
@@ -24,6 +20,15 @@
     </div>
 </div>
 
+
+<div class="row">
+    <form action="" method="GET">
+      Number Per Page:
+      <input type="number" name="per_page" min="1" max="100" value="{{ extras }}">
+      <input type="submit" name="number-btn" formaction="demo">
+    </form>
+    <br>
+</div>
 <!--error messages-->
 <div>
     {% for message in messages %}
@@ -36,15 +41,17 @@
     {% endfor %}
 </div>
 
-<!--table title-->
+
 <div class="row">
-    <div class="col-sm-12">
-        <h3>Current Records</h3>
+    <div>
+        {% crispy filter.form filter.helper %}
     </div>
+</div>
+
+<div class="row">
     <br>
 </div>
 
-<!--table-->
 <div class="row">
     <form action="" method="post">{% csrf_token %}
         <!--check all boxes script-->
@@ -59,16 +66,20 @@
 
             {% render_table table %}
         </div>
-        <div class="col-xs-11 col-md-11">
-            <input type="submit" name="edit_btn" formaction="{% url 'library:update' %}" class="btn btn-primary" value="Edit"/>
-            <input type="submit" name="archive_btn" formaction="#" class="btn btn-primary" disabled value="Storage"/>
-            <input type="submit" name="validate_btn" formaction="{% url 'library:validate' %}" class="btn btn-primary" value="QC"/>
-            <input type="submit" name="pool_btn" formaction="{% url 'library:pool' %}" class="btn btn-primary" value="Pool"/>
-            <input type="submit" name="del_btn" formaction="{% url 'library:delete' %}" class="btn btn-primary" value="Delete"/>
-
+       <div class="form-group" method="get">
+            <div class="col-xs-6 col-md-12">
+                <input type="submit" name="edit_btn" formaction="{% url 'library:update_plate' %}" class="btn btn-primary" value="Update Plate"/>
+                <input type="submit" name="validate_btn" formaction="{% url 'library:update_qc' %}" class="btn btn-primary" value="Update QC"/>
+                <input type="submit" name="process_2_form_btn" formaction="{% url 'library:pooling' %}" class="btn btn-primary" value="Pool"/>
+                <input type="submit" name="del_btn" formaction="{% url 'library:delete' %}" class="btn btn-primary" value="Delete"/>
+            </div>
         </div>
+
     </form>
 </div>
 
+<script>
+document.getElementById("demo").innerHTML =window.location.href
+</script>
 
 {% endblock %}

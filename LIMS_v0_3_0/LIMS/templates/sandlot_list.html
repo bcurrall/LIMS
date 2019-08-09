@@ -4,11 +4,72 @@
 
 {% block content %}
 
-{% render_table table %}
 
-<hr/>
-<form action="" method="get">
-{% crispy filter.form filter.helper %}
-</form>
+<html>
+ <head>
+  <title>Test Multi Forms</title>
+  <script language="JavaScript">
+  function fnSubmit (){
+     var form1Content = document.getElementById("form12").innerHTML;
+     var form2Content = document.getElementById("form2").innerHTML;
+     document.getElementById("toSubmit").innerHTML=form1Content+form2Content;
+                 document.forms.toSubmit.submit();
+  }
+  </script>
+ </head>
+<body>
+  <form name="form1" id="form12" method="POST" action="abc.xyz">
+   <input type="text" name="text1" value="value1"/>
+  </form>
+  <form name="form2" id="form2" method="POST" action="abc.xyz">
+   <input type="text" name="text2" value="value2"/>
+  </form>
+  <input type="submit" value="submit" onclick="javascript:fnSubmit();"/>
+ <form name="toSubmit" method="POST" action="abc.xyz" style="display:none">
+ </form>
+ </body>
+</html>
+
+
+
+
+
+<!--<form name="myform" method="POST", action="/sandlot/">{% csrf_token %}-->
+        <!--Search: <input type='text' name='query1' />-->
+<!--</form>-->
+<!--<form name="myform2" method="POST", action="/sandlot/">{% csrf_token %}-->
+        <!--Search: <input type='text' name='query2' />-->
+<!--</form>-->
+<!--<a href="javascript: submitform()"><img src="go.gif" width="33" height="19" border="0" /></a>-->
+
+<!--<input type="button" value="Click Me!" onclick="submitform()" />-->
+
+
+<!--<script type="text/javascript">-->
+<!--function submitform()-->
+<!--{-->
+        <!--document.forms['myform'].submit();-->
+
+        <!--setTimeOut(function() {-->
+        <!--document.forms['myform2'].submit();-->
+        <!--}, 5000);-->
+
+        <!--&lt;!&ndash;if(document.myform.onsubmit &&&ndash;&gt;-->
+        <!--&lt;!&ndash;!document.myform.onsubmit())&ndash;&gt;-->
+            <!--&lt;!&ndash;{&ndash;&gt;-->
+                <!--&lt;!&ndash;return;&ndash;&gt;-->
+            <!--&lt;!&ndash;}&ndash;&gt;-->
+        <!--&lt;!&ndash;document.myform.submit();&ndash;&gt;-->
+
+        <!--&lt;!&ndash;if(document.myform2.onsubmit &&&ndash;&gt;-->
+            <!--&lt;!&ndash;!document.myform2.onsubmit())&ndash;&gt;-->
+            <!--&lt;!&ndash;{&ndash;&gt;-->
+                <!--&lt;!&ndash;return;&ndash;&gt;-->
+            <!--&lt;!&ndash;}&ndash;&gt;-->
+         <!--&lt;!&ndash;document.myform2.submit();&ndash;&gt;-->
+<!--}-->
+<!--</script>-->
+
+
 
 {% endblock content %}

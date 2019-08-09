@@ -15,7 +15,22 @@ class SampleTableSimple(ColumnShiftTable):
     class Meta:
         model = Sample
         attrs = {'class': 'paleblue'}
-        fields = ('project_name', 'sample_name', 'sample_type')
+        fields = ('project_name', 'unique_id', 'name', 'sample_type')
+        sequence = ('selection',)
+
+class SampleTableTracking(ColumnShiftTable):
+
+    selection = tables.CheckBoxColumn(
+        accessor="pk",
+        attrs={"th__input": {"onclick": "toggle(this)"}},
+        orderable=False
+    )
+
+    class Meta:
+        model = Sample
+        attrs = {'class': 'paleblue'}
+        fields = ('project_name', 'unique_id', 'name', 'sample_type',
+                  'received', 'received_date', 'stored', 'active', 'deactivated_type', 'tracking_comments')
         sequence = ('selection',)
 
 class SampleTableFreezer(ColumnShiftTable):
@@ -30,10 +45,9 @@ class SampleTableFreezer(ColumnShiftTable):
         model = Sample
         attrs = {'class': 'paleblue'}
         sequence = ('selection',)
-        fields = ('project_name', 'sample_name', 'sample_type', 'received ', 'received_date','archived','freezer_name',
-                  'freezer_type', 'freezer_shelf','freezer_rack','freezer_row','freezer_column','box_name','box_type',
-                  'aliquot_pos_row','aliquot_pos_column','aliquot_pos_column', 'active', 'deactivated_date', 'deactivated_type',
-                  'status_comments'
+        fields = ('project_name', 'unique_id', 'name', 'sample_type', 'received','active', 'stored',
+                  'freezer_name', 'freezer_type', 'freezer_shelf','freezer_rack','rack_row','rack_column',
+                  'box_name','aliquot_pos_row','aliquot_pos_column'
                   )
 
 class DelSampleTableAdvanced(ColumnShiftTable):

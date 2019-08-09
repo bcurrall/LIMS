@@ -5,40 +5,26 @@
 
 {% block content %}
 
-<h1>Welcome to Talk LIMS</h1>
-<div class="row">
-    <div class="col-sm-6 col-md-3">
-        <h1>{{ title }}</h1>
+<form id="form1">
+  First name:<br>
+  <input type="text" id="firstname1"><br>
+  Last name:<br>
+  <input type="text" id="lastname1">
+</form>
 
-        <form method="POST" action="" encrypt="multipart/form-data">{% csrf_token %}
-            {{ formset.management_form }}
-            {% for form in formset %}
-                {{ form|crispy }}
-            {% endfor %}
-            <!--{{ formset|crispy }}-->
-            <!--<input type="submit" value="Save" />-->
-            <input class="btn btn-primary" type="submit" value="Submit" />
-        </form>
-    </div>
-</div>
+<form id="form2">
+  First name:<br>
+  <input type="text" id="firstname2"><br>
+  Last name:<br>
+  <input type="text" id="lastname2">
+</form>
 
-<div>
-    <form method="POST" action="">{% csrf_token %}
-        <div class="row">
-            {% crispy form %}
-          </div>
-    </form>
-</div>
-
-<div>
-    {% if messages %}
-      <ul class="messages">
-        {% for message in messages %}
-          <li class="{{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-</div>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+ $(document).ready(function () {
+   $("#form1").submit();
+   $("#form2").submit();
+ });
+</script>
 
 {% endblock %}

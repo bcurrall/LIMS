@@ -33,11 +33,12 @@
           <li class="dropdown"><!--making libraries processing-->
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Libraries<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                  <li><a href="{% url 'library:lib_browser' %}">Browse Libraries</a></li>
-                  <li><a href="{% url 'library:add' %}">Start New Library</a></li>
-                  <li><a href="{% url 'library:validate' %}">QC Library</a></li>
-                  <li><a href="{% url 'library:pool' %}">Pool Libraries</a></li>
+                  <li><a href="{% url 'library:browser' %}">Browse Libraries</a></li>
+                  <li><a href="{% url 'library:create' %}">Start New Library</a></li>
                   <li><a href="{% url 'library:pool_browser' %}">Browse Pools</a></li>
+                  <li><a href="{% url 'library:pooling_amount_browser' %}">Browse PoolingAmounts</a></li>
+                  <!--<li><a href="{% url 'library:update_qc' %}">QC Library</a></li>-->
+                  <!--<li><a href="{% url 'library:pool' %}">Pool Libraries</a></li>-->
               </ul>
           </li>
           <li class="dropdown">
@@ -50,15 +51,15 @@
                   <!--<li><a href="#">Add Sample Seq QC</a></li>-->
               </ul>
           </li>
-          <!--<li class="dropdown">&lt;!&ndash;reports&ndash;&gt;-->
-            <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#">Reports<span class="caret"></span></a>-->
-              <!--<ul class="dropdown-menu">-->
-                  <!--<li><a href="#">Sample Metrics</a></li>-->
-                  <!--<li><a href="#">Library Metrics</a></li>-->
-                  <!--<li><a href="#">Sequencing Metrics</a></li>-->
-                  <!--<li><a href="#">Export Data</a></li>-->
-              <!--</ul>-->
-          <!--</li> -->
+          <li class="dropdown"><!--reports-->
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Reports<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                  <li><a href="#">Sample Metrics</a></li>
+                  <li><a href="#">Library Metrics</a></li>
+                  <li><a href="#">Sequencing Metrics</a></li>
+                  <li><a href="#">Export Data</a></li>
+              </ul>
+          </li>
           <li class="inactive"><a href="#">About</a></li><!--about-->
       </ul>
       <ul class="nav navbar-nav navbar-right">

@@ -19,5 +19,6 @@ class PagedFilteredTableView(SingleTableView): # generic filter and get_context 
         context[self.context_filter_name] = self.filter
         context['title'] = self.title
         context['button_type'] = self.button_type
-        context['buttons'] = self.buttons
+        context['buttons'] = self.get_buttons()
         return context
+

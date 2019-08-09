@@ -1,5 +1,7 @@
 from django.db import models
 
+import datetime
+
 #This is a super model - its done purposely (and not very databasey) in case db falls apart and have to go back to excel files
 class Sample(models.Model):
     ## choices
@@ -59,10 +61,12 @@ class Sample(models.Model):
 
     ## fields
     # id's
-    sample_id = models.CharField(max_length=100, null=True, blank=True)
+    unique_id = models.CharField(max_length=100, null=True, blank=True)
     project_name = models.CharField(max_length=100, null=True, blank=True)
-    sample_name = models.CharField(max_length=100, blank=False)
+    # sample_name = models.CharField(max_length=100, blank=False)
+    name = models.CharField(max_length=100, blank=False, verbose_name='sample_name')
     aliquot_id = models.CharField(max_length=100, null=True, blank=True)
+    #tube_label
     sample_type = models.CharField(max_length=100, choices=SampleType, null=True, blank=True)
     source_tissue = models.CharField(max_length=100, choices=SourceTissueType, null=True, blank=True)
     conc = models.FloatField(default=0, null=True, blank=True)
@@ -118,7 +122,8 @@ class Sample(models.Model):
     sample_comments = models.TextField(null=True, blank=True)
 
     # location
-    archived = models.NullBooleanField()
+    stored = models.NullBooleanField()
+    stored_date = models.DateField(null=True, blank=True)
     freezer_name = models.CharField(max_length=50, null=True, blank=True)
     freezer_type = models.CharField(max_length=20, choices=FreezerType, null=True, blank=True)
     freezer_shelf = models.IntegerField(null=True, blank=True)
@@ -131,17 +136,30 @@ class Sample(models.Model):
     aliquot_pos_column = models.IntegerField(null=True, blank=True)
 
     # sample status
-    received = models.NullBooleanField()
-    received_date = models.DateField(null=True)
-    active = models.NullBooleanField()
-    deactivated_date = models.DateField(null=True)
+    created = models.DateField(null=True, blank=True)
+    received = models.NullBooleanField(null=True, blank=True)
+    received_date = models.DateField(null=True, blank=True)
+    active = models.NullBooleanField(null=True, blank=True)
+    deactivated_date = models.DateField(null=True, blank=True)
     deactivated_type = models.CharField(max_length=100, choices=DeactivateType, null=True, blank=True)
-    status_comments = models.TextField(null=True, blank=True)
+    tracking_comments = models.TextField(null=True, blank=True)
 
 
     # year_of_birth = models.IntegerField(_('year'), max_length=4, choices=YEAR_CHOICES, default=datetime.datetime.now().year) #a more elegant solution
 
     def __str__(self):
-        return(self.sample_name)
+        return(self.name)
+
+    def save(self, *args, **kwargs):
+        # TODO some more thought needs to be put into this to prevent unintended overwrites and duplications and improve unique_id handle
+        # saves to create self.pk
+        super(Sample, self).save(*args, **kwargs)
+        if self.unique_id == None: # makes sure not to overwrite unique_id and cause downstream relationships to break
+            t = datetime.date.today()
+            print(datetime.date.today())
+            self.created = t
+            pk_red = self.pk % 10000 # creates interger based on pk for unique_id
+            self.unique_id = self.name + "_" + t.strftime("%Y%m%d") + '_' + "{0:0=4d}".format(pk_red)
+            self.save()
 
 

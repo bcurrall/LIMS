@@ -15,57 +15,38 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/LIMS/library/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="10" column="106" lean-forward="false" selection-start-line="10" selection-start-column="106" selection-end-line="10" selection-end-column="106" />
+            <state relative-caret-position="218">
+              <caret line="414" column="72" lean-forward="true" selection-start-line="414" selection-start-column="72" selection-end-line="414" selection-end-column="72" />
               <folding>
-                <element signature="e#1248#1357#0" expanded="false" />
-                <element signature="e#1384#2267#0" expanded="false" />
-                <element signature="e#2299#3173#0" expanded="false" />
-                <element signature="e#3198#6260#0" expanded="false" />
-                <element signature="e#6391#7283#0" expanded="false" />
-                <element signature="e#7349#7439#0" expanded="false" />
-                <element signature="e#7493#7598#0" expanded="false" />
-                <element signature="e#7644#7723#0" expanded="false" />
-                <element signature="e#7771#7856#0" expanded="false" />
-                <element signature="e#7997#8572#0" expanded="false" />
-                <element signature="e#8659#8885#0" expanded="false" />
-                <element signature="e#8988#9672#0" expanded="false" />
-                <element signature="e#9742#9988#0" expanded="false" />
-                <element signature="e#10050#10468#0" expanded="false" />
-                <element signature="e#10569#11457#0" expanded="false" />
-                <element signature="e#11685#12936#0" expanded="false" />
-                <element signature="e#12997#13145#0" expanded="false" />
-                <element signature="e#14346#15269#0" expanded="false" />
-                <element signature="e#15293#18927#0" expanded="false" />
-                <element signature="e#18956#22306#0" expanded="false" />
-                <element signature="e#22339#23117#0" expanded="false" />
-                <element signature="e#23143#27304#0" expanded="false" />
+                <element signature="e#0#35#0" expanded="true" />
+                <element signature="e#1232#2106#0" expanded="false" />
+                <element signature="e#2131#5193#0" expanded="false" />
+                <element signature="e#5341#6233#0" expanded="false" />
+                <element signature="e#6299#6389#0" expanded="false" />
+                <element signature="e#6443#6548#0" expanded="false" />
+                <element signature="e#6594#6673#0" expanded="false" />
+                <element signature="e#6721#6806#0" expanded="false" />
+                <element signature="e#6947#7536#0" expanded="false" />
+                <element signature="e#7623#7849#0" expanded="false" />
+                <element signature="e#7950#8634#0" expanded="false" />
+                <element signature="e#9012#9430#0" expanded="false" />
+                <element signature="e#9508#9852#0" expanded="false" />
+                <element signature="e#9964#10506#0" expanded="false" />
+                <element signature="e#10566#10636#0" expanded="false" />
+                <element signature="e#10732#11983#0" expanded="false" />
+                <element signature="e#12044#12192#0" expanded="false" />
+                <element signature="e#12265#12591#0" expanded="false" />
+                <element signature="e#14820#15743#0" expanded="false" />
+                <element signature="e#15767#19401#0" expanded="false" />
+                <element signature="e#19430#22780#0" expanded="false" />
+                <element signature="e#22813#23591#0" expanded="false" />
+                <element signature="e#23616#27777#0" expanded="false" />
+                <element signature="e#27804#28687#0" expanded="false" />
+                <element signature="e#28713#28822#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="filters.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/LIMS/library/filters.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="21" selection-end-column="15" />
-              <folding>
-                <element signature="e#0#21#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="navbar.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LIMS/templates/navbar.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="40" selection-end-column="84" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -73,28 +54,65 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LIMS/LIMS/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="22" column="39" lean-forward="false" selection-start-line="22" selection-start-column="39" selection-end-line="22" selection-end-column="39" />
+            <state relative-caret-position="209">
+              <caret line="77" column="25" lean-forward="true" selection-start-line="77" selection-start-column="25" selection-end-line="77" selection-end-column="25" />
               <folding>
-                <element signature="e#51#86#0" expanded="true" />
-                <element signature="e#654#16148#0" expanded="false" />
-                <element signature="e#1406#1704#0" expanded="false" />
-                <element signature="e#1740#2368#0" expanded="false" />
-                <element signature="e#3072#4035#0" expanded="false" />
-                <element signature="e#8687#9601#0" expanded="false" />
-                <element signature="e#9798#10478#0" expanded="false" />
-                <element signature="e#10560#11302#0" expanded="false" />
-                <element signature="e#16209#20815#0" expanded="false" />
+                <element signature="e#3749#4182#0" expanded="false" />
+                <element signature="e#4215#4513#0" expanded="false" />
+                <element signature="e#4549#5177#0" expanded="false" />
+                <element signature="e#5259#5843#0" expanded="false" />
+                <element signature="e#5881#6844#0" expanded="false" />
+                <element signature="e#6938#7926#0" expanded="false" />
+                <element signature="e#8010#10215#0" expanded="false" />
+                <element signature="e#11496#12410#0" expanded="false" />
+                <element signature="e#12607#13287#0" expanded="false" />
+                <element signature="e#13369#14111#0" expanded="false" />
+                <element signature="e#14176#14910#0" expanded="false" />
+                <element signature="e#15830#17411#0" expanded="false" />
+                <element signature="e#18668#18986#0" expanded="false" />
+                <element signature="e#19085#19462#0" expanded="false" />
+                <element signature="e#19530#19666#0" expanded="false" />
+                <element signature="e#19730#24336#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LIMS/library/urls.py">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LIMS/sequence/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="30" column="83" lean-forward="true" selection-start-line="30" selection-start-column="83" selection-end-line="30" selection-end-column="105" />
+            <state relative-caret-position="459">
+              <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="28" selection-end-column="33" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="selector_poolamount.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LIMS/templates/library/selector_poolamount.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="70" column="49" lean-forward="false" selection-start-line="70" selection-start-column="49" selection-end-line="70" selection-end-column="49" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="selector_pool.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LIMS/templates/library/selector_pool.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="227">
+              <caret line="70" column="141" lean-forward="false" selection-start-line="70" selection-start-column="141" selection-end-line="70" selection-end-column="141" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="delete.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LIMS/templates/library/delete.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="303">
+              <caret line="45" column="103" lean-forward="false" selection-start-line="45" selection-start-column="103" selection-end-line="45" selection-end-column="103" />
               <folding />
             </state>
           </provider>
@@ -103,64 +121,39 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LIMS/library/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-357">
-              <caret line="50" column="23" lean-forward="true" selection-start-line="50" selection-start-column="23" selection-end-line="50" selection-end-column="23" />
+            <state relative-caret-position="-765">
+              <caret line="35" column="68" lean-forward="true" selection-start-line="35" selection-start-column="68" selection-end-line="35" selection-end-column="68" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="selector.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LIMS/templates/library/selector.html">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LIMS/library/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="106">
-              <caret line="72" column="91" lean-forward="false" selection-start-line="72" selection-start-column="91" selection-end-line="72" selection-end-column="91" />
+            <state relative-caret-position="272">
+              <caret line="40" column="65" lean-forward="false" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="65" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tables.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LIMS/library/tables.py">
+      <file leaf-file-name="browser_pool.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LIMS/templates/library/browser_pool.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" column="48" lean-forward="false" selection-start-line="1" selection-start-column="48" selection-end-line="1" selection-end-column="48" />
-              <folding>
-                <element signature="e#317#680#0" expanded="false" />
-                <element signature="e#735#1182#0" expanded="false" />
-                <element signature="e#1229#1856#0" expanded="false" />
-                <element signature="e#1905#2163#0" expanded="false" />
-                <element signature="e#2208#2466#0" expanded="false" />
-                <element signature="e#2508#2763#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="update_pool.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LIMS/templates/library/update_pool.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="599">
-              <caret line="68" column="35" lean-forward="false" selection-start-line="68" selection-start-column="35" selection-end-line="68" selection-end-column="35" />
+            <state relative-caret-position="300">
+              <caret line="65" column="87" lean-forward="false" selection-start-line="65" selection-start-column="87" selection-end-line="65" selection-end-column="87" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LIMS/library/forms.py">
+      <file leaf-file-name="delete.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LIMS/templates/sample/delete.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="39" column="28" lean-forward="true" selection-start-line="39" selection-start-column="28" selection-end-line="39" selection-end-column="28" />
-              <folding>
-                <element signature="e#0#24#0" expanded="true" />
-                <element signature="e#1509#1535#0" expanded="false" />
-                <element signature="e#1577#1814#0" expanded="false" />
-                <element signature="e#1861#2269#0" expanded="false" />
-                <element signature="e#2319#2579#0" expanded="false" />
-                <element signature="e#2627#2689#0" expanded="false" />
-                <marker date="1565383334966" expanded="false" signature="2723:4065" ph="..." />
-              </folding>
+            <state relative-caret-position="153">
+              <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="19" selection-end-column="6" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -177,10 +170,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>unique_id</find>
-      <find>selection</find>
-      <find>LibraryListFilter</find>
-      <find>LibraryListFormHelper</find>
       <find>sample_id</find>
       <find>lib_browser</find>
       <find>page</find>
@@ -207,6 +196,10 @@
       <find>PoolUpdateFormSetPooling</find>
       <find>PoolingAmount</find>
       <find>PoolingAmountListFilterForm</find>
+      <find>Generic</find>
+      <find>delete_test</find>
+      <find>SampleTableSimple</find>
+      <find>GenericCreateFormSet</find>
     </findStrings>
     <replaceStrings>
       <replace>LibraryPlateForm</replace>
@@ -237,10 +230,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/LIMS/templates/sample/create.html" />
-        <option value="$PROJECT_DIR$/TODO" />
-        <option value="$PROJECT_DIR$/LIMS/templates/buttons_1.html" />
-        <option value="$PROJECT_DIR$/LIMS/templates/buttons_2.html" />
         <option value="$PROJECT_DIR$/LIMS/templates/sample/test.html" />
         <option value="$PROJECT_DIR$/LIMS/LIMS/urls.py" />
         <option value="$PROJECT_DIR$/LIMS/templates/city_dropdown_list_options.html" />
@@ -261,33 +250,37 @@
         <option value="$PROJECT_DIR$/LIMS/LIMS/settings.py" />
         <option value="$PROJECT_DIR$/LIMS/templates/buttons_3.html" />
         <option value="$PROJECT_DIR$/LIMS/LIMS/utils.py" />
-        <option value="$PROJECT_DIR$/LIMS/sample/urls.py" />
         <option value="$PROJECT_DIR$/LIMS/templates/sample/update.html" />
         <option value="$PROJECT_DIR$/notes" />
         <option value="$PROJECT_DIR$/LIMS/templates/library/browser.html" />
         <option value="$PROJECT_DIR$/static_in_env/static_root/css/bootstrap.min.css" />
         <option value="$PROJECT_DIR$/LIMS/templates/base.html" />
-        <option value="$PROJECT_DIR$/LIMS/templates/sample/selector.html" />
         <option value="$PROJECT_DIR$/LIMS/sample/tables.py" />
         <option value="$PROJECT_DIR$/LIMS/sample/forms.py" />
         <option value="$PROJECT_DIR$/LIMS/sequence/models.py" />
-        <option value="$PROJECT_DIR$/LIMS/templates/library/browser_pool.html" />
-        <option value="$PROJECT_DIR$/LIMS/sample/views.py" />
         <option value="$PROJECT_DIR$/LIMS/sample/models.py" />
         <option value="$PROJECT_DIR$/LIMS/templates/test.html" />
         <option value="$PROJECT_DIR$/LIMS/sandlot/views.py" />
         <option value="$PROJECT_DIR$/LIMS/templates/sandlot_list.html" />
         <option value="$PROJECT_DIR$/LIMS/templates/library/update_pool.html" />
-        <option value="$PROJECT_DIR$/LIMS/LIMS/views.py" />
-        <option value="$PROJECT_DIR$/LIMS/templates/library/selector_pool.html" />
-        <option value="$PROJECT_DIR$/LIMS/templates/library/selector.html" />
-        <option value="$PROJECT_DIR$/LIMS/library/models.py" />
-        <option value="$PROJECT_DIR$/LIMS/library/views.py" />
-        <option value="$PROJECT_DIR$/LIMS/library/tables.py" />
         <option value="$PROJECT_DIR$/LIMS/library/forms.py" />
-        <option value="$PROJECT_DIR$/LIMS/library/urls.py" />
         <option value="$PROJECT_DIR$/LIMS/templates/navbar.html" />
+        <option value="$PROJECT_DIR$/LIMS/sample/urls.py" />
+        <option value="$PROJECT_DIR$/LIMS/templates/sample/selector.html" />
+        <option value="$PROJECT_DIR$/LIMS/sample/views.py" />
         <option value="$PROJECT_DIR$/LIMS/library/filters.py" />
+        <option value="$PROJECT_DIR$/LIMS/library/tables.py" />
+        <option value="$PROJECT_DIR$/LIMS/templates/sample/delete.html" />
+        <option value="$PROJECT_DIR$/LIMS/templates/library/selector.html" />
+        <option value="$PROJECT_DIR$/LIMS/templates/library/delete_test.html" />
+        <option value="$PROJECT_DIR$/LIMS/templates/library/browser_pool.html" />
+        <option value="$PROJECT_DIR$/LIMS/templates/library/selector_pool.html" />
+        <option value="$PROJECT_DIR$/LIMS/templates/library/delete.html" />
+        <option value="$PROJECT_DIR$/LIMS/library/urls.py" />
+        <option value="$PROJECT_DIR$/LIMS/templates/library/selector_poolamount.html" />
+        <option value="$PROJECT_DIR$/LIMS/library/models.py" />
+        <option value="$PROJECT_DIR$/LIMS/LIMS/views.py" />
+        <option value="$PROJECT_DIR$/LIMS/library/views.py" />
       </list>
     </option>
   </component>
@@ -312,6 +305,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -446,24 +441,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="sandlot" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LIMS_v0_3_0" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LIMS_v0_3_0" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LIMS" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="sample" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -506,28 +483,26 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../dependent-dropdown-example" />
-    <property name="SearchEverywhereHistoryKey" value="sample_id&#9;null&#9;null&#10;as_view&#9;null&#9;null&#10;django_excel&#9;null&#9;null" />
+    <property name="SearchEverywhereHistoryKey" value="prefix_order_by_field&#9;null&#9;null&#10;sample_id&#9;null&#9;null&#10;as_view&#9;null&#9;null&#10;django_excel&#9;null&#9;null" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Icarus\Desktop\Git\LIMS\LIMS_v0_3_0" />
+      <recent name="C:\Users\Icarus\Desktop\Git\LIMS\LIMS_v0_3_0\LIMS\templates\home" />
+      <recent name="C:\Users\Icarus\Desktop\Git\LIMS\LIMS_v0_3_0\LIMS\templates" />
+      <recent name="C:\Users\Icarus\Desktop\Git\LIMS\LIMS_v0_3_0\LIMS" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Icarus\Desktop\Git\LIMS\LIMS_v0_3_0\LIMS\templates\library" />
       <recent name="C:\Users\Icarus\Desktop\Git\LIMS\LIMS_v0_3_0\LIMS\templates" />
       <recent name="C:\Users\Icarus\Desktop\Git\LIMS\LIMS_v0_3_0\LIMS\LIMS" />
       <recent name="C:\Users\Icarus\Desktop\Git\LIMS\LIMS_v0_3_0\LIMS\sample" />
       <recent name="C:\Users\Icarus\Desktop\Git\LIMS\LIMS_v0_3_0\LIMS\templates\sample" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Icarus\Desktop\Git\LIMS\LIMS_v0_3_0" />
-      <recent name="C:\Users\Icarus\Desktop\Git\LIMS\LIMS_v0_3_0\LIMS\templates\home" />
-      <recent name="C:\Users\Icarus\Desktop\Git\LIMS\LIMS_v0_3_0\LIMS\templates" />
-      <recent name="C:\Users\Icarus\Desktop\Git\LIMS\LIMS_v0_3_0\LIMS" />
     </key>
   </component>
   <component name="RunManager" selected="Python.tables">
@@ -723,10 +698,11 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16666667" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.49702382" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.108630955" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2739496" sideWeight="0.89136904" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40168068" sideWeight="0.89136904" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -734,7 +710,6 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
@@ -788,40 +763,11 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="22" />
+      <option name="time" value="25" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/LIMS/sequence/filters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/templates/sample/create.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1513">
-          <caret line="89" column="20" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/templates/buttons_2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/templates/sample/browser.html" />
-    <entry file="file://$PROJECT_DIR$/LIMS/sequence/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LIMS/templates/sample/form.html" />
     <entry file="file://$PROJECT_DIR$/LIMS/templates/library/edit.html">
       <provider selected="true" editor-type-id="text-editor">
@@ -865,13 +811,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/LIMS/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LIMS/templates/library/create.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-51">
@@ -883,13 +822,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/sample/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="25" column="4" lean-forward="false" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="78" />
         </state>
       </provider>
     </entry>
@@ -942,55 +874,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/templates/sample/selector.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="73" column="97" lean-forward="false" selection-start-line="73" selection-start-column="96" selection-end-line="73" selection-end-column="97" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/sample/filters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="7" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#21#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/sample/tables.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="47" column="52" lean-forward="false" selection-start-line="47" selection-start-column="52" selection-end-line="47" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LIMS/LIMS/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-342">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/sample/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="53" column="41" lean-forward="false" selection-start-line="53" selection-start-column="37" selection-end-line="53" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/sequence/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="28" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/templates/library/browser_pool.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="66" column="0" lean-forward="true" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1005,20 +892,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2318">
           <caret line="160" column="68" lean-forward="false" selection-start-line="160" selection-start-column="68" selection-end-line="160" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/sandlot/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/sample/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1343">
-          <caret line="148" column="53" lean-forward="false" selection-start-line="148" selection-start-column="26" selection-end-line="148" selection-end-column="53" />
         </state>
       </provider>
     </entry>
@@ -1051,155 +924,311 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/templates/library/browser.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="66" column="128" lean-forward="true" selection-start-line="66" selection-start-column="128" selection-end-line="66" selection-end-column="128" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/notes">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/templates/library/selector_pool.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="70" column="90" lean-forward="false" selection-start-line="70" selection-start-column="90" selection-end-line="70" selection-end-column="90" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/templates/library/selector.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="72" column="91" lean-forward="false" selection-start-line="72" selection-start-column="91" selection-end-line="72" selection-end-column="91" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LIMS/templates/library/update_pool.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="599">
+        <state relative-caret-position="1156">
           <caret line="68" column="35" lean-forward="false" selection-start-line="68" selection-start-column="35" selection-end-line="68" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/LIMS/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="22" column="39" lean-forward="false" selection-start-line="22" selection-start-column="39" selection-end-line="22" selection-end-column="39" />
-          <folding>
-            <element signature="e#51#86#0" expanded="true" />
-            <element signature="e#654#16148#0" expanded="false" />
-            <element signature="e#1406#1704#0" expanded="false" />
-            <element signature="e#1740#2368#0" expanded="false" />
-            <element signature="e#3072#4035#0" expanded="false" />
-            <element signature="e#8687#9601#0" expanded="false" />
-            <element signature="e#9798#10478#0" expanded="false" />
-            <element signature="e#10560#11302#0" expanded="false" />
-            <element signature="e#16209#20815#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/library/tables.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="48" lean-forward="false" selection-start-line="1" selection-start-column="48" selection-end-line="1" selection-end-column="48" />
-          <folding>
-            <element signature="e#317#680#0" expanded="false" />
-            <element signature="e#735#1182#0" expanded="false" />
-            <element signature="e#1229#1856#0" expanded="false" />
-            <element signature="e#1905#2163#0" expanded="false" />
-            <element signature="e#2208#2466#0" expanded="false" />
-            <element signature="e#2508#2763#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/library/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-357">
-          <caret line="50" column="23" lean-forward="true" selection-start-line="50" selection-start-column="23" selection-end-line="50" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/library/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="39" column="28" lean-forward="true" selection-start-line="39" selection-start-column="28" selection-end-line="39" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#24#0" expanded="true" />
-            <element signature="e#1509#1535#0" expanded="false" />
-            <element signature="e#1577#1814#0" expanded="false" />
-            <element signature="e#1861#2269#0" expanded="false" />
-            <element signature="e#2319#2579#0" expanded="false" />
-            <element signature="e#2627#2689#0" expanded="false" />
-            <marker date="1565383334966" expanded="false" signature="2723:4065" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/library/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="10" column="106" lean-forward="false" selection-start-line="10" selection-start-column="106" selection-end-line="10" selection-end-column="106" />
-          <folding>
-            <element signature="e#1248#1357#0" expanded="false" />
-            <element signature="e#1384#2267#0" expanded="false" />
-            <element signature="e#2299#3173#0" expanded="false" />
-            <element signature="e#3198#6260#0" expanded="false" />
-            <element signature="e#6391#7283#0" expanded="false" />
-            <element signature="e#7349#7439#0" expanded="false" />
-            <element signature="e#7493#7598#0" expanded="false" />
-            <element signature="e#7644#7723#0" expanded="false" />
-            <element signature="e#7771#7856#0" expanded="false" />
-            <element signature="e#7997#8572#0" expanded="false" />
-            <element signature="e#8659#8885#0" expanded="false" />
-            <element signature="e#8988#9672#0" expanded="false" />
-            <element signature="e#9742#9988#0" expanded="false" />
-            <element signature="e#10050#10468#0" expanded="false" />
-            <element signature="e#10569#11457#0" expanded="false" />
-            <element signature="e#11685#12936#0" expanded="false" />
-            <element signature="e#12997#13145#0" expanded="false" />
-            <element signature="e#14346#15269#0" expanded="false" />
-            <element signature="e#15293#18927#0" expanded="false" />
-            <element signature="e#18956#22306#0" expanded="false" />
-            <element signature="e#22339#23117#0" expanded="false" />
-            <element signature="e#23143#27304#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LIMS/library/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="30" column="83" lean-forward="true" selection-start-line="30" selection-start-column="83" selection-end-line="30" selection-end-column="105" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LIMS/templates/navbar.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
+        <state relative-caret-position="663">
           <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="40" selection-end-column="84" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/LIMS/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/notes">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/sandlot/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/sample/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="36" column="76" lean-forward="false" selection-start-line="36" selection-start-column="76" selection-end-line="36" selection-end-column="76" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMSenv/Lib/site-packages/django_tables2/tables.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="134">
+          <caret line="606" column="8" lean-forward="false" selection-start-line="606" selection-start-column="8" selection-end-line="606" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/library/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="33" column="46" lean-forward="false" selection-start-line="33" selection-start-column="46" selection-end-line="33" selection-end-column="46" />
+          <folding>
+            <element signature="e#679#1049#0" expanded="false" />
+            <element signature="e#1102#1466#0" expanded="false" />
+            <element signature="e#1509#1535#0" expanded="false" />
+            <element signature="e#1577#1814#0" expanded="false" />
+            <element signature="e#1861#2269#0" expanded="false" />
+            <element signature="e#2319#2579#0" expanded="false" />
+            <element signature="e#2627#2689#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/templates/library/browser.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="66" column="83" lean-forward="false" selection-start-line="66" selection-start-column="83" selection-end-line="66" selection-end-column="83" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LIMS/library/filters.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="21" selection-end-column="15" />
+        <state relative-caret-position="255">
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding>
-            <element signature="e#0#21#0" expanded="true" />
+            <element signature="e#0#21#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/sample/tables.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="47" column="52" lean-forward="false" selection-start-line="47" selection-start-column="52" selection-end-line="47" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/sample/filters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="7" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/library/tables.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="29" column="15" lean-forward="true" selection-start-line="29" selection-start-column="15" selection-end-line="29" selection-end-column="15" />
+          <folding>
+            <element signature="e#0#31#0" expanded="false" />
+            <element signature="e#1149#1596#0" expanded="false" />
+            <element signature="e#1643#2270#0" expanded="false" />
+            <element signature="e#2319#2577#0" expanded="false" />
+            <element signature="e#2622#2880#0" expanded="false" />
+            <element signature="e#2922#3177#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/sample/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="44" column="46" lean-forward="false" selection-start-line="44" selection-start-column="46" selection-end-line="44" selection-end-column="46" />
+          <folding>
+            <element signature="e#435#461#0" expanded="false" />
+            <element signature="e#503#945#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/sample/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="91">
+          <caret line="224" column="60" lean-forward="true" selection-start-line="224" selection-start-column="12" selection-end-line="224" selection-end-column="60" />
+          <folding>
+            <element signature="e#0#35#0" expanded="false" />
+            <element signature="e#925#1466#0" expanded="false" />
+            <element signature="e#1534#1614#0" expanded="false" />
+            <element signature="e#1672#1758#0" expanded="false" />
+            <element signature="e#1815#1898#0" expanded="false" />
+            <element signature="e#1952#2032#0" expanded="false" />
+            <element signature="e#2174#3105#0" expanded="false" />
+            <element signature="e#3190#3329#0" expanded="false" />
+            <element signature="e#3394#3759#0" expanded="false" />
+            <element signature="e#3825#4822#0" expanded="false" />
+            <element signature="e#4886#5325#0" expanded="false" />
+            <element signature="e#5387#6379#0" expanded="false" />
+            <element signature="e#6482#7580#0" expanded="false" />
+            <element signature="e#7665#7816#0" expanded="false" />
+            <element signature="e#7882#8176#0" expanded="false" />
+            <element signature="e#8242#8661#0" expanded="false" />
+            <element signature="e#8726#9115#0" expanded="false" />
+            <element signature="e#9181#10195#0" expanded="false" />
+            <element signature="e#10259#10715#0" expanded="false" />
+            <element signature="e#10777#11781#0" expanded="false" />
+            <element signature="e#12231#13000#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/templates/sample/selector.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="41" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/templates/library/selector.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="73" column="137" lean-forward="false" selection-start-line="73" selection-start-column="137" selection-end-line="73" selection-end-column="137" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/templates/sample/delete.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="19" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/templates/library/delete_test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/templates/library/browser_pool.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="65" column="87" lean-forward="false" selection-start-line="65" selection-start-column="87" selection-end-line="65" selection-end-column="87" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/templates/library/delete.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="45" column="103" lean-forward="false" selection-start-line="45" selection-start-column="103" selection-end-line="45" selection-end-column="103" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/templates/library/selector_pool.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="70" column="141" lean-forward="false" selection-start-line="70" selection-start-column="141" selection-end-line="70" selection-end-column="141" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/sequence/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="28" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/templates/library/selector_poolamount.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="70" column="49" lean-forward="false" selection-start-line="70" selection-start-column="49" selection-end-line="70" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/library/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-765">
+          <caret line="35" column="68" lean-forward="true" selection-start-line="35" selection-start-column="68" selection-end-line="35" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/LIMS/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="77" column="25" lean-forward="true" selection-start-line="77" selection-start-column="25" selection-end-line="77" selection-end-column="25" />
+          <folding>
+            <element signature="e#3749#4182#0" expanded="false" />
+            <element signature="e#4215#4513#0" expanded="false" />
+            <element signature="e#4549#5177#0" expanded="false" />
+            <element signature="e#5259#5843#0" expanded="false" />
+            <element signature="e#5881#6844#0" expanded="false" />
+            <element signature="e#6938#7926#0" expanded="false" />
+            <element signature="e#8010#10215#0" expanded="false" />
+            <element signature="e#11496#12410#0" expanded="false" />
+            <element signature="e#12607#13287#0" expanded="false" />
+            <element signature="e#13369#14111#0" expanded="false" />
+            <element signature="e#14176#14910#0" expanded="false" />
+            <element signature="e#15830#17411#0" expanded="false" />
+            <element signature="e#18668#18986#0" expanded="false" />
+            <element signature="e#19085#19462#0" expanded="false" />
+            <element signature="e#19530#19666#0" expanded="false" />
+            <element signature="e#19730#24336#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/library/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="40" column="65" lean-forward="false" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LIMS/library/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="414" column="72" lean-forward="true" selection-start-line="414" selection-start-column="72" selection-end-line="414" selection-end-column="72" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#1232#2106#0" expanded="false" />
+            <element signature="e#2131#5193#0" expanded="false" />
+            <element signature="e#5341#6233#0" expanded="false" />
+            <element signature="e#6299#6389#0" expanded="false" />
+            <element signature="e#6443#6548#0" expanded="false" />
+            <element signature="e#6594#6673#0" expanded="false" />
+            <element signature="e#6721#6806#0" expanded="false" />
+            <element signature="e#6947#7536#0" expanded="false" />
+            <element signature="e#7623#7849#0" expanded="false" />
+            <element signature="e#7950#8634#0" expanded="false" />
+            <element signature="e#9012#9430#0" expanded="false" />
+            <element signature="e#9508#9852#0" expanded="false" />
+            <element signature="e#9964#10506#0" expanded="false" />
+            <element signature="e#10566#10636#0" expanded="false" />
+            <element signature="e#10732#11983#0" expanded="false" />
+            <element signature="e#12044#12192#0" expanded="false" />
+            <element signature="e#12265#12591#0" expanded="false" />
+            <element signature="e#14820#15743#0" expanded="false" />
+            <element signature="e#15767#19401#0" expanded="false" />
+            <element signature="e#19430#22780#0" expanded="false" />
+            <element signature="e#22813#23591#0" expanded="false" />
+            <element signature="e#23616#27777#0" expanded="false" />
+            <element signature="e#27804#28687#0" expanded="false" />
+            <element signature="e#28713#28822#0" expanded="false" />
           </folding>
         </state>
       </provider>

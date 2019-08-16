@@ -7,6 +7,18 @@
 
 {% block content %}
 
+<!--error messages-->
+<div>
+    {% for message in messages %}
+      <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+      </div>
+    {% endfor %}
+</div>
+
 <!--buttons-->
 <div class="row">
     <div class="col-sm-12">
@@ -31,8 +43,8 @@
 
             {% render_table table %} <br>
             <!--TODO add spacing between table and buttons-->
-            <input type="submit" name="del_confirm_btn" class="btn btn-primary" value="Delete Sample(s)"/>
-            <input type="submit" name="no_btn" class="btn btn-primary" value="Don't Delete Sample(s)"/>
+            <input type="submit" name="del_confirm_btn" formaction="{% url 'library:browser' %}" class="btn btn-primary" value="Delete Sample(s)"/>
+            <input type="submit" name="cancel_btn" formaction="{% url 'library:browser' %}" class="btn btn-primary" value="Don't Delete Sample(s)"/>
         </div>
     </form>
 </div>

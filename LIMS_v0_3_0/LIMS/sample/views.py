@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from LIMS.views import GenericCreateFormSet, GenericUpdateFormSet
-from LIMS.utils import PagedFilteredTableView
+from LIMS.views import GenericUpdateFormSet, PagedFilteredTableView
 from .models import Sample
 from .forms import SampleForm, SampleListFormHelper
 from .tables import SampleTableSimple, SampleTableTracking, SampleTableFull, SampleTableFreezer
@@ -28,17 +27,6 @@ class SampleTableListBase(PagedFilteredTableView):
         {"name": 'Freezer', "class": 'btn btn-default', "url": 'sample:browser_freezer'},
         {"name": 'Full', "class": 'btn btn-default', "url": 'sample:browser_full'},
     ]
-
-    def get_buttons(self):
-        buttons = self.buttons
-        page = self.page
-        for button in buttons:
-            if button['name'] == page:
-                button['class'] = 'btn btn-success'
-            else:
-                button['class'] = 'btn btn-default'
-
-        return buttons
 
 # Table instances
 class SampleTableList(SampleTableListBase):
@@ -228,7 +216,20 @@ class SampleUpdateFormSetFull(SampleUpdateFormSetBase):
 
 
 ### Sample DeleteView
-# TODO make into class style view
+class SampleTableListDeleteBase(PagedFilteredTableView):
+    template_name = 'sample/delete.html'
+    model = Sample
+    filter_class = SampleListFilter
+    formhelper_class = SampleListFormHelper
+    # sub-class
+    title = 'Are you sure you want to delete these samples?'
+    page = 'Simple'
+    table_class = SampleTableSimple
+    button_type = 'buttons_1.html'
+    buttons = []
+
+
+#Archived views
 def delete(request):
     title = 'Are you sure you want to delete the following samples?'
     pks = request.POST.getlist("selection")

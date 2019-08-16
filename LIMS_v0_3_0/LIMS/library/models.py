@@ -38,7 +38,7 @@ class Library(models.Model):
     qc_comments = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return (str(self.plate_name) + '_' + str(self.name))
+        return (str(self.plate_name) + '_' + str(self.name) + '_' + str(self.parent_name))
 
     def save(self, *args, **kwargs):
         super(Library, self).save(*args, **kwargs)

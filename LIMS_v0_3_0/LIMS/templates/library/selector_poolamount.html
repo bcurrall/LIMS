@@ -68,9 +68,8 @@
         </div>
        <div class="form-group" method="get">
             <div class="col-xs-6 col-md-12">
-                <input type="submit" name="update_2_form_btn" formaction="{% url 'library:pooling' %}" class="btn btn-primary" value="Edit"/>
-                <input type="submit" name="wus_btn" formaction="{% url 'sequence:add_wus_sub' %}" class="btn btn-primary" value="Submit to WUS"/>
-                <input type="submit" name="del_btn" formaction="{% url 'library:pool_delete' %}" class="btn btn-primary" value="Delete"/>
+                <input type="submit" name="update_btn" formaction="{% url 'library:pooling_amount_update' %}" class="btn btn-primary" value="Edit"/>
+                <input type="submit" name="del_btn" formaction="{% url 'library:pooling_amount_delete' %}" class="btn btn-primary" value="Delete"/>
             </div>
         </div>
 

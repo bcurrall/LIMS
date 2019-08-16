@@ -5,6 +5,7 @@ from django.views.generic import CreateView, UpdateView
 from django.forms import modelformset_factory
 from django.contrib import messages
 from django.core.exceptions import ValidationError
+from django_tables2 import SingleTableView
 
 from .forms import UploadFileForm
 from sample.models import Sample
@@ -19,7 +20,88 @@ now = datetime.datetime.now()
 date_stamp = now.strftime("%d%m%Y")
 
 
+# Browser/List Master View
+class PagedFilteredTableView(SingleTableView): # generic filter and get_context for table + filter views
+    filter_class = None
+    formhelper_class = None
+    context_filter_name = 'filter'
+    title = None
+    button_type = None
+    buttons = None
+    qs = None
+    print('=============PagedFilteredTableView=====================')
 
+    def get_buttons(self):
+        buttons = self.buttons
+        page = self.page
+        for button in buttons:
+            if button['name'] == page:
+                button['class'] = 'btn btn-success'
+            else:
+                button['class'] = 'btn btn-default'
+        return buttons
+
+    def get_queryset(self, **kwargs):
+        print('===========get_queryset=============')
+        if self.qs:
+            if self.qs == 'Empty':
+                qs = self.model.objects.none()
+            else:
+                qs = self.qs
+        else:
+            qs = super(PagedFilteredTableView, self).get_queryset()
+        self.filter = self.filter_class(self.query, queryset=qs)
+        self.filter.helper = self.formhelper_class()
+        return self.filter.qs
+
+    def get_context_data(self, **kwargs):
+        print('=======get_context_data===================')
+        context = super(PagedFilteredTableView, self).get_context_data()
+        context[self.context_filter_name] = self.filter
+        context['title'] = self.title
+        context['button_type'] = self.button_type
+        context['buttons'] = self.get_buttons()
+        return context
+
+
+    def get(self, request, *args, **kwargs):
+        print('============GET=======================')
+        self.query = request.GET
+        response = super(PagedFilteredTableView, self).get(request)
+        return response
+
+
+    def post(self, request, *args, **kwargs):  # handles all posts
+        print('===========POST==================')
+        pks = request.POST.getlist("selection")
+        print(pks)
+        print(self.model)
+        self.qs = self.model.objects.filter(pk__in=pks)
+        print(self.qs)
+        self.query = request.GET
+
+        if "del_btn" in request.POST:
+            if pks:
+                pass
+            else:
+                self.qs = 'Empty'
+                messages.warning(request, 'Nothing selected.')
+
+        if "del_confirm_btn" in request.POST:
+            print('===========del_confirm_btn==================')
+            num_deleted = len(pks)
+            print(self.qs)
+            self.qs.delete()
+            self.qs = None
+            messages.warning(request, '%d samples deleted.' %num_deleted)
+        if "cancel_btn" in request.POST:
+            messages.success(request, 'No records were deleted.')
+
+        response = super(PagedFilteredTableView, self).get(request)
+        return response
+
+
+# Create/Update Master View
 class GenericUpdateFormSet(UpdateView):
     # class defaults
     initial_data = []
@@ -30,9 +112,6 @@ class GenericUpdateFormSet(UpdateView):
     formset = None
     form_p = None
     form_classes = None
-
-    def get_object(self):
-        pass
 
     def get_form_class_and_model(self, form_type):
         if form_type == 'current':
@@ -344,12 +423,28 @@ class GenericUpdateFormSet(UpdateView):
             context = self.get_context_data()
             return render(request, self.template_name, context=context)
 
-
         # captures ids to use in processing
         elif "process_btn" in self.request.POST: #handles processing and saving of new records derived from parent record in 1-to-1 relationship
             self.object = None
             parent_pks = request.POST.getlist("selection")
             self.parent_pks = parent_pks
+            context = self.get_context_data()
+            return render(request, self.template_name, context=context)
+
+        elif "del_btn" in self.request.POST:
+            pass
+
+        elif "del_confirm_btn" in self.request.POST:
+            pks = request.POST.getlist("selection")
+            sample = Sample.objects.filter(pk__in=pks)
+            num_deleted = len(pks)
+            sample.delete()
+            messages.warning(request, '%d samples deleted.' % num_deleted)
+            context = self.get_context_data()
+            return render(request, self.template_name, context=context)
+
+        elif "cancel_btn" in self.request.POST:
+            messages.success(request, 'No records were deleted.')
             context = self.get_context_data()
             return render(request, self.template_name, context=context)
 
@@ -363,7 +458,6 @@ class GenericUpdateFormSet(UpdateView):
             print(self.pks)
             return render(request, self.template_name, context=context)
 
-
         # recaptures ids for switching field views
         elif formset is not None:
             self.object = None
@@ -374,6 +468,7 @@ class GenericUpdateFormSet(UpdateView):
             self.pks = pks
             context = self.get_context_data()
             return render(request, self.template_name, context=context)
+
 
         # processes all empty requests
         else:

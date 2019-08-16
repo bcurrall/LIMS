@@ -20,15 +20,25 @@ urlpatterns = [
     #Library update
     path(r'updateplate/', views.LibraryUpdateFormSetPlateSetup.as_view(), name='update_plate'),
     path(r'updateqc/', views.LibraryUpdateFormSetQC.as_view(), name='update_qc'),
+    #Library delete
+    path(r'delete_test/', views.LibraryTableDeleteBase.as_view(), name='delete_test'),
+
     ##Pool
     #pool browser
     path(r'pool_browser/', views.PoolTableSimple.as_view(), name='pool_browser'),
     # create pool and update pooling
     path(r'pooling/', views.PoolUpdateFormSetPooling.as_view(), name='pooling'),
+    # pool delete
+    path(r'pooldelete/', views.PoolTableDeleteBase.as_view(), name='pool_delete'),
 
     ###poolingamount
     #poolingamount browser
     path(r'poolingamountbrowser/', views.PoolingAmountTableSimple.as_view(), name='pooling_amount_browser'),
+    #poolingamount update
+    path(r'poolingamountupdate/', views.PoolingAmountUpdateFormSetPooling.as_view(), name='pooling_amount_update'),
+
+    #poolingamount delete
+    path(r'poolingamountdelete/', views.PoolAmountTableDeleteBase.as_view(), name='pooling_amount_delete'),
 
     #test urls
 

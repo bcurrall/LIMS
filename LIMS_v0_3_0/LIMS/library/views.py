@@ -3,11 +3,10 @@ from django.forms import modelformset_factory, formset_factory
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse_lazy
-from LIMS.views import GenericCreateFormSet, GenericUpdateFormSet
-from LIMS.utils import PagedFilteredTableView
+from LIMS.views import GenericUpdateFormSet, PagedFilteredTableView
 from .models import Library, Pool, PoolingAmount
 from .forms import UploadFileForm, LibraryPlateForm, LibraryValidateForm, PoolForm, PoolingAmountForm, LibraryForm, LibraryListFormHelper, PoolListFormHelper, PoolingAmountListFormHelper
-from .tables import LibraryTableSimple, LibraryTablePlateSetup, LibraryTableQC, LibraryTable, LibraryTableFull, PoolTable, PoolingAmountTable
+from .tables import LibraryTableSimple, LibraryTableDelete, LibraryTablePlateSetup, LibraryTableQC, LibraryTable, LibraryTableFull, PoolTable, PoolingAmountTable
 from .filters import LibraryListFilter, LibraryFilter, PoolListFilter, PoolFilter, PoolingAmountListFilter
 
 from sample.models import Sample
@@ -27,39 +26,7 @@ import csv
 now = datetime.datetime.now()
 date_stamp = now.strftime("%d%m%Y")
 
-def test(request):
 
-    form = PoolForm
-
-    context = {
-        "form": form,
-    }
-    return render(request, 'test.html', context)
-
-def delete(request):
-    title = 'Are you sure you want to delete the following libraries?'
-    pks = request.POST.getlist("selection")
-    library = Library.objects.filter(pk__in=pks)
-    table = LibraryTable(Library.objects.filter(pk__in=pks))
-
-    if request.method == "POST":
-        if "del_confirm_btn" in request.POST:
-            num_deleted = len(pks)
-            library.delete()
-            messages.warning(request, '%d libraries deleted.' %num_deleted)
-            return HttpResponseRedirect('/library')
-        if "no_btn" in request.POST:
-            messages.success(request, 'No libraries were deleted.')
-            return HttpResponseRedirect('/library')
-
-    context = {
-        # "add_url": add_url,
-        # "select_url": select_url,
-        "title": title,
-        "table": table,
-        # "num_deleted": num_deleted,
-    }
-    return render(request, 'library/delete.html', context)
 
 def delete_pool(request):
     title = 'Are you sure you want to delete the following libraries?'
@@ -171,8 +138,9 @@ def edit(request):
 
     return render(request, 'library/edit.html', context)
 
-### Class based views
+##### Class based views
 
+#### Libraries
 ## Library Browsers/FilterTables
 # Browser/Table base
 class LibraryTableBase(PagedFilteredTableView):
@@ -223,7 +191,7 @@ class LibraryTableFull(LibraryTableBase):
 
 ## Library CreateViews
 # CreateView base (inherits from LIMS Generic CreateView)
-class LibraryCreateFormSetBase(GenericCreateFormSet):
+class LibraryCreateFormSetBase(GenericUpdateFormSet):
     template_name = 'library/create.html'
     success_url = reverse_lazy('library:browser')
     button_type = 'buttons_1.html'
@@ -232,6 +200,7 @@ class LibraryCreateFormSetBase(GenericCreateFormSet):
     buttons = [
         {"name": 'Basic', "class": 'btn btn-default', "url": 'library:create'},
     ]
+    extra = 5
 
     def get_buttons(self):
         buttons = self.buttons
@@ -251,7 +220,7 @@ class LibraryCreateFormSetBasic(LibraryCreateFormSetBase):
     field = ('gtc_code', 'library_type', 'plate_name', 'well', 'parent_name', 'name', 'amount_of_sample_used',
              'amount_of_water_used', 'plate_comments')
 
-##### Sample UpdateViews
+## Library UpdateViews
 # UpdateView Base
 class LibraryUpdateFormSetBase(GenericUpdateFormSet):
     template_name = 'library/update.html'
@@ -289,6 +258,20 @@ class LibraryUpdateFormSetQC(LibraryUpdateFormSetBase):
              'tapestation_size_bp', 'tapestation_conc_ng_uL', 'tapestation_molarity_nM', 'qpcr_conc_molarity_nM', 'qubit_conc_ng_uL',
              )
 
+## Library Delete
+class LibraryTableDeleteBase(PagedFilteredTableView):
+    template_name = 'library/delete.html'
+    model = Library
+    filter_class = LibraryListFilter
+    formhelper_class = LibraryListFormHelper
+    title = 'Are you sure you want to delete these samples?'
+    page = 'Full'
+    table_class = LibraryTableDelete #needs its own table - not sure why
+
+    button_type = 'buttons_1.html'
+    buttons = []
+
+#### Pools
 ## Pool Browsers/FilterTables
 # Browser Pool Base
 class PoolTableBase(PagedFilteredTableView):
@@ -298,12 +281,7 @@ class PoolTableBase(PagedFilteredTableView):
     formhelper_class = PoolListFormHelper
 
     button_type = 'buttons_1.html'
-    buttons = [
-        {"name": 'Simple', "class": 'btn btn-default', "url": 'library:browser'},
-        {"name": 'Plate Setup', "class": 'btn btn-default', "url": 'library:browser_plate'},
-        {"name": 'QC', "class": 'btn btn-default', "url": 'library:browser_qc'},
-        {"name": 'Full', "class": 'btn btn-default', "url": 'library:browser_full'},
-    ]
+    buttons = []
 
     # TODO setup buttons so that None is an option
     def get_buttons(self):
@@ -322,7 +300,7 @@ class PoolTableSimple(PoolTableBase):
     page = 'Simple'
     table_class = PoolTable
 
-##### Pool UpdateViews
+### Pool UpdateViews
 # UpdateView Base
 class PoolUpdateFormSetBase(GenericUpdateFormSet):
     template_name = 'library/update_pool.html'
@@ -359,21 +337,29 @@ class PoolUpdateFormSetPooling(PoolUpdateFormSetBase):
     page = 'Plate'
     field = ('pool_name', 'library_name', 'name', 'rel_proportion', 'amount_of_library_used', 'library_amount')
 
+### Pool Delete
+class PoolTableDeleteBase(PagedFilteredTableView):
+    template_name = 'library/delete.html'
+    model = Pool
+    filter_class = PoolListFilter
+    formhelper_class = PoolListFormHelper
+    title = 'Are you sure you want to delete these samples?'
+    page = 'Full'
+    table_class = PoolTable #needs its own table - not sure why
 
+    button_type = 'buttons_1.html'
+    buttons = []
+
+#### PoolAmounts
 ### PoolAmounts - Table
 class PoolingAmountTableBase(PagedFilteredTableView):
-    template_name = 'library/selector_pool.html'
+    template_name = 'library/selector_poolamount.html'
     model = PoolingAmount
     filter_class = PoolingAmountListFilter
     formhelper_class = PoolingAmountListFormHelper
 
     button_type = 'buttons_1.html'
-    buttons = [
-        {"name": 'Simple', "class": 'btn btn-default', "url": 'library:browser'},
-        {"name": 'Plate Setup', "class": 'btn btn-default', "url": 'library:browser_plate'},
-        {"name": 'QC', "class": 'btn btn-default', "url": 'library:browser_qc'},
-        {"name": 'Full', "class": 'btn btn-default', "url": 'library:browser_full'},
-    ]
+    buttons = []
 
     # TODO setup buttons so that None is an option
     def get_buttons(self):
@@ -386,10 +372,50 @@ class PoolingAmountTableBase(PagedFilteredTableView):
                 button['class'] = 'btn btn-default'
         return buttons
 
+# PoolingAmounts - Table Instance
 class PoolingAmountTableSimple(PoolingAmountTableBase):
     title = 'Pooling Amount Browser'
     page = 'Simple'
     table_class = PoolingAmountTable
+
+### PoolingAmounts - Update
+class PoolingAmountUpdateFormSetBase(GenericUpdateFormSet):
+    template_name = 'library/update.html'
+    success_url = reverse_lazy('library:browser')
+    button_type = 'buttons_3.html'
+    model = PoolingAmount
+    model_parent = Pool
+    form_class = PoolingAmountForm
+    buttons = []
+
+    def get_buttons(self):
+        buttons = self.buttons
+        page = self.page
+        for button in buttons:
+            if button['name'] == page:
+                button['class'] = 'btn btn-success'
+            else:
+                button['class'] = 'btn btn-default'
+        return buttons
+
+class PoolingAmountUpdateFormSetPooling(PoolingAmountUpdateFormSetBase):
+    title = 'Edit Pooling Amount Information'
+    page = 'Plate'
+    field = ('pool_name', 'library_name', 'name', 'rel_proportion', 'amount_of_library_used', 'library_amount')
+
+
+### Pool Delete
+class PoolAmountTableDeleteBase(PagedFilteredTableView):
+    template_name = 'library/delete.html'
+    model = PoolingAmount
+    filter_class = PoolingAmountListFilter
+    formhelper_class = PoolingAmountListFormHelper
+    title = 'Are you sure you want to delete these pooling amounts?'
+    page = 'Full'
+    table_class = PoolingAmountTable #needs its own table - not sure why
+
+    button_type = 'buttons_1.html'
+    buttons = []
 
 
 ### archived views
@@ -644,7 +670,6 @@ def pool_browser(request):
 
     return render(request, 'library/browser_pool.html', context)
 
-
 def pool(request):
     title = 'Pool Libraries'
     data = ()
@@ -754,3 +779,36 @@ def pool(request):
 
     return render(request, 'library/add_pool.html', context)
 
+def delete(request):
+    title = 'Are you sure you want to delete the following libraries?'
+    pks = request.POST.getlist("selection")
+    library = Library.objects.filter(pk__in=pks)
+    table = LibraryTable(Library.objects.filter(pk__in=pks))
+
+    if request.method == "POST":
+        if "del_confirm_btn" in request.POST:
+            num_deleted = len(pks)
+            library.delete()
+            messages.warning(request, '%d libraries deleted.' %num_deleted)
+            return HttpResponseRedirect('/library')
+        if "no_btn" in request.POST:
+            messages.success(request, 'No libraries were deleted.')
+            return HttpResponseRedirect('/library')
+
+    context = {
+        # "add_url": add_url,
+        # "select_url": select_url,
+        "title": title,
+        "table": table,
+        # "num_deleted": num_deleted,
+    }
+    return render(request, 'library/delete.html', context)
+
+def test(request):
+
+    form = PoolForm
+
+    context = {
+        "form": form,
+    }
+    return render(request, 'test.html', context)

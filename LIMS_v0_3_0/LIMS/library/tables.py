@@ -19,6 +19,20 @@ class LibraryTableSimple(ColumnShiftTable):
         fields = ('unique_id', 'gtc_code', 'library_type', 'plate_name', 'well', 'parent_name', 'name',)
         sequence = ('selection',)
 
+class LibraryTableDelete(ColumnShiftTable):
+
+    selection = tables.CheckBoxColumn(
+        accessor="pk",
+        attrs={"th__input": {"onclick": "toggle(this)"}},
+        orderable=False
+    )
+
+    class Meta:
+        model = Library
+        attrs = {'class': 'paleblue'}
+        fields = ('unique_id', 'gtc_code', 'library_type', 'plate_name', 'well', 'parent_name', 'name',)
+        sequence = ('selection',)
+
 class LibraryTablePlateSetup(ColumnShiftTable):
 
     selection = tables.CheckBoxColumn(

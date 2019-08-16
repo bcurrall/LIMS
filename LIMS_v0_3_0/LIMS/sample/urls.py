@@ -33,6 +33,7 @@ urlpatterns = [
 
 
     # delete
-    path(r'delete/', views.delete, name='delete'),
+    # path(r'delete/', views.delete, name='delete'),
+    path(r'delete/', views.SampleTableListDeleteBase.as_view(), name='delete'),
 
 ]

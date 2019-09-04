@@ -1,0 +1,4 @@
+{% for button in buttons_processing %}
+    <input type="submit" name="{{ button.name }}" class= '{{ button.class }}' formaction="{% url button.url %}" value="{{ button.value }}">
+{% endfor %}
+

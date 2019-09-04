@@ -30,15 +30,20 @@
     {% endif %}
 </div>
 
-<!--formset-->
+<!--form + formset-->
 <div>
     <form method="POST" action="">{% csrf_token %}
-        <!--switch buttons-->
         <div class="row">
-            <div class="col-sm-12">
-                {% include button_type %}<br>
-            </div>
+            {% crispy form_p %}
         </div>
+    </form>
+</div>
+
+<div>
+    <form method="POST" action="">{% csrf_token %}
+        <!--<div class="row">-->
+            <!--{% crispy form_p %}-->
+        <!--</div>-->
 
         <div class="row">
             {{ formset.management_form }}
@@ -70,38 +75,37 @@
                     {% endfor %}
                 </table>
             </div>
-          </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-md-12">
+                {% include buttons_processing_type %}<br>
+            </div>
+        </div>
         <div class="row">
             <div class="col-sm-12">
-                <input type="submit" name="save_btn" value="Update"/>
+                <h3>Export and Upload Forms</h3>
+            </div>
+            <div class="col-sm-12">
                 <button type="submit" name="export_btn">Export</button>
             </div>
         </div>
     </form>
 </div>
 
-
+<!--TODO get import working on 2 form update-->
 <!--export/import-->
-<div class="row">
-    <div class="col-sm-12">
-        <h3>Export and Upload Forms</h3>
-    </div>
-    <br>
-</div>
-<div class="row">
-    <div class="col-sm-12">
-        <form action="" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% for field in upload_form %}
-                {{ field }}
-            {% endfor %}
-            <input type="file" name="myfile">
-            <button type="submit" name="upload_btn">Upload</button>
-        </form>
-    </div>
-</div>
-
-
+<!--<div class="row">-->
+    <!--<div class="col-sm-12">-->
+        <!--<form action="" method="POST" enctype="multipart/form-data">-->
+            <!--{% csrf_token %}-->
+            <!--{% for field in upload_form %}-->
+                <!--{{ field }}-->
+            <!--{% endfor %}-->
+            <!--<input type="file" name="myfile">-->
+            <!--<button type="submit" name="upload_btn">Upload</button>-->
+        <!--</form>-->
+    <!--</div>-->
+<!--</div>-->
 {% endblock %}
 
 

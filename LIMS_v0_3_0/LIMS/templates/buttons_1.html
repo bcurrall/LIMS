@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xs-10 btn-group" role="group">
     {% for button in buttons %}
-        <a href="{% url button.url %}" class="&quot {{ button.class }} ;asd">{{ button.name }}</a>
+        <a href="{% url button.url %}" class="{{ button.class }}">{{ button.name }}</a>
     {% endfor %}
     </div>
 </div>

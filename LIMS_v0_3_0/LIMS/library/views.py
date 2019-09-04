@@ -27,124 +27,13 @@ now = datetime.datetime.now()
 date_stamp = now.strftime("%d%m%Y")
 
 
-
-def delete_pool(request):
-    title = 'Are you sure you want to delete the following libraries?'
-    pks = request.POST.getlist("selection")
-    library = Pool.objects.filter(pk__in=pks)
-    table = PoolTable(Pool.objects.filter(pk__in=pks))
-
-    if request.method == "POST":
-        if "del_confirm_btn" in request.POST:
-            num_deleted = len(pks)
-            library.delete()
-            messages.warning(request, '%d libraries deleted.' %num_deleted)
-            return HttpResponseRedirect('/library')
-        if "no_btn" in request.POST:
-            messages.success(request, 'No libraries were deleted.')
-            return HttpResponseRedirect('/library')
-
-    context = {
-        # "add_url": add_url,
-        # "select_url": select_url,
-        "title": title,
-        "table": table,
-        # "num_deleted": num_deleted,
-    }
-    return render(request, 'library/delete.html', context)
-
-def edit(request):
-    title = 'Edit Library Information'
-    subtitle = 'List of libraries to edit be generated from library browser.'
-
-    extras = 0
-
-    pks = request.POST.getlist("selection")
-    qset = Library.objects.filter(pk__in=pks)
-
-    data = ()
-    upload_form = UploadFileForm()
-
-    if "export_btn" in request.POST:
-        # from https://simpleisbetterthancomplex.com/tutorial/2016/07/29/how-to-export-to-excel.html
-        response = HttpResponse(content_type='application/ms-excel')
-        response['Content-Disposition'] = 'attachment; filename="samples.xls"'
-        wb = xlwt.Workbook(encoding='utf-8')
-        ws = wb.add_sheet('Sample')
-        row_num = 0
-        font_style = xlwt.XFStyle()
-        font_style.font.bold = True
-        # TODO make dynamic columns
-        columns = ['parent_name', 'sample_type', 'conc', 'vol']
-        for col_num in range(len(columns)):
-            ws.write(row_num, col_num, columns[col_num], font_style)
-        wb.save(response)
-        return response
-
-    if "upload_btn" in request.POST:
-        upload_form = UploadFileForm(request.POST, request.FILES)
-        if upload_form.is_valid():
-            print("valid")
-            filehandle = request.FILES['myfile']
-            data = filehandle.get_records()
-            count = 0
-            for record in data:
-                count = count + 1
-                sample_name = record['sample_name']
-                # TODO figure out how to prevent saving when uploading
-                sample_record = Sample.objects.get_or_create(name=sample_name)
-                sample = sample_record[0]
-                record['sample'] = sample.id
-            extras = count
-
-
-    LibraryFormSet = modelformset_factory(Library, form=LibraryForm, extra=extras)
-    formset = LibraryFormSet(queryset=qset, initial=data)
-
-    table = LibraryTable(Library.objects.filter(pk__in=pks))
-
-    if "save_btn" in request.POST:
-        formset = LibraryFormSet(request.POST)
-        if formset.is_valid():
-            record_num = int(0)
-            record_add = int(0)
-            for form in formset:
-                record_num += 1
-                if form.is_valid():
-                    if form.cleaned_data == {}:
-                        messages.warning(request, 'Record #%d did not add because required data was missing.' % record_num)
-                    else:
-                        record_add += 1
-                        form.save()
-                else:
-                    messages.warning(request, 'Form Error')
-            messages.success(request, '%d records added successfully.' % record_add)
-        else:
-            messages.warning(request, 'Formset Error')
-
-        return HttpResponseRedirect('/library')
-
-    context = {
-        'button_type': 'buttons_1.html',
-        'title': title,
-        'subtitle': subtitle,
-        # "basic_url": basic_url,
-        # "advanced_url": advanced_url,
-        "formset": formset,
-        "table": table,
-        "extras": extras,
-        "upload_form": upload_form,
-    }
-
-    return render(request, 'library/edit.html', context)
-
 ##### Class based views
 
 #### Libraries
 ## Library Browsers/FilterTables
 # Browser/Table base
 class LibraryTableBase(PagedFilteredTableView):
-    template_name = 'library/selector.html'
+    template_name = 'selector.html'
     model = Library
     filter_class = LibraryListFilter
     formhelper_class = LibraryListFormHelper
@@ -156,143 +45,133 @@ class LibraryTableBase(PagedFilteredTableView):
         {"name": 'QC', "class": 'btn btn-default', "url": 'library:browser_qc'},
         {"name": 'Full', "class": 'btn btn-default', "url": 'library:browser_full'},
     ]
+    buttons_processing_type = 'buttons_processing.html'
+    buttons_processing = [
+        {"name": 'edit_btn',  "class":'btn btn-primary', "url": 'library:update_plate', "value": 'Update Plate'},
+        {"name": 'validate_btn',  "class":'btn btn-primary', "url": 'library:update_qc', "value": 'Update QC'},
+        {"name": 'process_2_form_btn',  "class":'btn btn-primary', "url": 'library:pooling', "value": 'Pool'},
+        {"name": 'del_btn',  "class":'btn btn-danger', "url": 'library:library_delete', "value": 'Delete'},
+    ]
 
-    # TODO setup buttons so that None is an option
-    def get_buttons(self):
-        buttons = self.buttons
-        page = self.page
-        for button in buttons:
-            if button['name'] == page:
-                button['class'] = 'btn btn-success'
-            else:
-                button['class'] = 'btn btn-default'
-        return buttons
 
 # Table instances
-class LibraryTableSimple(LibraryTableBase):
+class LibraryTableSimpleView(LibraryTableBase):
     title = 'Library Browser - Plate'
     page = 'Simple'
     table_class = LibraryTableSimple
 
-class LibraryTablePlateSetup(LibraryTableBase):
+class LibraryTablePlateSetupView(LibraryTableBase):
     title = 'Library Browser - Plate Setup'
     page = 'Plate Setup'
     table_class = LibraryTablePlateSetup
 
-class LibraryTableQC(LibraryTableBase):
+class LibraryTableQCView(LibraryTableBase):
     title = 'Library Browser - QC'
     page = 'QC'
     table_class = LibraryTableQC
 
-class LibraryTableFull(LibraryTableBase):
+class LibraryTableFullView(LibraryTableBase):
     title = 'Library Browser - Full'
     page = 'Full'
     table_class = LibraryTableFull
 
-## Library CreateViews
-# CreateView base (inherits from LIMS Generic CreateView)
-class LibraryCreateFormSetBase(GenericUpdateFormSet):
-    template_name = 'library/create.html'
-    success_url = reverse_lazy('library:browser')
-    button_type = 'buttons_1.html'
-    model = Library
-    form_class = LibraryForm
-    buttons = [
-        {"name": 'Basic', "class": 'btn btn-default', "url": 'library:create'},
-    ]
-    extra = 5
-
-    def get_buttons(self):
-        buttons = self.buttons
-        page = self.page
-        for button in buttons:
-            if button['name'] == page:
-                button['class'] = 'btn btn-success'
-            else:
-                button['class'] = 'btn btn-default'
-
-        return buttons
-
-# CreateViews instances
-class LibraryCreateFormSetBasic(LibraryCreateFormSetBase):
-    title = 'Enter Library Setup Information'
-    page = 'Basic'
-    field = ('gtc_code', 'library_type', 'plate_name', 'well', 'parent_name', 'name', 'amount_of_sample_used',
-             'amount_of_water_used', 'plate_comments')
-
-## Library UpdateViews
+## Library Create/UpdateViews
 # UpdateView Base
 class LibraryUpdateFormSetBase(GenericUpdateFormSet):
-    template_name = 'library/update.html'
-    success_url = reverse_lazy('library:browser')
-    button_type = 'buttons_3.html'
+    template_name = 'update.html'
     model = Library
     model_parent = Sample
     form_class = LibraryForm
+    batch_prefix = 'plt'
+    record_prefix = 'lib'
+    button_type = 'buttons_3.html'
+    buttons_processing_type = 'buttons_processing.html'
+
+
+# CreateViews instances
+class LibraryCreateFormSetBasic(LibraryUpdateFormSetBase):
+    title = 'Enter Library Setup Information'
+    page = 'Basic'
+    extra = 5
+    field = ('gtc_code', 'library_type', 'batch_id', 'well', 'parent_name', 'name', 'amount_of_sample_used',
+             'amount_of_water_used', 'plate_comments')
+    buttons = [
+        {"name": 'Basic', "class": 'btn btn-default', "url": 'library:create'},
+    ]
+    buttons_processing = [
+        {"name": 'save_btn',  "class":'btn btn-primary', "value": 'Add', "url": 'library:create'},
+    ]
+
+class LibraryUpdateFormSetPlateSetup(LibraryUpdateFormSetBase):
+    success_url = reverse_lazy('library:browser_plate')
+    title = 'Edit Library Information - Plate Setup'
+    page = 'Plate'
+    field = ('unique_id', 'gtc_code', 'library_type', 'batch_id', 'well', 'parent_name', 'name',
+             'amount_of_sample_used', 'amount_of_water_used', 'plate_comments')
+    buttons = [
+        {"name": 'Plate', "class": 'btn btn-default', "url": 'library:update_plate'},
+        {"name": 'QC', "class": 'btn btn-default', "url": 'library:update_qc'},
+    ]
+    buttons_processing = [
+        {"name": 'save_btn',  "class":'btn btn-primary', "value": 'Update', "url": 'library:update_plate'},
+    ]
+
+class LibraryUpdateFormSetQC(LibraryUpdateFormSetBase):
+    success_url = reverse_lazy('library:browser_qc')
+    title = 'Edit Library Information - Final Library QC'
+    page = 'QC'
+    field = ('unique_id', 'gtc_code', 'library_type', 'batch_id', 'well', 'parent_name', 'name',
+             'illumina_barcode_plate', 'barcode_well', 'i7_barcode', 'i5_barcode', 'library_amount',
+             'tapestation_size_bp', 'tapestation_conc_ng_uL', 'tapestation_molarity_nM', 'qpcr_conc_molarity_nM', 'qubit_conc_ng_uL',
+             )
     buttons = [
         {"name": 'Plate', "class": 'btn btn-default', "url": 'library:update_plate'},
         {"name": 'QC', "class": 'btn btn-default', "url": 'library:update_qc'},
     ]
 
-    def get_buttons(self):
-        buttons = self.buttons
-        page = self.page
-        for button in buttons:
-            if button['name'] == page:
-                button['class'] = 'btn btn-success'
-            else:
-                button['class'] = 'btn btn-default'
-        return buttons
 
-class LibraryUpdateFormSetPlateSetup(LibraryUpdateFormSetBase):
-    title = 'Edit Library Information - Plate Setup'
-    page = 'Plate'
-    field = ('unique_id', 'gtc_code', 'library_type', 'plate_name', 'well', 'parent_name', 'name',
-             'amount_of_sample_used', 'amount_of_water_used', 'plate_comments')
-
-class LibraryUpdateFormSetQC(LibraryUpdateFormSetBase):
-    title = 'Edit Library Information - Final Library QC'
-    page = 'QC'
-    field = ('unique_id', 'gtc_code', 'library_type', 'plate_name', 'well', 'parent_name', 'name',
-             'illumina_barcode_plate', 'barcode_well', 'i7_barcode', 'i5_barcode', 'library_amount',
-             'tapestation_size_bp', 'tapestation_conc_ng_uL', 'tapestation_molarity_nM', 'qpcr_conc_molarity_nM', 'qubit_conc_ng_uL',
-             )
+    buttons_processing = [
+        {"name": 'save_btn',  "class":'btn btn-primary', "value": 'Update', "url": 'library:update_qc'},
+    ]
 
 ## Library Delete
 class LibraryTableDeleteBase(PagedFilteredTableView):
-    template_name = 'library/delete.html'
+    template_name = 'delete.html'
     model = Library
     filter_class = LibraryListFilter
     formhelper_class = LibraryListFormHelper
-    title = 'Are you sure you want to delete these samples?'
+    title = 'Are you sure you want to delete these libraries?'
     page = 'Full'
     table_class = LibraryTableDelete #needs its own table - not sure why
-
     button_type = 'buttons_1.html'
     buttons = []
+    buttons_processing_type = 'buttons_processing.html'
+    buttons = [
+        {"name": 'Plate', "class": 'btn btn-default', "url": 'library:update_plate'},
+        {"name": 'QC', "class": 'btn btn-default', "url": 'library:update_qc'},
+    ]
+    buttons_processing = [
+        {"name": 'del_confirm_btn',  "class":'btn btn-danger', "url": 'library:browser', "value": 'Delete Sample(s)'},
+        {"name": 'cancel_btn',  "class":'btn btn-primary', "url": 'library:browser', "value": 'Cancel'},
+    ]
 
 #### Pools
 ## Pool Browsers/FilterTables
 # Browser Pool Base
 class PoolTableBase(PagedFilteredTableView):
-    template_name = 'library/selector_pool.html'
+    template_name = 'selector.html'
     model = Pool
     filter_class = PoolListFilter
     formhelper_class = PoolListFormHelper
-
     button_type = 'buttons_1.html'
     buttons = []
+    buttons_processing_type = 'buttons_processing.html'
+    buttons_processing = [
+        {"name": 'update_2_form_btn',  "class":'btn btn-primary', "url": 'library:pooling', "value": 'Edit Pool'},
+        {"name": 'process_2_form_btn',  "class":'btn btn-primary', "url": 'sequence:submission_update', "value": 'Submit to WUS'},
+        {"name": 'del_btn',  "class":'btn btn-danger', "url": 'library:pool_delete', "value": 'Delete'},
+    ]
 
-    # TODO setup buttons so that None is an option
-    def get_buttons(self):
-        buttons = self.buttons
-        page = self.page
-        for button in buttons:
-            if button['name'] == page:
-                button['class'] = 'btn btn-success'
-            else:
-                button['class'] = 'btn btn-default'
-        return buttons
 
 # Table instances
 class PoolTableSimple(PoolTableBase):
@@ -303,74 +182,73 @@ class PoolTableSimple(PoolTableBase):
 ### Pool UpdateViews
 # UpdateView Base
 class PoolUpdateFormSetBase(GenericUpdateFormSet):
-    template_name = 'library/update_pool.html'
+    template_name = 'form_twoforms.html'
     success_url = reverse_lazy('library:pool_browser')
     button_type = 'buttons_3.html'
-    model = PoolingAmount
-    model_parent = Pool
+    batch_prefix = 'pool'
+    record_prefix = 'plam'
     # TODO this 'form_classes' hack is a way to get around the single form_class restriction in django classes more appropriate handling is done by:
     # https://www.codementor.io/lakshminp/handling-multiple-forms-on-the-same-page-in-django-fv89t2s3j
     # https://stackoverflow.com/questions/15497693/django-can-class-based-views-accept-two-forms-at-a-time
     form_classes = {'form_current': PoolingAmountForm,
                     'model_current': PoolingAmount,
                     'form_parent': PoolForm,
-                    'model_parent': Pool}
+                    'model_parent': Pool,
+                    'form_related': LibraryForm,
+                    'model_related': Library,
+                    }
     # form_class = PoolForm
 
     buttons = [
         {"name": 'Plate', "class": 'btn btn-default', "url": 'library:update_plate'},
         {"name": 'QC', "class": 'btn btn-default', "url": 'library:update_qc'},
     ]
+    buttons_processing_type = 'buttons_processing.html'
+    buttons_processing = [
+        {"name": 'save_btn',  "class":'btn btn-primary', "value": 'Update Library Amounts', "url": 'library:pooling'},
+    ]
 
-    def get_buttons(self):
-        buttons = self.buttons
-        page = self.page
-        for button in buttons:
-            if button['name'] == page:
-                button['class'] = 'btn btn-success'
-            else:
-                button['class'] = 'btn btn-default'
-        return buttons
 
 class PoolUpdateFormSetPooling(PoolUpdateFormSetBase):
     title = 'Pooling'
     page = 'Plate'
-    field = ('pool_name', 'library_name', 'name', 'rel_proportion', 'amount_of_library_used', 'library_amount')
+    field = ('parent_name', 'related_name', 'name', 'rel_proportion', 'amount_of_library_used', 'library_amount')
 
 ### Pool Delete
 class PoolTableDeleteBase(PagedFilteredTableView):
-    template_name = 'library/delete.html'
+    template_name = 'delete.html'
     model = Pool
     filter_class = PoolListFilter
     formhelper_class = PoolListFormHelper
-    title = 'Are you sure you want to delete these samples?'
+    title = 'Are you sure you want to delete these pools?'
     page = 'Full'
-    table_class = PoolTable #needs its own table - not sure why
-
+    table_class = PoolTable
     button_type = 'buttons_1.html'
     buttons = []
+    buttons_processing_type = 'buttons_processing.html'
+    buttons_processing = [
+        {"name": 'del_confirm_btn',  "class":'btn btn-danger', "url": 'library:pool_browser', "value": 'Delete Pools(s)'},
+        {"name": 'cancel_btn',  "class":'btn btn-primary', "url": 'library:pool_browser', "value": 'Cancel'},
+    ]
 
 #### PoolAmounts
 ### PoolAmounts - Table
 class PoolingAmountTableBase(PagedFilteredTableView):
-    template_name = 'library/selector_poolamount.html'
+    template_name = 'selector.html'
     model = PoolingAmount
     filter_class = PoolingAmountListFilter
     formhelper_class = PoolingAmountListFormHelper
+    batch_prefix = 'pool'
+    record_prefix = 'plam'
 
     button_type = 'buttons_1.html'
     buttons = []
+    buttons_processing_type = 'buttons_processing.html'
+    buttons_processing = [
+        {"name": 'update_btn',  "class": 'btn btn-primary', "url": 'library:pooling_amount_update', "value": 'Edit Pooling Amount'},
+        {"name": 'del_btn',  "class": 'btn btn-danger', "url": 'library:pooling_amount_delete', "value": 'Delete'},
+    ]
 
-    # TODO setup buttons so that None is an option
-    def get_buttons(self):
-        buttons = self.buttons
-        page = self.page
-        for button in buttons:
-            if button['name'] == page:
-                button['class'] = 'btn btn-success'
-            else:
-                button['class'] = 'btn btn-default'
-        return buttons
 
 # PoolingAmounts - Table Instance
 class PoolingAmountTableSimple(PoolingAmountTableBase):
@@ -380,45 +258,77 @@ class PoolingAmountTableSimple(PoolingAmountTableBase):
 
 ### PoolingAmounts - Update
 class PoolingAmountUpdateFormSetBase(GenericUpdateFormSet):
-    template_name = 'library/update.html'
-    success_url = reverse_lazy('library:browser')
-    button_type = 'buttons_3.html'
+    template_name = 'update.html'
+    success_url = reverse_lazy('library:pooling_amount_browser')
     model = PoolingAmount
     model_parent = Pool
     form_class = PoolingAmountForm
+    button_type = 'buttons_3.html'
     buttons = []
-
-    def get_buttons(self):
-        buttons = self.buttons
-        page = self.page
-        for button in buttons:
-            if button['name'] == page:
-                button['class'] = 'btn btn-success'
-            else:
-                button['class'] = 'btn btn-default'
-        return buttons
+    buttons_processing_type = 'buttons_processing.html'
+    buttons_processing = [
+        {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Update Library Amounts', "url": 'library:pooling_amount_update'},
+    ]
 
 class PoolingAmountUpdateFormSetPooling(PoolingAmountUpdateFormSetBase):
     title = 'Edit Pooling Amount Information'
     page = 'Plate'
-    field = ('pool_name', 'library_name', 'name', 'rel_proportion', 'amount_of_library_used', 'library_amount')
+    field = ('parent_name', 'related_name', 'name', 'rel_proportion', 'amount_of_library_used', 'library_amount')
 
 
 ### Pool Delete
 class PoolAmountTableDeleteBase(PagedFilteredTableView):
-    template_name = 'library/delete.html'
+    template_name = 'delete.html'
     model = PoolingAmount
     filter_class = PoolingAmountListFilter
     formhelper_class = PoolingAmountListFormHelper
     title = 'Are you sure you want to delete these pooling amounts?'
     page = 'Full'
-    table_class = PoolingAmountTable #needs its own table - not sure why
-
+    table_class = PoolingAmountTable
     button_type = 'buttons_1.html'
     buttons = []
+    buttons_processing_type = 'buttons_processing.html'
+    buttons_processing = [
+        {"name": 'del_confirm_btn',  "class":'btn btn-danger', "url": 'library:pooling_amount_browser', "value": 'Delete Pooling Amount(s)'},
+        {"name": 'cancel_btn',  "class":'btn btn-primary', "url": 'library:pooling_amount_browser', "value": 'Cancel'},
+    ]
+
+
+
+    #
+    # template_name = 'library/delete.html'
+    # model = PoolingAmount
+    # filter_class = PoolingAmountListFilter
+    # formhelper_class = PoolingAmountListFormHelper
+    # title = 'Are you sure you want to delete these pooling amounts?'
+    # page = 'Full'
+    # table_class = PoolingAmountTable
+    #
+    # button_type = 'buttons_1.html'
+    # buttons = []
 
 
 ### archived views
+# CreateView base (inherits from LIMS Generic CreateView)
+class LibraryCreateFormSetBase(GenericUpdateFormSet):
+    template_name = 'update.html'
+    success_url = reverse_lazy('library:browser')
+    button_type = 'buttons_1.html'
+    model = Library
+    form_class = LibraryForm
+    batch_prefix = 'plt'
+    record_prefix = 'lib'
+    buttons = [
+        {"name": 'Basic', "class": 'btn btn-default', "url": 'library:create'},
+    ]
+    extra = 5
+    buttons_processing_type = 'buttons_processing.html'
+    buttons_processing = [
+        {"name": 'save_btn',  "class":'btn btn-primary', "value": 'Add', "url": 'library:create'},
+    ]
+
+
+
 def lib_browser(request):
     title = 'Library Browser'
     basic_url = 'library:browser'
@@ -487,7 +397,7 @@ def add(request):
         font_style = xlwt.XFStyle()
         font_style.font.bold = True
         # TODO make dynamic columns
-        columns = ['gtc_code', 'library_type', 'plate_name', 'well', 'parent_name', 'name', 'amount_of_sample_used', 'amount_of_water_used', 'plate_comments',]
+        columns = ['gtc_code', 'library_type', 'batch_id', 'well', 'parent_name', 'name', 'amount_of_sample_used', 'amount_of_water_used', 'plate_comments',]
         for col_num in range(len(columns)):
             ws.write(row_num, col_num, columns[col_num], font_style)
         wb.save(response)
@@ -577,7 +487,7 @@ def validate(request):
         font_style.font.bold = True
         # TODO make dynamic columns
         columns = [
-            'library_type', 'plate_name', 'well', 'parent_name', 'name',
+            'library_type', 'batch_id', 'well', 'parent_name', 'name',
             'illumina_barcode_plate', 'barcode_well', 'i7_barcode', 'i5_barcode', 'library_amount', 'tapestation_size_bp',
             'tapestation_conc', 'tapestation_molarity_nM', 'qpcr_conc', 'qubit_conc',
         ]
@@ -812,3 +722,113 @@ def test(request):
         "form": form,
     }
     return render(request, 'test.html', context)
+
+def delete_pool(request):
+    title = 'Are you sure you want to delete the following libraries?'
+    pks = request.POST.getlist("selection")
+    library = Pool.objects.filter(pk__in=pks)
+    table = PoolTable(Pool.objects.filter(pk__in=pks))
+
+    if request.method == "POST":
+        if "del_confirm_btn" in request.POST:
+            num_deleted = len(pks)
+            library.delete()
+            messages.warning(request, '%d libraries deleted.' %num_deleted)
+            return HttpResponseRedirect('/library')
+        if "no_btn" in request.POST:
+            messages.success(request, 'No libraries were deleted.')
+            return HttpResponseRedirect('/library')
+
+    context = {
+        # "add_url": add_url,
+        # "select_url": select_url,
+        "title": title,
+        "table": table,
+        # "num_deleted": num_deleted,
+    }
+    return render(request, 'library/delete.html', context)
+
+def edit(request):
+    title = 'Edit Library Information'
+    subtitle = 'List of libraries to edit be generated from library browser.'
+
+    extras = 0
+
+    pks = request.POST.getlist("selection")
+    qset = Library.objects.filter(pk__in=pks)
+
+    data = ()
+    upload_form = UploadFileForm()
+
+    if "export_btn" in request.POST:
+        # from https://simpleisbetterthancomplex.com/tutorial/2016/07/29/how-to-export-to-excel.html
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="samples.xls"'
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet('Sample')
+        row_num = 0
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+        # TODO make dynamic columns
+        columns = ['parent_name', 'sample_type', 'conc', 'vol']
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num], font_style)
+        wb.save(response)
+        return response
+
+    if "upload_btn" in request.POST:
+        upload_form = UploadFileForm(request.POST, request.FILES)
+        if upload_form.is_valid():
+            print("valid")
+            filehandle = request.FILES['myfile']
+            data = filehandle.get_records()
+            count = 0
+            for record in data:
+                count = count + 1
+                sample_name = record['sample_name']
+                # TODO figure out how to prevent saving when uploading
+                sample_record = Sample.objects.get_or_create(name=sample_name)
+                sample = sample_record[0]
+                record['sample'] = sample.id
+            extras = count
+
+
+    LibraryFormSet = modelformset_factory(Library, form=LibraryForm, extra=extras)
+    formset = LibraryFormSet(queryset=qset, initial=data)
+
+    table = LibraryTable(Library.objects.filter(pk__in=pks))
+
+    if "save_btn" in request.POST:
+        formset = LibraryFormSet(request.POST)
+        if formset.is_valid():
+            record_num = int(0)
+            record_add = int(0)
+            for form in formset:
+                record_num += 1
+                if form.is_valid():
+                    if form.cleaned_data == {}:
+                        messages.warning(request, 'Record #%d did not add because required data was missing.' % record_num)
+                    else:
+                        record_add += 1
+                        form.save()
+                else:
+                    messages.warning(request, 'Form Error')
+            messages.success(request, '%d records added successfully.' % record_add)
+        else:
+            messages.warning(request, 'Formset Error')
+
+        return HttpResponseRedirect('/library')
+
+    context = {
+        'button_type': 'buttons_1.html',
+        'title': title,
+        'subtitle': subtitle,
+        # "basic_url": basic_url,
+        # "advanced_url": advanced_url,
+        "formset": formset,
+        "table": table,
+        "extras": extras,
+        "upload_form": upload_form,
+    }
+
+    return render(request, 'library/edit.html', context)

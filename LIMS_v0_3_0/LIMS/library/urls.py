@@ -7,21 +7,21 @@ app_name = 'library'
 
 urlpatterns = [
     #library home
-    re_path(r'^$', views.LibraryTableSimple.as_view(), name='home'),
+    re_path(r'^$', views.LibraryTableSimpleView.as_view(), name='home'),
 
     ##library
     #library browser
-    path(r'browser/', views.LibraryTableSimple.as_view(), name='browser'),
-    path(r'browserplate/', views.LibraryTablePlateSetup.as_view(), name='browser_plate'),
-    path(r'browserqc/', views.LibraryTableQC.as_view(), name='browser_qc'),
-    path(r'browserfull/', views.LibraryTableFull.as_view(), name='browser_full'),
+    path(r'browser/', views.LibraryTableSimpleView.as_view(), name='browser'),
+    path(r'browserplate/', views.LibraryTablePlateSetupView.as_view(), name='browser_plate'),
+    path(r'browserqc/', views.LibraryTableQCView.as_view(), name='browser_qc'),
+    path(r'browserfull/', views.LibraryTableFullView.as_view(), name='browser_full'),
     #Library create
     path(r'create/', views.LibraryCreateFormSetBasic.as_view(), name='create'),
     #Library update
     path(r'updateplate/', views.LibraryUpdateFormSetPlateSetup.as_view(), name='update_plate'),
     path(r'updateqc/', views.LibraryUpdateFormSetQC.as_view(), name='update_qc'),
     #Library delete
-    path(r'delete_test/', views.LibraryTableDeleteBase.as_view(), name='delete_test'),
+    path(r'librarydelete/', views.LibraryTableDeleteBase.as_view(), name='library_delete'),
 
     ##Pool
     #pool browser

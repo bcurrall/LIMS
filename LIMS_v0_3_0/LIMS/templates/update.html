@@ -14,22 +14,6 @@
         <h1>{{ title }}</h1>
     <br>
 </div>
-<!--buttons-->
-<div class="row">
-    <div class="col-sm-12">
-        {% include button_type %}<br>
-    </div>
-</div>
-
-<!--# selector-->
-<div class="row">
-    <form action="" method="POST">{% csrf_token %}
-      Number of Samples:
-      <input type="number" name="quantity" min="1" max="100" value="{{ extras }}">
-      <input type="submit" name="number-btn" value="Update">
-    </form>
-    <br>
-</div>
 
 <!--alert messages-->
 <div>
@@ -49,6 +33,13 @@
 <!--formset-->
 <div>
     <form method="POST" action="">{% csrf_token %}
+        <!--switch buttons-->
+        <div class="row">
+            <div class="col-sm-12">
+                {% include button_type %}<br>
+            </div>
+        </div>
+
         <div class="row">
             {{ formset.management_form }}
             {{ formset.non_form_errors.as_ul }}
@@ -81,7 +72,17 @@
             </div>
           </div>
         <div class="row">
-             <input type="submit" name="save_btn" value="Add"/>
+            <div class="col-xs-6 col-md-12">
+                {% include buttons_processing_type %}<br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Export and Upload Forms</h3>
+            </div>
+            <div class="col-sm-12">
+                <button type="submit" name="export_btn">Export</button>
+            </div>
         </div>
     </form>
 </div>
@@ -90,18 +91,6 @@
 <!--export/import-->
 <div class="row">
     <div class="col-sm-12">
-        <h3>Export and Upload Forms</h3>
-    </div>
-    <br>
-</div>
-<div class="row">
-    <div class="col-xs-3">
-        <form action="" method="POST">
-            {% csrf_token %}
-            <button type="submit" name="export_btn">Export</button>
-        </form>
-    </div>
-    <div class="col-xs-9">
         <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {% for field in upload_form %}

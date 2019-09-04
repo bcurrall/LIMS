@@ -17,9 +17,8 @@
           <li class="dropdown"><!--sample archiving-->
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Samples<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                  <li><a href="{% url 'sample:browser' %}">Browse Samples</a></li>
                   <li><a href="{% url 'sample:create' %}">Create New Sample</a></li>
-                  <li><a href="{% url 'sample:update' %}">Edit Samples</a></li>
+                  <li><a href="{% url 'sample:browser' %}">Browse Samples</a></li>
               </ul>
           </li>
           <!--<li class="dropdown">&lt;!&ndash;sample storage&ndash;&gt;-->
@@ -33,8 +32,8 @@
           <li class="dropdown"><!--making libraries processing-->
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Libraries<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                  <li><a href="{% url 'library:browser' %}">Browse Libraries</a></li>
                   <li><a href="{% url 'library:create' %}">Start New Library</a></li>
+                  <li><a href="{% url 'library:browser' %}">Browse Libraries</a></li>
                   <li><a href="{% url 'library:pool_browser' %}">Browse Pools</a></li>
                   <li><a href="{% url 'library:pooling_amount_browser' %}">Browse PoolingAmounts</a></li>
                   <!--<li><a href="{% url 'library:update_qc' %}">QC Library</a></li>-->
@@ -44,8 +43,11 @@
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sequencing<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                  <li><a href="{% url 'sequence:browser' %}">Browse Submissions</a></li>
-                  <li><a href="{% url 'sequence:add_wus_sub' %}">Start New Submission</a></li>
+
+                  <li><a href="{% url 'sequence:submission_create' %}">Start New Submission</a></li>
+                  <li><a href="{% url 'sequence:browser' %}">Browse WUS Submissions</a></li>
+                  <li><a href="{% url 'sequence:browser_pool' %}">Browse WUS Pools</a></li>
+                  <li><a href="{% url 'sequence:browser_result' %}">Browse WUS Results</a></li>
                   <!--<li><a href="#">Add Lane Seq Counts</a></li>-->
                   <!--<li><a href="#">Add Library Seq QC</a></li>-->
                   <!--<li><a href="#">Add Sample Seq QC</a></li>-->

@@ -13,10 +13,9 @@ class LibraryListFormHelper(FormHelper):
     field_class = 'col-xs-4'
     form_id = 'id_filterForm'
     form_method = 'get'
-    layout = Layout('gtc_code', 'library_type', ButtonHolder(
+    layout = Layout('gtc_code', 'batch_id', 'library_type', ButtonHolder(
         Submit('submit', 'Filter', css_class='button white right')
     ))
-
 
 class PoolListFormHelper(FormHelper):
     model = Pool
@@ -40,11 +39,9 @@ class PoolingAmountListFormHelper(FormHelper):
     field_class = 'col-xs-4'
     form_id = 'id_filterForm'
     form_method = 'get'
-    layout = Layout('pool_name', ButtonHolder(
+    layout = Layout('parent_name', ButtonHolder(
         Submit('submit', 'Filter', css_class='button white right')
     ))
-
-
 
 
 class UploadFileForm(forms.Form):
@@ -94,7 +91,8 @@ class PoolForm(forms.ModelForm):
         self.helper.add_input(Submit(input_type='submit', value='Update Pool Metrics', css_class='btn btn-light', name='save_form_btn')) #css_class is apending rather than overwritting
         self.helper.layout = Layout(
             'unique_id',
-            'name',
+            # 'name',
+            'batch_id',
             Row(
                 Column('tapestation_size_bp', css_class='form-group col-md-4 mb-0'),
                 Column('tapestation_conc', css_class='form-group col-md-4 mb-0'),

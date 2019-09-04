@@ -16,7 +16,7 @@ class LibraryTableSimple(ColumnShiftTable):
     class Meta:
         model = Library
         attrs = {'class': 'paleblue'}
-        fields = ('unique_id', 'gtc_code', 'library_type', 'plate_name', 'well', 'parent_name', 'name',)
+        fields = ('unique_id', 'gtc_code', 'library_type', 'batch_id', 'well', 'parent_name', 'name',)
         sequence = ('selection',)
 
 class LibraryTableDelete(ColumnShiftTable):
@@ -30,7 +30,7 @@ class LibraryTableDelete(ColumnShiftTable):
     class Meta:
         model = Library
         attrs = {'class': 'paleblue'}
-        fields = ('unique_id', 'gtc_code', 'library_type', 'plate_name', 'well', 'parent_name', 'name',)
+        fields = ('unique_id', 'gtc_code', 'library_type', 'batch_id', 'well', 'parent_name', 'name',)
         sequence = ('selection',)
 
 class LibraryTablePlateSetup(ColumnShiftTable):
@@ -44,7 +44,7 @@ class LibraryTablePlateSetup(ColumnShiftTable):
     class Meta:
         model = Library
         attrs = {'class': 'paleblue'}
-        fields = ('unique_id', 'gtc_code', 'library_type', 'plate_name', 'well', 'parent_name', 'name',
+        fields = ('unique_id', 'gtc_code', 'library_type', 'batch_id', 'well', 'parent_name', 'name',
                   'amount_of_sample_used', 'amount_of_water_used', 'plate_comments')
         sequence = ('selection',)
 
@@ -59,7 +59,7 @@ class LibraryTableQC(ColumnShiftTable):
     class Meta:
         model = Library
         attrs = {'class': 'paleblue'}
-        fields = ('unique_id', 'gtc_code', 'library_type', 'plate_name', 'well', 'parent_name', 'name',
+        fields = ('unique_id', 'gtc_code', 'library_type', 'batch_id', 'well', 'parent_name', 'name',
                   'illumina_barcode_plate', 'barcode_well', 'i7_barcode', 'i5_barcode', 'library_amount',
                   'tapestation_size_bp', 'tapestation_conc_ng_uL', 'tapestation_molarity_nM', 'qpcr_conc_molarity_nM', 'qubit_conc_ng_uL',
                   )

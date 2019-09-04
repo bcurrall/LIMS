@@ -16,7 +16,7 @@ from django.contrib import messages
 
 # Browser/Table base
 class SampleTableListBase(PagedFilteredTableView):
-    template_name = 'sample/selector.html'
+    template_name = 'selector.html'
     model = Sample
     filter_class = SampleListFilter
     formhelper_class = SampleListFormHelper
@@ -26,6 +26,14 @@ class SampleTableListBase(PagedFilteredTableView):
         {"name": 'Tracking', "class": 'btn btn-default', "url": 'sample:browser_tracking'},
         {"name": 'Freezer', "class": 'btn btn-default', "url": 'sample:browser_freezer'},
         {"name": 'Full', "class": 'btn btn-default', "url": 'sample:browser_full'},
+    ]
+    buttons_processing_type = 'buttons_processing.html'
+    buttons_processing = [
+        {"name": 'edit_btn', "class": 'btn btn-primary', "url": 'sample:update', "value": 'Edit'},
+        {"name": 'status_btn', "class": 'btn btn-primary', "url": 'sample:update_tracking', "value": 'Update Status'},
+        {"name": 'location_btn', "class": 'btn btn-primary', "url": 'sample:update_location', "value": 'Update Location'},
+        {"name": 'process_btn', "class": 'btn btn-primary', "url": 'library:update_plate', "value": 'Submit for Library'},
+        {"name": 'del_btn', "class": 'btn btn-danger', "url": 'sample:delete', "value": 'Delete'},
     ]
 
 # Table instances
@@ -52,7 +60,7 @@ class SampleFullTableList(SampleTableListBase):
 ##### Sample CreateViews
 # CreateView base (inherits from LIMS Generic CreateView)
 class SampleCreateFormSetBase(GenericUpdateFormSet):
-    template_name = 'sample/update.html'
+    template_name = 'update.html'
     success_url = reverse_lazy('sample:browser')
     button_type = 'buttons_1.html'
     model = Sample
@@ -66,16 +74,10 @@ class SampleCreateFormSetBase(GenericUpdateFormSet):
         {"name": 'Full', "class": 'btn btn-default', "url": 'sample:create_full'},
     ]
 
-    def get_buttons(self):
-        buttons = self.buttons
-        page = self.page
-        for button in buttons:
-            if button['name'] == page:
-                button['class'] = 'btn btn-success'
-            else:
-                button['class'] = 'btn btn-default'
-
-        return buttons
+    buttons_processing_type = 'buttons_processing.html'
+    buttons_processing = [
+        {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Add', "url": 'sample:create'},
+    ]
 
 # CreateViews instances
 class SampleCreateFormSetBasic(SampleCreateFormSetBase):
@@ -128,7 +130,7 @@ class SampleCreateFormSetFull(SampleCreateFormSetBase):
 ##### Sample UpdateViews
 # UpdateView Base
 class SampleUpdateFormSetBase(GenericUpdateFormSet):
-    template_name = 'sample/update.html'
+    template_name = 'update.html'
     success_url = reverse_lazy('sample:browser')
     button_type = 'buttons_3.html'
     model = Sample
@@ -142,16 +144,11 @@ class SampleUpdateFormSetBase(GenericUpdateFormSet):
         {"name": 'Tissue', "class": 'btn btn-default', "url": 'sample:update_tissue'},
         {"name": 'Full', "class": 'btn btn-default', "url": 'sample:update_full'},
     ]
+    buttons_processing_type = 'buttons_processing.html'
+    buttons_processing = [
+        {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Update', "url": 'sample:update'},
+    ]
 
-    def get_buttons(self):
-        buttons = self.buttons
-        page = self.page
-        for button in buttons:
-            if button['name'] == page:
-                button['class'] = 'btn btn-success'
-            else:
-                button['class'] = 'btn btn-default'
-        return buttons
 
 # UpdateViews instances
 class SampleUpdateFormSetBasic(SampleUpdateFormSetBase):
@@ -217,7 +214,7 @@ class SampleUpdateFormSetFull(SampleUpdateFormSetBase):
 
 ### Sample DeleteView
 class SampleTableListDeleteBase(PagedFilteredTableView):
-    template_name = 'sample/delete.html'
+    template_name = 'delete.html'
     model = Sample
     filter_class = SampleListFilter
     formhelper_class = SampleListFormHelper
@@ -227,6 +224,11 @@ class SampleTableListDeleteBase(PagedFilteredTableView):
     table_class = SampleTableSimple
     button_type = 'buttons_1.html'
     buttons = []
+    buttons_processing_type = 'buttons_processing.html'
+    buttons_processing = [
+        {"name": 'del_confirm_btn', "class": 'btn btn-danger', "url": 'sample:browser', "value": 'Delete Sample(s)'},
+        {"name": 'cancel_btn', "class": 'btn btn-primary', "url": 'sample:browser', "value": 'Cancel'},
+    ]
 
 
 #Archived views

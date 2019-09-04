@@ -1,7 +1,7 @@
 import django_tables2 as tables
 from django_tables2_column_shifter.tables import ColumnShiftTable
 
-from .models import WUSLaneResult, WUSSubmission
+from .models import WUSResult, WUSSubmission, WUSPool
 
 
 # setting up table views for samples
@@ -19,7 +19,8 @@ class WUSSubmissionTable(ColumnShiftTable):
         attrs = {'class': 'paleblue'}
         sequence = ('selection',)
 
-class WUSLaneResultsTable(ColumnShiftTable):
+
+class WUSPoolTable(ColumnShiftTable):
 
     selection = tables.CheckBoxColumn(
         accessor="pk",
@@ -28,7 +29,21 @@ class WUSLaneResultsTable(ColumnShiftTable):
     )
 
     class Meta:
-        model = WUSLaneResult
+        model = WUSPool
+        attrs = {'class': 'paleblue'}
+        sequence = ('selection',)
+
+
+class WUSResultsTable(ColumnShiftTable):
+
+    selection = tables.CheckBoxColumn(
+        accessor="pk",
+        attrs={"th__input": {"onclick": "toggle(this)"}},
+        orderable=False
+    )
+
+    class Meta:
+        model = WUSResult
         attrs = {'class': 'paleblue'}
         sequence = ('selection',)
 

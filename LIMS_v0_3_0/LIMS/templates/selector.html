@@ -66,16 +66,12 @@
 
             {% render_table table %}
         </div>
-       <div class="form-group" method="get">
-            <div class="col-xs-6 col-md-12">
-                <input type="submit" name="edit_btn" formaction="{% url 'sample:update' %}" class="btn btn-primary" value="Edit"/>
-                <input type="submit" name="status_btn" formaction="{% url 'sample:update_tracking' %}"  class="btn btn-primary" value="Update Status"/>
-                <input type="submit" name="location_btn" formaction="{% url 'sample:update_location' %}"  class="btn btn-primary" value="Update Location"/>
-                <input type="submit" name="process_btn" formaction="{% url 'library:update_plate' %}" class="btn btn-primary" value="Submit for Library"/>
-                <input type="submit" name="del_btn" formaction="{% url 'sample:delete' %}" class="btn btn-primary" value="Delete"/>
-            </div>
+        <!--TODO determine if class and method are necessary for button div-->
+        <div class="form-group" method="get">
+           <div class="col-xs-6 col-md-12">
+                {% include buttons_processing_type %}<br>
+           </div>
         </div>
-
     </form>
 </div>
 

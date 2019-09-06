@@ -63,7 +63,6 @@ class Sample(models.Model):
     # id's
     unique_id = models.CharField(max_length=100, null=True, blank=True)
     project_name = models.CharField(max_length=100, null=True, blank=True)
-    # sample_name = models.CharField(max_length=100, blank=False)
     name = models.CharField(max_length=100, blank=False, verbose_name='sample_name')
     aliquot_id = models.CharField(max_length=100, null=True, blank=True)
     #tube_label
@@ -143,9 +142,6 @@ class Sample(models.Model):
     deactivated_date = models.DateField(null=True, blank=True)
     deactivated_type = models.CharField(max_length=100, choices=DeactivateType, null=True, blank=True)
     tracking_comments = models.TextField(null=True, blank=True)
-
-
-    # year_of_birth = models.IntegerField(_('year'), max_length=4, choices=YEAR_CHOICES, default=datetime.datetime.now().year) #a more elegant solution
 
     def __str__(self):
         return(self.name)

@@ -1,15 +1,13 @@
 from django import forms
-from django.forms import modelformset_factory, formset_factory
+from django.forms import modelformset_factory
 
-from django.urls import reverse
-from crispy_forms.bootstrap import Field, InlineRadios, TabHolder, Tab
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Div, Fieldset, ButtonHolder, Submit
 
-from crispy_forms.bootstrap import InlineField
-
 from .models import Sample
 
+# General notes
+# TODO sytlize filter maybe further to fix conflict between layout and filter parameters (e.g., exact vs. icontains)
 
 class UploadFileForm(forms.Form):
     myfile = forms.FileField()
@@ -29,7 +27,7 @@ class SampleForm(forms.ModelForm):
 SampleFormSet = modelformset_factory(Sample, form=SampleForm, fields=('name', 'sample_type', 'conc', 'vol'), extra=1)
 
 # Forms for browser
-class SampleListFormHelper(FormHelper):
+class GenericListFormHelper(FormHelper):
     model = Sample
     form_tag = True
     form_class = 'form-inline'
@@ -38,19 +36,16 @@ class SampleListFormHelper(FormHelper):
     field_class = 'col-xs-4'
     form_id = 'id_filterForm'
     form_method = 'get'
+    # layout = Layout('project_name', 'name', 'sample_type', ButtonHolder(
+    #     Submit('submit', 'Filter', css_class='button white right')
+    # ))
+
+class SampleListFormHelper(GenericListFormHelper):
     layout = Layout('project_name', 'name', 'sample_type', ButtonHolder(
         Submit('submit', 'Filter', css_class='button white right')
     ))
 
-class SampleListFreezerFormHelper(FormHelper):
-    model = Sample
-    form_tag = True
-    form_class = 'form-inline'
-    field_template = 'bootstrap4/layout/inline_field.html'
-    label_class = 'col-xs-1'
-    field_class = 'col-xs-4'
-    form_id = 'id_filterForm'
-    form_method = 'get'
-    layout = Layout('project_name', 'name', 'sample_type', 'freezer', ButtonHolder(
+class SampleListFreezerFormHelper(GenericListFormHelper):
+    layout = Layout('project_name', 'name', 'sample_type', 'freezer_name', ButtonHolder(
         Submit('submit', 'Filter', css_class='button white right')
     ))

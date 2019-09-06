@@ -1,4 +1,7 @@
-# this views in LIMS app is only for generic views
+"""
+generic views used across all apps
+"""
+
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import CreateView, UpdateView
@@ -6,26 +9,20 @@ from django.forms import modelformset_factory
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django_tables2 import SingleTableView
-from django.urls import reverse_lazy
-from django.shortcuts import redirect, get_object_or_404
 
 from .forms import UploadFileForm
-from sample.models import Sample
-from library.models import Library, PoolingAmount
-from library.forms import PoolForm
 
-import xlwt
-import datetime
 import csv
-# time stamp
-now = datetime.datetime.now()
-date_stamp = now.strftime("%d%m%Y")
+import datetime
+
 
 
 # Browser/List Master View
 class PagedFilteredTableView(SingleTableView):
     '''
     generic filter and get_context for table + filter views
+    SingleTableView https://stackoverflow.com/questions/25256239/how-do-i-filter-tables-with-django-generic-views
+    Also seer https://kuttler.eu/en/post/using-django-tables2-filters-crispy-forms-together/
     '''
     print('=============PagedFilteredTableView=====================')
     filter_class = None
@@ -37,7 +34,6 @@ class PagedFilteredTableView(SingleTableView):
     buttons_processing_type = None
     buttons_processing = None
     qs = None
-
 
     def get_buttons(self):
         '''
@@ -94,8 +90,11 @@ class PagedFilteredTableView(SingleTableView):
         integrates the PagedFilteredTableView parameters
         '''
         print('============GET=======================')
+        print('request.GET = %s' % request.GET)
         self.query = request.GET
         response = super(PagedFilteredTableView, self).get(request)
+        print('============RESPONSE=======================')
+        print('response = %s' % response)
         return response
 
     def post(self, request, *args, **kwargs):  # handles all posts
@@ -436,7 +435,6 @@ class GenericUpdateFormSet(UpdateView):
                 return render(request, self.template_name, context=context)
             # TODO unhandled exception form_invalid
 
-
         elif "save_btn" in self.request.POST:
             # saves formset
             print('==============save_btn=====================')
@@ -558,17 +556,18 @@ class GenericUpdateFormSet(UpdateView):
             context = self.get_context_data()
             return render(request, self.template_name, context=context)
 
-        elif "del_btn" in self.request.POST:
-            pass
-
-        elif "del_confirm_btn" in self.request.POST:
-            pks = request.POST.getlist("selection")
-            sample = Sample.objects.filter(pk__in=pks)
-            num_deleted = len(pks)
-            sample.delete()
-            messages.warning(request, '%d samples deleted.' % num_deleted)
-            context = self.get_context_data()
-            return render(request, self.template_name, context=context)
+        # TODO del handled by browser - make sure these buttons aren't used anywhere
+        # elif "del_btn" in self.request.POST:
+        #     pass
+        #
+        # elif "del_confirm_btn" in self.request.POST:
+        #     pks = request.POST.getlist("selection")
+        #     sample = Sample.objects.filter(pk__in=pks) #TODO fix to generic model
+        #     num_deleted = len(pks)
+        #     sample.delete()
+        #     messages.warning(request, '%d samples deleted.' % num_deleted)
+        #     context = self.get_context_data()
+        #     return render(request, self.template_name, context=context)
 
         elif "cancel_btn" in self.request.POST:
             messages.success(request, 'No records were deleted.')
@@ -589,7 +588,6 @@ class GenericUpdateFormSet(UpdateView):
             self.pks = pks
             context = self.get_context_data()
             return render(request, self.template_name, context=context)
-
 
         # captures ids coming from browser
         elif request.POST.getlist("selection"):
@@ -620,109 +618,3 @@ class GenericUpdateFormSet(UpdateView):
             context = self.get_context_data()
             return render(request, self.template_name, context=context)
 
-
-# archived views
-class GenericCreateFormSet(CreateView):
-    # class defaults
-    initial_data = []
-    extra = 1
-    upload_form = UploadFileForm()
-
-    def get_formset(self): #makes formset for various defs within class
-        formset = modelformset_factory(
-            self.model,
-            form=self.form_class,
-            fields=self.field,
-            extra=self.extra
-        )
-        return formset
-
-    def get_context_data(self, *args, **kwargs): #gets context for building formset
-        context = super(GenericCreateFormSet, self).get_context_data(**kwargs)
-        formset = self.get_formset()
-        queryset = self.model.objects.none()
-        context['formset'] = formset(queryset=queryset, initial=self.initial_data)
-        context['title'] = self.title
-        context['button_type'] = self.button_type
-        context['buttons'] = self.get_buttons()
-        return context
-
-    def post(self, request, *args, **kwargs): #handles all posts
-
-        # updates number of records to be handled for "Update" button
-        if "quantity" in self.request.POST:
-            self.object = None
-            if self.request.POST['quantity'] == "":
-                extra = 1
-            else:
-                extra = int(self.request.POST['quantity'])
-            self.extra = extra
-            context = self.get_context_data()
-            return render(request, self.template_name, context=context)
-
-        # exports file based on formset through "Export" button
-        if "export_btn" in request.POST:
-            # from https://simpleisbetterthancomplex.com/tutorial/2016/07/29/how-to-export-to-excel.html
-            # response = HttpResponse(content_type='application/ms-excel')
-            # response['Content-Disposition'] = 'attachment; filename="samples.xls"'
-            # wb = xlwt.Workbook(encoding='utf-8')
-            # ws = wb.add_sheet('Sample')
-            # row_num = 0
-            # font_style = xlwt.XFStyle()
-            # font_style.font.bold = True
-            # columns = self.field
-            # for col_num in range(len(columns)):
-            #     ws.write(row_num, col_num, columns[col_num], font_style)
-            # wb.save(response)
-
-            response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="users.csv"'
-
-            writer = csv.writer(response)
-            writer.writerow(self.field)
-            columns = self.field
-            for column in columns:
-                writer.writerow(column)
-            return response
-
-        # uploads form and handles errors through "Choose File" and "Upload" button
-        if "upload_btn" in request.POST:
-            upload_form = UploadFileForm(request.POST, request.FILES)
-            if upload_form.is_valid():
-                filehandle = request.FILES['myfile']
-                initial_data = filehandle.get_records()
-                self.initial_data = initial_data
-                self.object = None
-                extra = 0
-                for record in initial_data:
-                    #TODO need to do form validation and/or error reporting associated with uploaded form
-                    extra = extra + 1
-                self.extra = extra
-                context = self.get_context_data()
-                return render(request, self.template_name, context=context)
-            # TODO unhandled exception form_invalid
-
-        if "save_btn" in self.request.POST:
-            formset = self.get_formset()
-            formset = formset(request.POST)
-            if formset.is_valid():
-                record_num = int(0)
-                record_add = int(0)
-                for form in formset:
-                    record_num += 1
-                    #TODO need to make validation more DRY - move to seperate def
-                    #TODO need to prevent duplicate records and ensure unique naming system
-                    if form.is_valid():
-                        if form.cleaned_data == {}:
-                            messages.warning(request,
-                                             'Record #%d did not add because required data was missing.' % record_num)
-                        else:
-                            record_add += 1
-                            form.save()
-                    else:
-                        messages.warning(request, 'Form Error')
-                messages.success(request, '%d records added successfully.' % record_add)
-                return HttpResponseRedirect(self.success_url)
-            else:
-                messages.warning(request, 'Formset Error')
-                return self.render_to_response(self.get_context_data(formset=formset))

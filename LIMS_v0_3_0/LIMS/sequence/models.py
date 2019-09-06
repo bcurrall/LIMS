@@ -37,7 +37,7 @@ class WUSPool(models.Model):
     unique_id = models.CharField(max_length=100, null=True, blank=True)
     parent_name = models.ForeignKey(WUSSubmission, on_delete=models.CASCADE, null=True, blank=True, verbose_name='WUS Name')
     related_name = models.ForeignKey('library.Pool', on_delete=models.PROTECT, null=True, blank=True, verbose_name='Pool Name')  # links to Pool
-    num_of_lanes = models.FloatField()
+    num_of_lanes = models.FloatField(default=0)
 
     def __str__(self):
         return(str(self.parent_name) + '_' + str(self.related_name))

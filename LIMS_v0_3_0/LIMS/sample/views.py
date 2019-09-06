@@ -1,17 +1,17 @@
+# django imports
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
+# other app imports
 from LIMS.views import GenericUpdateFormSet, PagedFilteredTableView
 from .models import Sample
-from .forms import SampleForm, SampleListFormHelper
+# within app imports
+from .forms import SampleForm, SampleListFormHelper, SampleListFreezerFormHelper
 from .tables import SampleTableSimple, SampleTableTracking, SampleTableFull, SampleTableFreezer
 from .filters import SampleListFilter
 from django.contrib import messages
 
 ### Sample Browsers/FilterTables
-# TODO sytalize filter maybe further to fix conflict between layout and filter parameters (e.g., exact vs. icontains)
-#  SingleTableView https://stackoverflow.com/questions/25256239/how-do-i-filter-tables-with-django-generic-views
-#  Also seer https://kuttler.eu/en/post/using-django-tables2-filters-crispy-forms-together/
 # TODO integrate filter with number of samples per page
 
 # Browser/Table base
@@ -19,7 +19,7 @@ class SampleTableListBase(PagedFilteredTableView):
     template_name = 'selector.html'
     model = Sample
     filter_class = SampleListFilter
-    formhelper_class = SampleListFormHelper
+
     button_type = 'buttons_1.html'
     buttons = [
         {"name": 'Simple', "class": 'btn btn-default', "url": 'sample:browser'},
@@ -41,21 +41,25 @@ class SampleTableList(SampleTableListBase):
     title = 'Sample Browser'
     page = 'Simple'
     table_class = SampleTableSimple
+    formhelper_class = SampleListFormHelper
 
 class SampleTrackingTableList(SampleTableListBase):
     title = 'Tracking Browser'
     page = 'Tracking'
     table_class = SampleTableTracking
+    formhelper_class = SampleListFormHelper
 
 class SampleFreezerTableList(SampleTableListBase):
     title = 'Freezer Browser'
     page = 'Freezer'
     table_class = SampleTableFreezer
+    formhelper_class = SampleListFreezerFormHelper
 
 class SampleFullTableList(SampleTableListBase):
     title = 'Full Field Browser'
     page = 'Full'
     table_class = SampleTableFull
+    formhelper_class = SampleListFormHelper
 
 ##### Sample CreateViews
 # CreateView base (inherits from LIMS Generic CreateView)

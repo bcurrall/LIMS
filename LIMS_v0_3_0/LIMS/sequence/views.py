@@ -43,7 +43,6 @@ class WUSSubmissionTableBase(PagedFilteredTableView):
     buttons_processing_type = 'buttons_processing.html'
     buttons_processing = [
         {"name": 'update_2_form_btn', "class":'btn btn-primary', "url": 'sequence:submission_update', "value": 'Update Submission'},
-        {"name": 'update_btn', "class": 'btn btn-warning', "url": 'sequence:submission_create', "value": 'New Submission'},
         {"name": 'generate_btn', "class": 'btn btn-secondary', "url": 'sequence:update_result', "value": 'Generate WUS Metrics'},
         {"name": 'del_btn', "class":'btn btn-danger', "url": 'sequence:submission_delete', "value": 'Delete'},
     ]
@@ -93,7 +92,7 @@ class WUSSubmissionUpdateFormSetBase(GenericUpdateFormSet):
     buttons = []
     buttons_processing_type = 'buttons_processing.html'
     buttons_processing = [
-        {"name": 'save_btn',  "class":'btn btn-primary', "value": 'Update WUS Pools', "url": 'sequence:wus_pool'},
+        {"name": 'save_btn',  "class":'btn btn-primary', "value": 'Update WUS Pools', "url": 'sequence:browser'},
     ]
 
 

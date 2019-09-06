@@ -2,10 +2,13 @@ import django_tables2 as tables
 from .models import Sample
 from django_tables2_column_shifter.tables import ColumnShiftTable
 
-# setting up table views for samples
-# TODO figure out how to pass variable from views to tables to make this more DRY
-class SampleTableSimple(ColumnShiftTable):
-
+### setting up table views for PagedFilteredTableView
+class SampleTableGeneric(ColumnShiftTable):
+    """
+    Makes Generic ColumnShiftTable (i.e., the visible column dropdown that allows selection of different columns),
+    adds selection box and stylizes the table
+    ColumnShiftTable is from package: https://pypi.org/project/django-tables2-column-shifter/
+    """
     selection = tables.CheckBoxColumn(
         accessor="pk",
         attrs={"th__input": {"onclick": "toggle(this)"}},
@@ -15,48 +18,27 @@ class SampleTableSimple(ColumnShiftTable):
     class Meta:
         model = Sample
         attrs = {'class': 'paleblue'}
-        fields = ('project_name', 'unique_id', 'name', 'sample_type')
+        fields = ('unique_id',)
         sequence = ('selection',)
 
-class SampleTableTracking(ColumnShiftTable):
+### instances of SampleTableGeneric with different fields
+class SampleTableSimple(SampleTableGeneric):
+    class Meta(SampleTableGeneric.Meta):
+        fields = ('project_name', 'name', 'sample_type')
 
-    selection = tables.CheckBoxColumn(
-        accessor="pk",
-        attrs={"th__input": {"onclick": "toggle(this)"}},
-        orderable=False
-    )
+class SampleTableTracking(SampleTableGeneric):
+    class Meta(SampleTableGeneric.Meta):
+        fields = ('project_name', 'name', 'sample_type', 'received', 'received_date', 'stored', 'active',
+                  'deactivated_type', 'tracking_comments',)
 
-    class Meta:
-        model = Sample
-        attrs = {'class': 'paleblue'}
-        fields = ('project_name', 'unique_id', 'name', 'sample_type',
-                  'received', 'received_date', 'stored', 'active', 'deactivated_type', 'tracking_comments')
-        sequence = ('selection',)
-
-class SampleTableFreezer(ColumnShiftTable):
-
-    selection = tables.CheckBoxColumn(
-        accessor="pk",
-        attrs={"th__input": {"onclick": "toggle(this)"}},
-        orderable=False
-    )
-
-    class Meta:
-        model = Sample
-        attrs = {'class': 'paleblue'}
-        sequence = ('selection',)
-        fields = ('project_name', 'unique_id', 'name', 'sample_type', 'received','active', 'stored',
+class SampleTableFreezer(SampleTableGeneric):
+    class Meta(SampleTableGeneric.Meta):
+        fields = ('project_name', 'name', 'sample_type', 'received','active', 'stored',
                   'freezer_name', 'freezer_type', 'freezer_shelf','freezer_rack','rack_row','rack_column',
-                  'box_name','aliquot_pos_row','aliquot_pos_column'
-                  )
-
-class DelSampleTableAdvanced(ColumnShiftTable):
-    class Meta:
-        model = Sample
-        attrs = {'class': 'paleblue'}
+                  'box_name','aliquot_pos_row','aliquot_pos_column',)
 
 class SampleTableFull(ColumnShiftTable):
-
+    # TODO NOT DRY - figure out how to specify all fields using Generic table
     selection = tables.CheckBoxColumn(
         accessor="pk",
         attrs={"th__input": {"onclick": "toggle(this)"}},
@@ -67,8 +49,3 @@ class SampleTableFull(ColumnShiftTable):
         model = Sample
         attrs = {'class': 'paleblue'}
         sequence = ('selection',)
-
-class DelSampleTableAdvanced(ColumnShiftTable):
-    class Meta:
-        model = Sample
-        attrs = {'class': 'paleblue'}

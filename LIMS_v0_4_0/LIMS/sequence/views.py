@@ -59,7 +59,7 @@ class WUSSubmissionTableSimpleView(WUSSubmissionTableBase):
 ## Create Base
 class WUSSubmissionCreateFormSetBase(GenericUpdateFormSet):
     template_name = 'update.html'
-    success_url = reverse_lazy('sequence:browser_pool')
+    success_url = reverse_lazy('sequence:browser')
     button_type = 'buttons_3.html'
     model = WUSSubmission
     model_parent = Pool
@@ -92,7 +92,7 @@ class WUSSubmissionUpdateFormSetBase(GenericUpdateFormSet):
     buttons = []
     buttons_processing_type = 'buttons_processing.html'
     buttons_processing = [
-        {"name": 'save_btn',  "class":'btn btn-primary', "value": 'Update WUS Pools', "url": 'sequence:browser'},
+        {"name": 'save_btn',  "class":'btn btn-primary', "value": 'Update WUS Pools', "url": 'sequence:wus_pool'},
     ]
 
 

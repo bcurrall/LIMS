@@ -2,8 +2,8 @@ from django.db import models
 
 import datetime
 
-BOOL_CHOICES=((True, u"yes"),
-              (False, u"no"))
+# BOOL_CHOICES=((True, u"yes"),
+#               (False, u"no"))
 
 class WUSSubmission(models.Model):
     unique_id = models.CharField(max_length=100, null=True, blank=True)
@@ -12,7 +12,7 @@ class WUSSubmission(models.Model):
     num_of_pools = models.IntegerField(null=True, blank=True)
     illumina_chemistry_ends = models.CharField(max_length=100, null=True, blank=True)
     illumina_chemistry_length = models.IntegerField(null=True, blank=True)
-    dual_barcode = models.BooleanField(choices=BOOL_CHOICES, null=True, blank=True)
+    dual_barcode = models.BooleanField(null=True, blank=True)
     barcode_size_bp = models.IntegerField(null=True, blank=True)
     platform = models.CharField(max_length=100, null=True, blank=True)
     quote_number = models.CharField(max_length=100, null=True, blank=True)

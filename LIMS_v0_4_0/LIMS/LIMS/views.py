@@ -8,7 +8,7 @@ from django.views.generic import CreateView, UpdateView
 from django.forms import modelformset_factory
 from django.contrib import messages
 from django.core.exceptions import ValidationError
-from django_tables2 import SingleTableView
+from django_tables2 import SingleTableView, RequestConfig
 
 from .forms import UploadFileForm
 
@@ -22,7 +22,7 @@ class PagedFilteredTableView(SingleTableView):
     '''
     generic filter and get_context for table + filter views
     SingleTableView https://stackoverflow.com/questions/25256239/how-do-i-filter-tables-with-django-generic-views
-    Also seer https://kuttler.eu/en/post/using-django-tables2-filters-crispy-forms-together/
+    Also see https://kuttler.eu/en/post/using-django-tables2-filters-crispy-forms-together/
     '''
     print('=============PagedFilteredTableView=====================')
     filter_class = None
@@ -34,6 +34,8 @@ class PagedFilteredTableView(SingleTableView):
     buttons_processing_type = None
     buttons_processing = None
     qs = None
+    extras = None
+    page = 1
 
     def get_buttons(self):
         '''
@@ -68,6 +70,11 @@ class PagedFilteredTableView(SingleTableView):
         self.filter.helper = self.formhelper_class()
         return self.filter.qs
 
+    # def get_table(self, **kwargs):
+    #     table = super(PagedFilteredTableView, self).get_table()
+    #     RequestConfig(self.request, paginate={'page': self.page, "per_page": self.paginate_by}).configure(table)
+    #     return table
+
     def get_context_data(self, **kwargs):
         '''
         updates django get_context_data
@@ -75,8 +82,11 @@ class PagedFilteredTableView(SingleTableView):
         integrates all custom context variables
         '''
         print('=======get_context_data===================')
+        print('extras = %s' % self.extras)
         context = super(PagedFilteredTableView, self).get_context_data()
         context[self.context_filter_name] = self.filter
+        extras = self.extras
+        context['extras'] = extras
         context['title'] = self.title
         context['button_type'] = self.button_type
         context['buttons'] = self.get_buttons()
@@ -91,6 +101,18 @@ class PagedFilteredTableView(SingleTableView):
         '''
         print('============GET=======================')
         print('request.GET = %s' % request.GET)
+        req_dict = request.GET
+        print('req_dict = %s' % req_dict)
+        myDict = dict(request.GET)
+        print('myDict = %s' % myDict)
+        if myDict.get('per_page',0):
+            print('myDict.per_page = %s' % myDict.get('per_page',0)[0])
+            self.extras = myDict.get('per_page', 0)[0]
+            self.paginate_by = self.extras
+        else:
+            self.extras = self.paginate_by
+            print('myDict does not have per_page')
+        print('test')
         self.query = request.GET
         response = super(PagedFilteredTableView, self).get(request)
         print('============RESPONSE=======================')

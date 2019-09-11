@@ -20,15 +20,6 @@
     </div>
 </div>
 
-
-<div class="row">
-    <form action="" method="GET">
-      Number Per Page:
-      <input type="number" name="per_page" min="1" max="100" value="{{ extras }}">
-      <input type="submit" name="number-btn" formaction="demo">
-    </form>
-    <br>
-</div>
 <!--error messages-->
 <div>
     {% for message in messages %}
@@ -41,7 +32,7 @@
     {% endfor %}
 </div>
 
-
+<!--filter-->
 <div class="row">
     <div>
         {% crispy filter.form filter.helper %}
@@ -74,9 +65,5 @@
         </div>
     </form>
 </div>
-
-<script>
-document.getElementById("demo").innerHTML =window.location.href
-</script>
 
 {% endblock %}

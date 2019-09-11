@@ -4,9 +4,10 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 # other app imports
 from LIMS.views import GenericUpdateFormSet, PagedFilteredTableView
+
 from .models import Sample
 # within app imports
-from .forms import SampleForm, SampleListFormHelper, SampleListFreezerFormHelper
+from .forms import SampleForm, SimpleSampleListFormHelper, TrackingSampleListFormHelper, FreezerSampleListFormHelper
 from .tables import SampleTableSimple, SampleTableTracking, SampleTableFull, SampleTableFreezer
 from .filters import SampleListFilter
 from django.contrib import messages
@@ -19,6 +20,7 @@ class SampleTableListBase(PagedFilteredTableView):
     template_name = 'selector.html'
     model = Sample
     filter_class = SampleListFilter
+    paginate_by = 96
 
     button_type = 'buttons_1.html'
     buttons = [
@@ -41,25 +43,25 @@ class SampleTableList(SampleTableListBase):
     title = 'Sample Browser'
     page = 'Simple'
     table_class = SampleTableSimple
-    formhelper_class = SampleListFormHelper
+    formhelper_class = SimpleSampleListFormHelper
 
 class SampleTrackingTableList(SampleTableListBase):
     title = 'Tracking Browser'
     page = 'Tracking'
     table_class = SampleTableTracking
-    formhelper_class = SampleListFormHelper
+    formhelper_class = TrackingSampleListFormHelper
 
 class SampleFreezerTableList(SampleTableListBase):
     title = 'Freezer Browser'
     page = 'Freezer'
     table_class = SampleTableFreezer
-    formhelper_class = SampleListFreezerFormHelper
+    formhelper_class = FreezerSampleListFormHelper
 
 class SampleFullTableList(SampleTableListBase):
     title = 'Full Field Browser'
     page = 'Full'
     table_class = SampleTableFull
-    formhelper_class = SampleListFormHelper
+    formhelper_class = SimpleSampleListFormHelper
 
 ##### Sample CreateViews
 # CreateView base (inherits from LIMS Generic CreateView)
@@ -154,17 +156,26 @@ class SampleUpdateFormSetBase(GenericUpdateFormSet):
     ]
 
 
+
 # UpdateViews instances
 class SampleUpdateFormSetBasic(SampleUpdateFormSetBase):
     title = 'Edit Samples Information - Basic Information'
     page = 'Basic'
     field = ('unique_id', 'project_name','name', 'aliquot_id', 'sample_type')
+    success_url = reverse_lazy('sample:browser')
+    buttons_processing = [
+        {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Update', "url": 'sample:update'},
+    ]
 
 class SampleUpdateFormSetTracking(SampleUpdateFormSetBase):
     title = 'Edit Samples Information - Tracking Information'
     page = 'Tracking'
     field = ('unique_id', 'project_name', 'name', 'sample_type', 'created', 'received', 'received_date',
               'stored', 'stored_date', 'active', 'deactivated_date', 'deactivated_type', 'tracking_comments')
+    success_url = reverse_lazy('sample:browser_tracking')
+    buttons_processing = [
+        {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Update', "url": 'sample:update_tracking'},
+    ]
 
 class SampleUpdateFormSetLocation(SampleUpdateFormSetBase):
     title = 'Edit Samples Information - Location Information'
@@ -173,6 +184,10 @@ class SampleUpdateFormSetLocation(SampleUpdateFormSetBase):
                   'freezer_name', 'freezer_type', 'freezer_shelf','freezer_rack','rack_row','rack_column',
                   'box_name', 'box_type', 'aliquot_pos_row','aliquot_pos_column', 'tracking_comments'
                   )
+    success_url = reverse_lazy('sample:browser_location')
+    buttons_processing = [
+        {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Update', "url": 'sample:update_location'},
+    ]
 
 class SampleUpdateFormSetExtract(SampleUpdateFormSetBase):
     title = 'Edit Samples Information - Extract Information'
@@ -180,6 +195,10 @@ class SampleUpdateFormSetExtract(SampleUpdateFormSetBase):
     field = ('unique_id', 'project_name','name','aliquot_id','sample_type','source_tissue','conc','vol','conc_nanodrop',
              'conc_tapestation','rin_din_tapestation','conc_qubit','species','gender','family_id','relationship','study_model',
              'case_control', 'collected_by', 'date_collected')
+    success_url = reverse_lazy('sample:browser_full')
+    buttons_processing = [
+        {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Update', "url": 'sample:update_extract'},
+    ]
 
 class SampleUpdateFormSetCellLine(SampleUpdateFormSetBase):
     title = 'Edit Samples Information - Cell Line Information'
@@ -193,6 +212,10 @@ class SampleUpdateFormSetCellLine(SampleUpdateFormSetBase):
              'freezer_rack','rack_row','rack_column','box_name','box_type','aliquot_pos_row',
              'aliquot_pos_column','received','received_date','active','deactivated_date','deactivated_type',
              'tracking_comments')
+    success_url = reverse_lazy('sample:browser_full')
+    buttons_processing = [
+        {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Update', "url": 'sample:update_cell'},
+    ]
 
 class SampleUpdateFormSetTissue(SampleUpdateFormSetBase):
     title = 'Edit Samples Information - Tissue Information'
@@ -201,6 +224,11 @@ class SampleUpdateFormSetTissue(SampleUpdateFormSetBase):
              'species','gender','family_id','relationship','study_model','case_control','collected_by','date_collected',
              'collection_batch','year_of_birth','race','ethnicity','karyotype','genetic_array','other_genetic_info',
              'hpo','phenotype_desc','sample_comments')
+    success_url = reverse_lazy('sample:browser_full')
+    buttons_processing = [
+        {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Update', "url": 'sample:update_tissue'},
+    ]
+
 
 class SampleUpdateFormSetFull(SampleUpdateFormSetBase):
     title = 'Edit Samples Information - Full Information'
@@ -214,6 +242,10 @@ class SampleUpdateFormSetFull(SampleUpdateFormSetBase):
              'freezer_rack','rack_row','rack_column','box_name','box_type','aliquot_pos_row',
              'aliquot_pos_column','received','received_date','active','deactivated_date','deactivated_type',
              'tracking_comments')
+    success_url = reverse_lazy('sample:browser_full')
+    buttons_processing = [
+        {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Update', "url": 'sample:update_full'},
+    ]
 
 
 ### Sample DeleteView
@@ -221,7 +253,7 @@ class SampleTableListDeleteBase(PagedFilteredTableView):
     template_name = 'delete.html'
     model = Sample
     filter_class = SampleListFilter
-    formhelper_class = SampleListFormHelper
+    formhelper_class = SimpleSampleListFormHelper
     # sub-class
     title = 'Are you sure you want to delete these samples?'
     page = 'Simple'

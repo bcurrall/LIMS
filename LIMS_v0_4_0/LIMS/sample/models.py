@@ -58,6 +58,10 @@ class Sample(models.Model):
         ('sent_out', 'sent_out'),
         ('disposed', 'disposed'),
     )
+    YesNo = (
+        ('yes', 'Yes'),
+        ('no', 'No')
+    )
 
     ## fields
     # id's
@@ -121,7 +125,7 @@ class Sample(models.Model):
     sample_comments = models.TextField(null=True, blank=True)
 
     # location
-    stored = models.NullBooleanField()
+    stored = models.CharField(max_length=100, choices=YesNo, null=True, blank=True)
     stored_date = models.DateField(null=True, blank=True)
     freezer_name = models.CharField(max_length=50, null=True, blank=True)
     freezer_type = models.CharField(max_length=20, choices=FreezerType, null=True, blank=True)
@@ -136,9 +140,9 @@ class Sample(models.Model):
 
     # sample status
     created = models.DateField(null=True, blank=True)
-    received = models.NullBooleanField(null=True, blank=True)
+    received = models.CharField(max_length=100, choices=YesNo, null=True, blank=True)
     received_date = models.DateField(null=True, blank=True)
-    active = models.NullBooleanField(null=True, blank=True)
+    active = models.CharField(max_length=100, choices=YesNo, null=True, blank=True)
     deactivated_date = models.DateField(null=True, blank=True)
     deactivated_type = models.CharField(max_length=100, choices=DeactivateType, null=True, blank=True)
     tracking_comments = models.TextField(null=True, blank=True)
@@ -158,4 +162,4 @@ class Sample(models.Model):
             self.unique_id = self.name + "_" + t.strftime("%Y%m%d") + '_' + "{0:0=4d}".format(pk_red)
             self.save()
 
-
+#Yes

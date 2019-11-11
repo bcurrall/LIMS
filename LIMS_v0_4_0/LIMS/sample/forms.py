@@ -8,6 +8,9 @@ from .models import Sample
 # General notes
 # TODO sytlize filter maybe further to fix conflict between layout and filter parameters (e.g., exact vs. icontains)
 
+def get_model_fields(model):
+    return model._meta.fields
+
 class UploadFileForm(forms.Form):
     myfile = forms.FileField()
 
@@ -44,3 +47,7 @@ class TrackingSampleListFormHelper(SampleListFormHelper):
 class FreezerSampleListFormHelper(SampleListFormHelper):
     model = Sample
     field_list_update = ['freezer_name']
+
+class FullSampleListFormHelper(SampleListFormHelper):
+    model = Sample
+    field_list_update = []

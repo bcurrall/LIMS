@@ -42,7 +42,9 @@ class Sample(models.Model):
     )
     CellLineType = (
         ('LCL', 'LCL'),
+        ('iN', 'iN'),
         ('iPS', 'iPS'),
+        ('NPC', 'NPC'),
         ('NSC', 'NSC'),
         ('iNeurons', 'iNeurons'),
         ('fibroblast', 'fibroblast'),

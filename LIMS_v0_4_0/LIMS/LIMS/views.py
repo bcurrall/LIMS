@@ -10,6 +10,8 @@ from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django_tables2 import SingleTableView, RequestConfig
 
+from sample.models import Sample
+
 from .forms import UploadFileForm
 
 import csv
@@ -251,6 +253,7 @@ class GenericUpdateFormSet(UpdateView):
 
     def get_formset(self): #makes formset for various defs within class
         print('========get_formset=================')
+        print(self)
 
         if self.form_classes: #gets form_class from form_classes or form_class
             form_class = self.form_classes['form_current']
@@ -406,10 +409,12 @@ class GenericUpdateFormSet(UpdateView):
             formset = formset(request.POST)
             self.formset = formset
             # TODO replace print with some other way to catch "Management" error
+            print('Try')
             print(formset.cleaned_data)
         except (ValidationError, AttributeError):
             formset = None
             self.formset = formset
+            print('Except')
 
         if "export_btn" in request.POST:
             # exports file based on formset through "Export" button

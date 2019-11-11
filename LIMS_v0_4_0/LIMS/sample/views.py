@@ -7,8 +7,8 @@ from LIMS.views import GenericUpdateFormSet, PagedFilteredTableView
 
 from .models import Sample
 # within app imports
-from .forms import SampleForm, SimpleSampleListFormHelper, TrackingSampleListFormHelper, FreezerSampleListFormHelper
-from .tables import SampleTableSimple, SampleTableTracking, SampleTableFull, SampleTableFreezer
+from .forms import SampleForm, SimpleSampleListFormHelper, TrackingSampleListFormHelper, FreezerSampleListFormHelper, FullSampleListFormHelper
+from .tables import SampleTableSimple, SampleTableTracking, SampleTableFreezer, SampleTableFull2
 from .filters import SampleListFilter
 from django.contrib import messages
 
@@ -60,8 +60,8 @@ class SampleFreezerTableList(SampleTableListBase):
 class SampleFullTableList(SampleTableListBase):
     title = 'Full Field Browser'
     page = 'Full'
-    table_class = SampleTableFull
-    formhelper_class = SimpleSampleListFormHelper
+    table_class = SampleTableFull2
+    formhelper_class = FullSampleListFormHelper
 
 ##### Sample CreateViews
 # CreateView base (inherits from LIMS Generic CreateView)
@@ -82,7 +82,7 @@ class SampleCreateFormSetBase(GenericUpdateFormSet):
 
     buttons_processing_type = 'buttons_processing.html'
     buttons_processing = [
-        {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Add', "url": 'sample:create'},
+        {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Add', "url": 'sample:create_full'},
     ]
 
 # CreateViews instances
@@ -254,6 +254,7 @@ class SampleTableListDeleteBase(PagedFilteredTableView):
     model = Sample
     filter_class = SampleListFilter
     formhelper_class = SimpleSampleListFormHelper
+    paginate_by = 96
     # sub-class
     title = 'Are you sure you want to delete these samples?'
     page = 'Simple'
@@ -272,7 +273,7 @@ def delete(request):
     title = 'Are you sure you want to delete the following samples?'
     pks = request.POST.getlist("selection")
     sample = Sample.objects.filter(pk__in=pks)
-    table = SampleTableFull(Sample.objects.filter(pk__in=pks))
+    table = SampleTableFull2(Sample.objects.filter(pk__in=pks))
 
     if request.method == "POST":
         if "del_confirm_btn" in request.POST:

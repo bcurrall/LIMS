@@ -37,15 +37,15 @@ class SampleTableFreezer(SampleTableGeneric):
                   'freezer_name', 'freezer_type', 'freezer_shelf','freezer_rack','rack_row','rack_column',
                   'box_name','aliquot_pos_row','aliquot_pos_column',)
 
-class SampleTableFull(ColumnShiftTable):
-    # TODO NOT DRY - figure out how to specify all fields using Generic table
-    selection = tables.CheckBoxColumn(
-        accessor="pk",
-        attrs={"th__input": {"onclick": "toggle(this)"}},
-        orderable=False
-    )
-
-    class Meta:
+class SampleTableFull2(SampleTableGeneric):
+    class Meta(SampleTableGeneric.Meta):
         model = Sample
-        attrs = {'class': 'paleblue'}
-        sequence = ('selection',)
+        field_get = [f.name for f in model._meta.fields]
+        fields = field_get
+
+# class SampleTableFull(SampleTableGeneric):
+#     class Meta(SampleTableGeneric.Meta):
+#         fields = ('project_name', 'name', 'sample_type')
+
+
+#test

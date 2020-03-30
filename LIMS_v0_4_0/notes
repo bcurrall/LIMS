@@ -6,7 +6,20 @@ __email__ = "benjamincurrall@gmail.com"
 __maintainer__ = "Benjamin B. Currall"
 __status__ = "Production"
 
+
+# set up virtual env
+download python
+pip install virtualenv
+pip instal virtualenvwrapper-win
+
 # virtual env
+
+## make virtual env
+mkvirtualenv LIMS_dev_env
+
+## download all requirements to virtual env
+pip install requirements.txt
+
 ## To launch
 workon LIMS_dev_env
 

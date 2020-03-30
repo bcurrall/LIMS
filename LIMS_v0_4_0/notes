@@ -10,7 +10,7 @@ __status__ = "Production"
 # set up virtual env
 download python
 pip install virtualenv
-pip instal virtualenvwrapper-win
+pip install virtualenvwrapper-win
 
 # virtual env
 
@@ -18,7 +18,7 @@ pip instal virtualenvwrapper-win
 mkvirtualenv LIMS_dev_env
 
 ## download all requirements to virtual env
-pip install requirements.txt
+pip install -r requirements.txt
 
 ## To launch
 workon LIMS_dev_env

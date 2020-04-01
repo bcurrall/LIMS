@@ -3,49 +3,9 @@ from .models import Library, Pool, PoolingAmount
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Div, Fieldset, ButtonHolder, Submit, Row, Column
 
+from LIMS.forms import GenericListFormHelper
 
-class LibraryListFormHelper(FormHelper):
-    model = Library
-    form_tag = True
-    form_class = 'form-inline'
-    field_template = 'bootstrap3/layout/inline_field.html'
-    label_class = 'col-xs-1'
-    field_class = 'col-xs-4'
-    form_id = 'id_filterForm'
-    form_method = 'get'
-    layout = Layout('gtc_code', 'batch_id', 'library_type', ButtonHolder(
-        Submit('submit', 'Filter', css_class='button white right')
-    ))
-
-class PoolListFormHelper(FormHelper):
-    model = Pool
-    form_tag = True
-    form_class = 'form-inline'
-    field_template = 'bootstrap3/layout/inline_field.html'
-    label_class = 'col-xs-1'
-    field_class = 'col-xs-4'
-    form_id = 'id_filterForm'
-    form_method = 'get'
-    layout = Layout('gtc_code', 'library_type', ButtonHolder(
-        Submit('submit', 'Filter', css_class='button white right')
-    ))
-
-class PoolingAmountListFormHelper(FormHelper):
-    model = PoolingAmount
-    form_tag = True
-    form_class = 'form-inline'
-    field_template = 'bootstrap3/layout/inline_field.html'
-    label_class = 'col-xs-1'
-    field_class = 'col-xs-4'
-    form_id = 'id_filterForm'
-    form_method = 'get'
-    layout = Layout('parent_name', ButtonHolder(
-        Submit('submit', 'Filter', css_class='button white right')
-    ))
-
-
-class UploadFileForm(forms.Form):
-    myfile = forms.FileField()
+#### Forms
 
 class LibraryForm(forms.ModelForm):
     class Meta:
@@ -78,10 +38,6 @@ class LibraryValidateForm(forms.ModelForm):
             'qc_comments': forms.Textarea(attrs={'rows': 1, 'cols': 15}),
         }
 
-class PoolingAmountForm(forms.ModelForm):
-    class Meta:
-        model = PoolingAmount
-        exclude = []
 
 class PoolForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -115,3 +71,98 @@ class PoolForm(forms.ModelForm):
         widgets = {
             'pool_comments': forms.Textarea(attrs={'rows': 1, 'cols': 15}),
         }
+
+class PoolingAmountForm(forms.ModelForm):
+
+    class Meta:
+        model = PoolingAmount
+        exclude = []
+
+
+#### FormHelpers
+### Libraries
+##Base
+class LibraryListFormHelper(GenericListFormHelper):
+    model = Library
+    field_list = ['gtc_code', 'batch_id', 'library_type',]
+
+    def __init__(self):
+        self.fields = []
+        super().get_layout()
+        super().__init__()
+
+### Pools
+## Base
+class PoolListFormHelper(GenericListFormHelper):
+    model = Pool
+    field_list = ['batch_id']
+
+    def __init__(self):
+        self.fields = []
+        super().get_layout()
+        super().__init__()
+
+### Pooling amounts
+## Base
+class PoolingAmountListFormHelper(GenericListFormHelper):
+    model = Pool
+    field_list = ['parent_name',]
+
+    def __init__(self):
+        self.fields = []
+        super().get_layout()
+        super().__init__()
+
+
+### Other forms
+class UploadFileForm(forms.Form):
+    myfile = forms.FileField()
+
+##Archive
+'''
+
+#
+# class LibraryListFormHelper(FormHelper):
+#     model = Library
+#     form_tag = True
+#     form_class = 'form-inline'
+#     field_template = 'bootstrap3/layout/inline_field.html'
+#     label_class = 'col-xs-1'
+#     field_class = 'col-xs-4'
+#     form_id = 'id_filterForm'
+#     form_method = 'get'
+#     layout = Layout('gtc_code', 'batch_id', 'library_type', ButtonHolder(
+#         Submit('submit', 'Filter', css_class='button white right')
+#     ))
+
+
+
+# class PoolListFormHelper(FormHelper):
+#     model = Pool
+#     form_tag = True
+#     form_class = 'form-inline'
+#     field_template = 'bootstrap3/layout/inline_field.html'
+#     label_class = 'col-xs-1'
+#     field_class = 'col-xs-4'
+#     form_id = 'id_filterForm'
+#     form_method = 'get'
+#     layout = Layout('gtc_code', 'library_type', ButtonHolder(
+#         Submit('submit', 'Filter', css_class='button white right')
+#     ))
+
+
+#
+# class PoolingAmountListFormHelper(FormHelper):
+#     model = PoolingAmount
+#     form_tag = True
+#     form_class = 'form-inline'
+#     field_template = 'bootstrap3/layout/inline_field.html'
+#     label_class = 'col-xs-1'
+#     field_class = 'col-xs-4'
+#     form_id = 'id_filterForm'
+#     form_method = 'get'
+#     layout = Layout('parent_name', ButtonHolder(
+#         Submit('submit', 'Filter', css_class='button white right')
+#     ))
+#
+'''

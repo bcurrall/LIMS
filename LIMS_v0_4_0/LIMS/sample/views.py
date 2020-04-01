@@ -12,10 +12,9 @@ from .tables import SampleTableSimple, SampleTableTracking, SampleTableFreezer, 
 from .filters import SampleListFilter
 from django.contrib import messages
 
-### Sample Browsers/FilterTables
-# TODO integrate filter with number of samples per page
-
-# Browser/Table base
+### Browsers/Tables
+## Samples
+# Base
 class SampleTableListBase(PagedFilteredTableView):
     template_name = 'selector.html'
     model = Sample
@@ -38,7 +37,7 @@ class SampleTableListBase(PagedFilteredTableView):
         {"name": 'del_btn', "class": 'btn btn-danger', "url": 'sample:delete', "value": 'Delete'},
     ]
 
-# Table instances
+# Instances
 class SampleTableList(SampleTableListBase):
     title = 'Sample Browser'
     page = 'Simple'
@@ -63,8 +62,9 @@ class SampleFullTableList(SampleTableListBase):
     table_class = SampleTableFull2
     formhelper_class = FullSampleListFormHelper
 
-##### Sample CreateViews
-# CreateView base (inherits from LIMS Generic CreateView)
+### CreateViews
+## Samples
+# Base (inherits from LIMS Generic CreateView)
 class SampleCreateFormSetBase(GenericUpdateFormSet):
     template_name = 'update.html'
     success_url = reverse_lazy('sample:browser')
@@ -85,7 +85,7 @@ class SampleCreateFormSetBase(GenericUpdateFormSet):
         {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Add', "url": 'sample:create_full'},
     ]
 
-# CreateViews instances
+# Instances
 class SampleCreateFormSetBasic(SampleCreateFormSetBase):
     title = 'Enter Samples Information - Basic Information'
     page = 'Basic'
@@ -132,9 +132,9 @@ class SampleCreateFormSetFull(SampleCreateFormSetBase):
              'aliquot_pos_column','received','received_date','active','deactivated_date','deactivated_type',
              'tracking_comments')
 
-
-##### Sample UpdateViews
-# UpdateView Base
+### UpdateViews
+## Samples
+# Base
 class SampleUpdateFormSetBase(GenericUpdateFormSet):
     template_name = 'update.html'
     success_url = reverse_lazy('sample:browser')
@@ -155,9 +155,7 @@ class SampleUpdateFormSetBase(GenericUpdateFormSet):
         {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Update', "url": 'sample:update'},
     ]
 
-
-
-# UpdateViews instances
+# Instances
 class SampleUpdateFormSetBasic(SampleUpdateFormSetBase):
     title = 'Edit Samples Information - Basic Information'
     page = 'Basic'
@@ -229,7 +227,6 @@ class SampleUpdateFormSetTissue(SampleUpdateFormSetBase):
         {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Update', "url": 'sample:update_tissue'},
     ]
 
-
 class SampleUpdateFormSetFull(SampleUpdateFormSetBase):
     title = 'Edit Samples Information - Full Information'
     page = 'Full'
@@ -247,8 +244,8 @@ class SampleUpdateFormSetFull(SampleUpdateFormSetBase):
         {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Update', "url": 'sample:update_full'},
     ]
 
-
-### Sample DeleteView
+### DeleteViews
+## Sample
 class SampleTableListDeleteBase(PagedFilteredTableView):
     template_name = 'delete.html'
     model = Sample
@@ -268,7 +265,10 @@ class SampleTableListDeleteBase(PagedFilteredTableView):
     ]
 
 
-#Archived views
+### Archived views
+
+'''
+
 def delete(request):
     title = 'Are you sure you want to delete the following samples?'
     pks = request.POST.getlist("selection")
@@ -291,4 +291,4 @@ def delete(request):
     }
     return render(request, 'sample/delete.html', context)
 
-
+'''

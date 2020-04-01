@@ -1,5 +1,4 @@
 from django import forms
-from django.forms import modelformset_factory
 
 from LIMS.forms import GenericListFormHelper
 
@@ -8,12 +7,15 @@ from .models import Sample
 # General notes
 # TODO sytlize filter maybe further to fix conflict between layout and filter parameters (e.g., exact vs. icontains)
 
-def get_model_fields(model):
+#### Other Forms
+def get_model_fields(model): # Not sure if this is needed
     return model._meta.fields
 
 class UploadFileForm(forms.Form):
     myfile = forms.FileField()
 
+#### Forms
+### Samples
 class SampleForm(forms.ModelForm):
 
     class Meta:
@@ -25,10 +27,10 @@ class SampleForm(forms.ModelForm):
             'sample_comments': forms.Textarea(attrs={'rows': 1, 'cols': 15}),
             'tracking_comments': forms.Textarea(attrs={'rows': 1, 'cols': 15}),
         }
-#
-# SampleFormSet = modelformset_factory(Sample, form=SampleForm, fields=('name', 'sample_type', 'conc', 'vol'), extra=1)
-#
 
+#### FormHelper
+### Samples
+## Base
 class SampleListFormHelper(GenericListFormHelper):
     model = Sample
     field_list = ['project_name', 'name', 'sample_type', ]
@@ -38,6 +40,7 @@ class SampleListFormHelper(GenericListFormHelper):
         super().get_layout()
         super().__init__()
 
+## Instances
 class SimpleSampleListFormHelper(SampleListFormHelper):
     field_list_update = []
 
@@ -45,9 +48,9 @@ class TrackingSampleListFormHelper(SampleListFormHelper):
     field_list_update = ['received','stored','active',]
 
 class FreezerSampleListFormHelper(SampleListFormHelper):
-    model = Sample
+    #model = Sample
     field_list_update = ['freezer_name']
 
 class FullSampleListFormHelper(SampleListFormHelper):
-    model = Sample
+    #model = Sample
     field_list_update = []

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Author
+from .models import Author, Thread, Post
 from sample.models import Sample
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, ButtonHolder, Submit
@@ -25,3 +25,13 @@ class SampleListFormHelper(FormHelper):
     layout = Layout('project_name', 'sample_name', 'sample_type', ButtonHolder(
         Submit('submit', 'Filter', css_class='button white right')
     ))
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('content',)
+
+class ThreadFrom(forms.ModelForm):
+    class Meta:
+        model = Thread
+        exclude = []

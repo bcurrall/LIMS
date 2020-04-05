@@ -19,12 +19,12 @@ class WUSSubmissionFilter(filters.FilterSet):
 
     class Meta:
         model = WUSSubmission
-        fields = []
+        fields = "__all__"
 
 
 class WUSResultFilter(filters.FilterSet):
 
     class Meta:
         model = WUSResult
-        fields = []
+        fields = "__all__"
 

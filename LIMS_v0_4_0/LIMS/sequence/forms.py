@@ -3,49 +3,44 @@ from .models import WUSSubmission, WUSPool, WUSResult
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Div, Fieldset, ButtonHolder, Submit, Row, Column
 
+from LIMS.forms import GenericListFormHelper
 
-class UploadFileForm(forms.Form):
-    myfile = forms.FileField()
+#### Forms
 
 
-class WUSSubmissionListFormHelper(FormHelper):
+#### FormHelpers
+### WUSSubmissions
+## Base
+class WUSSubmissionListFormHelper(GenericListFormHelper):
     model = WUSSubmission
-    form_tag = True
-    form_class = 'form-inline'
-    field_template = 'bootstrap3/layout/inline_field.html'
-    label_class = 'col-xs-1'
-    field_class = 'col-xs-4'
-    form_id = 'id_filterForm'
-    form_method = 'get'
-    layout = Layout('gtc_code', 'library_type', ButtonHolder(
-        Submit('submit', 'Filter', css_class='button white right')
-    ))
+    field_list = ['batch_id','broad_id']
 
-class WUSPoolListFormHelper(FormHelper):
+    def __init__(self):
+        self.fields = []
+        super().get_layout()
+        super().__init__()
+
+### WUSPool
+## Base
+class WUSPoolListFormHelper(GenericListFormHelper):
     model = WUSPool
-    form_tag = True
-    form_class = 'form-inline'
-    field_template = 'bootstrap3/layout/inline_field.html'
-    label_class = 'col-xs-1'
-    field_class = 'col-xs-4'
-    form_id = 'id_filterForm'
-    form_method = 'get'
-    layout = Layout('parent_name', 'related_name', ButtonHolder(
-        Submit('submit', 'Filter', css_class='button white right')
-    ))
+    field_list = ['parent_name', 'related_name']
 
-class WUSResultListFormHelper(FormHelper):
+    def __init__(self):
+        self.fields = []
+        super().get_layout()
+        super().__init__()
+
+### WUSResults
+## Base
+class WUSResultListFormHelper(GenericListFormHelper):
     model = WUSResult
-    form_tag = True
-    form_class = 'form-inline'
-    field_template = 'bootstrap3/layout/inline_field.html'
-    label_class = 'col-xs-1'
-    field_class = 'col-xs-4'
-    form_id = 'id_filterForm'
-    form_method = 'get'
-    layout = Layout('gtc_code', 'library_type', ButtonHolder(
-        Submit('submit', 'Filter', css_class='button white right')
-    ))
+    field_list = ['parent_name', 'related_name', 'broad_id']
+
+    def __init__(self):
+        self.fields = []
+        super().get_layout()
+        super().__init__()
 
 
 
@@ -96,3 +91,52 @@ class WUSResultForm(forms.ModelForm):
     class Meta:
         model = WUSResult
         exclude = []
+
+#### Other Forms
+class UploadFileForm(forms.Form):
+    myfile = forms.FileField()
+
+#### Archive
+'''
+class WUSSubmissionListFormHelper(FormHelper):
+    model = WUSSubmission
+    form_tag = True
+    form_class = 'form-inline'
+    field_template = 'bootstrap3/layout/inline_field.html'
+    label_class = 'col-xs-1'
+    field_class = 'col-xs-4'
+    form_id = 'id_filterForm'
+    form_method = 'get'
+    layout = Layout('gtc_code', 'library_type', ButtonHolder(
+        Submit('submit', 'Filter', css_class='button white right')
+    ))
+    
+
+class WUSPoolListFormHelper(FormHelper):
+    model = WUSPool
+    form_tag = True
+    form_class = 'form-inline'
+    field_template = 'bootstrap3/layout/inline_field.html'
+    label_class = 'col-xs-1'
+    field_class = 'col-xs-4'
+    form_id = 'id_filterForm'
+    form_method = 'get'
+    layout = Layout('parent_name', 'related_name', ButtonHolder(
+        Submit('submit', 'Filter', css_class='button white right')
+    ))
+
+class WUSResultListFormHelper(FormHelper):
+    model = WUSResult
+    form_tag = True
+    form_class = 'form-inline'
+    field_template = 'bootstrap3/layout/inline_field.html'
+    label_class = 'col-xs-1'
+    field_class = 'col-xs-4'
+    form_id = 'id_filterForm'
+    form_method = 'get'
+    layout = Layout('gtc_code', 'library_type', ButtonHolder(
+        Submit('submit', 'Filter', css_class='button white right')
+    ))
+
+'''
+

@@ -38,7 +38,6 @@ class LibraryValidateForm(forms.ModelForm):
             'qc_comments': forms.Textarea(attrs={'rows': 1, 'cols': 15}),
         }
 
-
 class PoolForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PoolForm, self).__init__(*args, **kwargs)
@@ -78,7 +77,6 @@ class PoolingAmountForm(forms.ModelForm):
         model = PoolingAmount
         exclude = []
 
-
 #### FormHelpers
 ### Libraries
 ##Base
@@ -112,7 +110,6 @@ class PoolingAmountListFormHelper(GenericListFormHelper):
         self.fields = []
         super().get_layout()
         super().__init__()
-
 
 ### Other forms
 class UploadFileForm(forms.Form):

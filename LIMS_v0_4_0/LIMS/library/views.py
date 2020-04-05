@@ -21,7 +21,7 @@ date_stamp = now.strftime("%d%m%Y")
 
 ##### Class based views
 
-#### Library Browser/Tables
+#### Browsers/Tables
 ### Libraries
 ## Base
 class LibraryTableBase(PagedFilteredTableView):
@@ -234,7 +234,6 @@ class PoolingAmountUpdateFormSetPooling(PoolingAmountUpdateFormSetBase):
     page = 'Plate'
     field = ('parent_name', 'related_name', 'name', 'rel_proportion', 'amount_of_library_used', 'library_amount')
 
-
 #### Delete
 ### Libraries
 class LibraryTableDeleteBase(PagedFilteredTableView):
@@ -306,7 +305,7 @@ class PoolAmountTableDeleteBase(PagedFilteredTableView):
     # buttons = []
 
 
-### archived views
+#### archived views
 
 '''
 

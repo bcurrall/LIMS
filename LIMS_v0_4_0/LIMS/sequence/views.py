@@ -6,7 +6,7 @@ from django.views.generic import View
 from django.urls import reverse_lazy
 
 from LIMS.views import GenericUpdateFormSet, PagedFilteredTableView
-from .forms import WUSSubmissionForm, WUSPoolForm, WUSSubmissionListFormHelper, WUSPoolListFormHelper, WUSResultListFormHelper, WUSResultForm
+from .forms import WUSSubmissionForm, WUSPoolForm, WUSSubmissionListFormHelper, WUSPoolListFormHelper, WUSResultForm, WUSResultListFormHelper
 from .models import WUSSubmission, WUSPool, WUSSampleResult, WUSResult
 from .filters import WUSResultFilter, WUSSubmissionFilter, WUSSubmissionListFilter, WUSPoolListFilter
 from .tables import WUSResultsTable, WUSSubmissionTable, WUSPoolTable
@@ -30,16 +30,20 @@ date_stamp = now.strftime("%d%m%Y")
 
 ##### Class based views
 
+#### Browsers/Tables
 ### WUSSubmission
-## WUSSubmission Tables/Browsers
+## Base
 class WUSSubmissionTableBase(PagedFilteredTableView):
     template_name = 'selector.html'
     model = WUSSubmission
     filter_class = WUSSubmissionListFilter
     formhelper_class = WUSSubmissionListFormHelper
+    paginate_by = 96
 
     button_type = 'buttons_1.html'
-    buttons = []
+    buttons = [
+        {"name": 'Simple', "class": 'btn btn-default', "url": 'sequence:browser'},
+    ]
     buttons_processing_type = 'buttons_processing.html'
     buttons_processing = [
         {"name": 'update_2_form_btn', "class":'btn btn-primary', "url": 'sequence:submission_update', "value": 'Update Submission'},
@@ -49,13 +53,67 @@ class WUSSubmissionTableBase(PagedFilteredTableView):
 
     # TODO setup buttons so that None is an option
 
-
-# Table instances
+## Instances
 class WUSSubmissionTableSimpleView(WUSSubmissionTableBase):
     title = 'WUS Submissions'
     page = 'Simple'
     table_class = WUSSubmissionTable
 
+### WUSPools
+## Base
+class WUSPoolTableBase(PagedFilteredTableView):
+    template_name = 'selector.html'
+    model = WUSPool
+    filter_class = WUSPoolListFilter
+    formhelper_class = WUSPoolListFormHelper
+    paginate_by = 96
+
+    button_type = 'buttons_1.html'
+    buttons = [
+        {"name": 'Simple', "class": 'btn btn-default', "url": 'sequence:browser_pool'},
+    ]
+    buttons_processing_type = 'buttons_processing.html'
+    buttons_processing = [
+        {"name": 'edit_btn',  "class":'btn btn-primary', "url": 'sequence:wus_pool', "value": 'Update WUS Pool'},
+        {"name": 'del_btn',  "class":'btn btn-danger', "url": 'sequence:wuspool_delete', "value": 'Delete'},
+    ]
+
+# Instances
+class WUSPoolTableSimpleView(WUSPoolTableBase):
+    title = 'WUS Pools'
+    page = 'Simple'
+    table_class = WUSPoolTable
+
+### WUSResults
+## Base
+class WUSResultBase(PagedFilteredTableView):
+    template_name = 'selector.html'
+    model = WUSResult
+    filter_class = WUSResultFilter
+    formhelper_class = WUSResultListFormHelper
+    paginate_by = 96
+
+    button_type = 'buttons_1.html'
+    buttons = [
+        {"name": 'Simple', "class": 'btn btn-default', "url": 'sequence:browser_result'},
+    ]
+    buttons_processing_type = 'buttons_processing.html'
+    buttons_processing = [
+        {"name": 'edit_btn',  "class":'btn btn-primary', "url": 'sequence:update_result', "value": 'Update WUS Results'},
+        {"name": 'del_btn',  "class":'btn btn-danger', "url": 'library:library_delete', "value": 'Delete'},
+    ]
+
+# Instances
+class WUSResultTableSimpleView(WUSResultBase):
+    title = 'WUSResults Browser'
+    page = 'Simple'
+    table_class = WUSResultsTable
+
+### WUSSampleResult
+#N/A
+
+#### CreateView
+### WUSSubmission
 ## Create Base
 class WUSSubmissionCreateFormSetBase(GenericUpdateFormSet):
     template_name = 'update.html'
@@ -69,9 +127,42 @@ class WUSSubmissionCreateFormSetBase(GenericUpdateFormSet):
     buttons_processing = [
         {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Update WUS Pool', "url": 'sequence:wus_pool'},
     ]
+### WUSPools
+# N/A
+
+### WUSResults
+## Base
+class WUSResultCreateFormSetBase(GenericUpdateFormSet):
+    template_name = 'update.html'
+    success_url = reverse_lazy('sequence:browser_result')
+    button_type = 'buttons_1.html'
+    model = WUSResult
+    model_parent = WUSPool
+    form_class = WUSResultForm
+    buttons = []
+
+    buttons_processing_type = 'buttons_processing.html'
+    buttons_processing = [
+        {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Add', "url": 'sequence:create_result'},
+    ]
+
+## Instances
+class WUSResultCreateFormSetBasic(WUSResultCreateFormSetBase):
+    title = 'Enter WUSResult - Basic Information'
+    page = 'Basic'
+    field = ('broad_id', 'parent_name', 'related_name', 'lane_number', 'barcode', 'read', 'fastq_name', 'counts')
+    extra = 5
+    buttons_processing = [
+        {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Add', "url": 'sequence:create_result'},
+    ]
+
+### WUSSampleResult
+#N/A
 
 
-## UpdateView Base
+#### UpdateView
+### WUSSubmission
+## Base
 class WUSSubmissionUpdateFormSetBase(GenericUpdateFormSet):
     template_name = 'form_twoforms.html'
     success_url = reverse_lazy('sequence:browser')
@@ -95,8 +186,7 @@ class WUSSubmissionUpdateFormSetBase(GenericUpdateFormSet):
         {"name": 'save_btn',  "class":'btn btn-primary', "value": 'Update WUS Pools', "url": 'sequence:wus_pool'},
     ]
 
-
-# Update - Instances
+## Instances
 class WUSSubmissionCreateFormSetPooling(WUSSubmissionUpdateFormSetBase):
     template_name = 'form_simple.html'
     title = 'WUS Submissions - Create New Submissions'
@@ -111,48 +201,8 @@ class WUSSubmissionUpdateFormSetPooling(WUSSubmissionUpdateFormSetBase):
     page = 'Plate'
     field = ('unique_id', 'related_name', 'parent_name', 'num_of_lanes')
 
-
-## DeleteView Base
-class WUSSubmissionTableDeleteBase(PagedFilteredTableView):
-    template_name = 'delete.html'
-    model = WUSSubmission
-    filter_class = WUSSubmissionListFilter
-    formhelper_class = WUSSubmissionListFormHelper
-    title = 'Are you sure you want to delete these WUS Submissions?'
-    page = 'Full'
-    table_class = WUSSubmissionTable
-    button_type = 'buttons_1.html'
-    buttons = []
-    buttons_processing_type = 'buttons_processing.html'
-    buttons_processing = [
-        {"name": 'del_confirm_btn',  "class":'btn btn-danger', "url": 'sequence:browser', "value": 'Delete WUS Submission'},
-        {"name": 'cancel_btn',  "class":'btn btn-primary', "url": 'sequence:browser', "value": 'Cancel'},
-    ]
-
 ### WUSPools
-## WUSPool Tables/Browsers
-class WUSPoolTableBase(PagedFilteredTableView):
-    template_name = 'selector.html'
-    model = WUSPool
-    filter_class = WUSPoolListFilter
-    formhelper_class = WUSPoolListFormHelper
-
-    button_type = 'buttons_1.html'
-    buttons = []
-    buttons_processing_type = 'buttons_processing.html'
-    buttons_processing = [
-        {"name": 'edit_btn',  "class":'btn btn-primary', "url": 'sequence:wus_pool', "value": 'Update WUS Pool'},
-        {"name": 'del_btn',  "class":'btn btn-danger', "url": 'sequence:wuspool_delete', "value": 'Delete'},
-    ]
-
-# Table instances
-class WUSPoolTableSimpleView(WUSPoolTableBase):
-    title = 'WUS Pools'
-    page = 'Simple'
-    table_class = WUSPoolTable
-
-
-# WUSPool Update
+## Base
 class WUSPoolUpdateFormSetBase(GenericUpdateFormSet):
     template_name = 'update.html'
     success_url = reverse_lazy('sequence:browser_pool')
@@ -166,76 +216,15 @@ class WUSPoolUpdateFormSetBase(GenericUpdateFormSet):
         {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Update WUS Pool', "url": 'sequence:wus_pool'},
     ]
 
+## Instances
 class WUSPoolUpdateFormSetPooling(WUSPoolUpdateFormSetBase):
     title = 'Edit Pooling Amount Information'
     page = 'Plate'
     field = ('unique_id', 'related_name', 'parent_name', 'num_of_lanes')
 
-## Delete Base
-class WUSPoolTableDeleteBase(PagedFilteredTableView):
-    template_name = 'delete.html'
-    model = WUSPool
-    filter_class = WUSPoolListFilter
-    formhelper_class = WUSPoolListFormHelper
-    title = 'Are you sure you want to delete these WUS pools?'
-    page = 'Full'
-    table_class = WUSPoolTable
-    button_type = 'buttons_1.html'
-    buttons = []
-    buttons_processing_type = 'buttons_processing.html'
-    buttons_processing = [
-        {"name": 'del_confirm_btn',  "class": 'btn btn-danger', "url": 'sequence:browser_pool', "value": 'Delete WUS Pools'},
-        {"name": 'cancel_btn',  "class": 'btn btn-primary', "url": 'sequence:browser_pool', "value": 'Cancel'},
-    ]
-
 ### WUSResults
-## WUSResults Tables/Browsers
-class WUSResultBase(PagedFilteredTableView):
-    template_name = 'selector.html'
-    model = WUSResult
-    filter_class = WUSResultFilter
-    formhelper_class = WUSResultListFormHelper
-
-    button_type = 'buttons_1.html'
-    buttons = []
-    buttons_processing_type = 'buttons_processing.html'
-    buttons_processing = [
-        {"name": 'edit_btn',  "class":'btn btn-primary', "url": 'sequence:update_result', "value": 'Update WUS Results'},
-        {"name": 'del_btn',  "class":'btn btn-danger', "url": 'library:library_delete', "value": 'Delete'},
-    ]
-
-
-# Table instances
-class WUSResultTableSimpleView(WUSResultBase):
-    title = 'WUSResults Browser'
-    page = 'Simple'
-    table_class = WUSResultsTable
-
-# CreateView
-class WUSResultCreateFormSetBase(GenericUpdateFormSet):
-    template_name = 'update.html'
-    success_url = reverse_lazy('sequence:browser_result')
-    button_type = 'buttons_1.html'
-    model = WUSResult
-    model_parent = WUSPool
-    form_class = WUSResultForm
-    buttons = []
-
-    buttons_processing_type = 'buttons_processing.html'
-    buttons_processing = [
-        {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Add', "url": 'sequence:create_result'},
-    ]
-
-# CreateViews instances
-class WUSResultCreateFormSetBasic(WUSResultCreateFormSetBase):
-    title = 'Enter WUSResult - Basic Information'
-    page = 'Basic'
-    field = ('broad_id', 'parent_name', 'related_name', 'lane_number', 'barcode', 'read', 'fastq_name', 'counts')
-    extra = 5
-    buttons_processing = [
-        {"name": 'save_btn', "class": 'btn btn-primary', "value": 'Add', "url": 'sequence:create_result'},
-    ]
-
+### WUSSampleResult
+## Base
 class WUSResultUpdateFormSetBasic(WUSResultCreateFormSetBase):
     title = 'Enter WUSResult - Basic Information'
     page = 'Basic'
@@ -328,7 +317,48 @@ class WUSResultUpdateFormSetBasic(WUSResultCreateFormSetBase):
         return request, parent_pk, pks, test
 
 
+
+
+#### DeleteView
+### WUSSubmission
+## Base
+class WUSSubmissionTableDeleteBase(PagedFilteredTableView):
+    template_name = 'delete.html'
+    model = WUSSubmission
+    filter_class = WUSSubmissionListFilter
+    formhelper_class = WUSSubmissionListFormHelper
+    title = 'Are you sure you want to delete these WUS Submissions?'
+    page = 'Full'
+    table_class = WUSSubmissionTable
+    button_type = 'buttons_1.html'
+    buttons = []
+    buttons_processing_type = 'buttons_processing.html'
+    buttons_processing = [
+        {"name": 'del_confirm_btn',  "class":'btn btn-danger', "url": 'sequence:browser', "value": 'Delete WUS Submission'},
+        {"name": 'cancel_btn',  "class":'btn btn-primary', "url": 'sequence:browser', "value": 'Cancel'},
+    ]
+
+### WUSPools
+## Base
+class WUSPoolTableDeleteBase(PagedFilteredTableView):
+    template_name = 'delete.html'
+    model = WUSPool
+    filter_class = WUSPoolListFilter
+    formhelper_class = WUSPoolListFormHelper
+    title = 'Are you sure you want to delete these WUS pools?'
+    page = 'Full'
+    table_class = WUSPoolTable
+    button_type = 'buttons_1.html'
+    buttons = []
+    buttons_processing_type = 'buttons_processing.html'
+    buttons_processing = [
+        {"name": 'del_confirm_btn',  "class": 'btn btn-danger', "url": 'sequence:browser_pool', "value": 'Delete WUS Pools'},
+        {"name": 'cancel_btn',  "class": 'btn btn-primary', "url": 'sequence:browser_pool', "value": 'Cancel'},
+    ]
+
+
 #### archived views
+'''
 def test(request):
 
     form = WUSSubmissionForm
@@ -672,3 +702,5 @@ def delete(request):
         # "num_deleted": num_deleted,
     }
     return render(request, 'library/delete.html', context)
+
+'''

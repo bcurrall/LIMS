@@ -1,4 +1,4 @@
-Django==2.2.11
+Django==2.2.20
 django-bootstrap4==0.0.7
 django-crispy-forms==1.7.2
 django-excel==0.0.10
